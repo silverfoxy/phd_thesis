@@ -20,6 +20,39 @@
 %\usepackage[nottoc]{tocbibind}
 \input{mathdefs}
 \input{callcommands}
+
+% \usepackage{xcolor}
+\usepackage[table]{xcolor}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{graphics}
+\usepackage{multirow}
+\usepackage{fontawesome}
+
+\def\faChecked{\FA\symbol{"F00C}}
+\def\faCrossed{\FA\symbol{"F00D}}
+
+
+\definecolor{dkgreen}{rgb}{0,.6,0}
+\definecolor{dkblue}{rgb}{0,0,.8}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.6}
+\definecolor{lightgray}{gray}{0.75}
+
+\lstset{
+  language        = c++,
+  basicstyle      = \fontsize{7.5}{9}\ttfamily,
+  keywordstyle    = \color{dkyellow},
+  stringstyle     = \color{red},
+  identifierstyle = \color{dkblue},
+  commentstyle    = \color{gray},
+  numbers         =left,
+  xleftmargin     =0.65cm,
+  emph            =[1]{php},
+  emphstyle       =[1]\color{black},
+  emph            =[2]{if,and,or,else},
+  emphstyle       =[2]\color{dkyellow}
+}
+
 \hyphenation{put words here which LaTeX does not hy-phen-ate pro-per-ly}
 
 \author{Babak Amin Azad}%
@@ -58,7 +91,11 @@
 \pagestyle{thesis}
 \newpage
 \pagenumbering{arabic}
-\include{sections/chapterConclusion}
+\include{sections/chapter_one_intro}
+\include{sections/chapter_two_lim}
+\include{sections/chapter_three_dbltr}
+\include{sections/chapter_four_ad}
+\include{sections/chapter_conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{unsrtnat}
 \renewcommand{\baselinestretch}{1}
@@ -68,13 +105,13 @@
 \newpage
 \phantomsection%
 \addcontentsline{toc}{chapter}{\numberline{}{Bibliography}}%
-\bibliography{BibFileThesis}
+\bibliography{ref}
 
 \clearpage
 \newpage
 
 \appendix
-\include{sections/appendixSdkr}
+% \include{sections/appendixSdkr}
 %\include{sections/appendixNOON}
 
 \end{document}

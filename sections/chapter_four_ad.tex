@@ -1,0 +1,37 @@
+\chapter{AnimateDead and wizardry Stuff}
+
+\section*{Preamble}
+
+So far, in the previous chapters we explored the viability of debloating web applications and proposed debloating mechanisms based on dynamic usage traces of users of the web applications to identify unused code sections and remove them through the process of debloating. 
+One of the main drawbacks of relying on dynamic traces is the overhead of the instrumentation to collect such code coverage traces. 
+Moreover, line level granularity for application usage lacks generalizability. 
+As a result, a slight variation in the usage behavior of users can result in broken functionality (i.e., functionality that has been removed via debloating). 
+
+In this chapter we introduce our solution to the aforementioned challenges in debloating web applications. 
+To this end, we propose the usage of the readily available web server logs to identify the used functionality by users. 
+This allows for the collection of usage traces in the form of logs over a long period of time without an additional overhead. 
+
+After identifying the web application entry points, we explore the possible execution paths through the source code via concolic execution. 
+This enables us to execute the application in an abstract state where certain request-specific parameters such as session variables, cookies, and HTTP POST parameters are not present. 
+Similarly, we abstract away the database which allows our analysis to identify the reachable code paths and modules that can be invoked based on the HTTP requests from the web server logs. 
+At the same time, we incorporate the concrete values for existing information from the web server logs such as HTTP GET parameters and headers such as HTTP REFERER. 
+
+Symbolic analysis engines capable of analyzing application wide PHP source code are novel and are the main contribution of our work. 
+In the remainder of this chapter, we describe our design for our system called ``AnimateDead'' and our preliminary experiments to develop such a system and discuss its challenges in more detail. 
+
+\section{Introduction}
+
+\section{System Design}
+
+\subsection{Log Parser}
+\subsection{PHP Emulator}
+\subsection{Modelling Symbolic Interactions of PHP APIs and the environment}
+\subsection{Task Scheduler and Execution Replay}
+\subsection{Challenges}
+\subsubsection{Path Explosion}
+\subsubsection{PHP Language Modelling}
+\subsubsection{Path Prioty}
+
+\section{Prelimiary Results}
+
+\section{Future Work}
