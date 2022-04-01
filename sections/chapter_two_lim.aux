@@ -1,0 +1,219 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Quantifying the security benefits of debloating web applications}{2}{chapter.2}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\citation{xss,kirda2006noxes,vogt2007cross}
+\citation{csrf,jovanovic2006preventing,barth2008csrf}
+\citation{rce}
+\citation{sqlInjection,halfond2006classification}
+\citation{brumley2003timing,vangoethem2015timing}
+\citation{minesweeper-ccs2018,wang2018seismic,cryptojacking-ccs2018}
+\citation{madhavapeddy2013unikernels}
+\citation{kurmus2013attack,Kurmus:2011:ASR:1972551.1972557}
+\citation{mishra2018shredder,quach2018debloating}
+\citation{heo2018effective}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Introduction}{3}{section.2.1}\protected@file@percent }
+\citation{nodeDownloads}
+\citation{pypiDownloads}
+\citation{packagistDownloads}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Background}{4}{section.2.2}\protected@file@percent }
+\newlabel{sec:background}{{2.2}{4}{Background}{section.2.2}{}}
+\citation{symfonyVulnerability}
+\citation{drupalVulenrability}
+\citation{symfonyPatch}
+\citation{zendVulnerability}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Overview of the architecture of our pipeline for debloating web applications and assessing the effects of different debloating strategies.\relax }}{5}{figure.caption.8}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:debloatingpipeline}{{2.1}{5}{Overview of the architecture of our pipeline for debloating web applications and assessing the effects of different debloating strategies.\relax }{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Package managers and software bloat}{5}{subsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Motivating web-application debloating}{5}{subsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Setup}{6}{section.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Overview}{6}{subsection.2.3.1}\protected@file@percent }
+\citation{phpmyadmin}
+\citation{mediawiki}
+\citation{magento}
+\citation{wordpress}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Analyzed web applications}{7}{subsection.2.3.2}\protected@file@percent }
+\newlabel{subsec:webapps}{{2.3.2}{7}{Analyzed web applications}{subsection.2.3.2}{}}
+\citation{cvedetails,nistgov}
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Analyzed open-source web applications.\relax }}{8}{table.caption.9}\protected@file@percent }
+\newlabel{table:analyzed_webapps}{{2.1}{8}{Analyzed open-source web applications.\relax }{table.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Vulnerability to source-code mapping}{8}{subsection.2.3.3}\protected@file@percent }
+\newlabel{sec:vulntosourcemapping}{{2.3.3}{8}{Vulnerability to source-code mapping}{subsection.2.3.3}{}}
+\citation{koehler2004longitudinal}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Application usage profiling}{9}{subsection.2.3.4}\protected@file@percent }
+\newlabel{subsec:profiling}{{2.3.4}{9}{Application usage profiling}{subsection.2.3.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Tutorials}{9}{section*.10}\protected@file@percent }
+\newlabel{sec:tutorials}{{2.3.4}{9}{Tutorials}{section*.10}{}}
+\citation{gremlinsjs}
+\citation{greasemonkey}
+\@writefile{toc}{\contentsline {subsubsection}{Monkey testing}{11}{section*.11}\protected@file@percent }
+\newlabel{sec:monkey}{{2.3.4}{11}{Monkey testing}{section*.11}{}}
+\citation{burpsuite}
+\citation{burpsuite}
+\citation{XDebug}
+\citation{phpdbg}
+\citation{xhprof}
+\@writefile{toc}{\contentsline {subsubsection}{Crawling}{12}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Running vulnerability scanners}{12}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}Recording server-side code coverage}{12}{subsection.2.3.5}\protected@file@percent }
+\newlabel{subsec:coverage}{{2.3.5}{12}{Recording server-side code coverage}{subsection.2.3.5}{}}
+\citation{boomsma2012Dead}
+\citation{autoappend}
+\citation{phpshutdown}
+\@writefile{toc}{\contentsline {subsubsection}{Adding coverage support in a web application}{13}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Main challenges for getting full coverage}{13}{section*.15}\protected@file@percent }
+\newlabel{subsubsec:challenges}{{2.3.5}{13}{Main challenges for getting full coverage}{section*.15}{}}
+\newlabel{listing:rewriting_webapps}{{2.1}{15}{Code rewritten by the debloating framework to ensure correct code coverage of corner cases}{lstlisting.2.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.1}Code rewritten by the debloating framework to ensure correct code coverage of corner cases.}{15}{lstlisting.2.1}\protected@file@percent }
+\newlabel{fig:venn_pma}{{2.2a}{15}{\scriptsize phpMyAdmin 4.7.0\relax }{figure.caption.17}{}}
+\newlabel{sub@fig:venn_pma}{{a}{15}{\scriptsize phpMyAdmin 4.7.0\relax }{figure.caption.17}{}}
+\newlabel{fig:venn_mwk}{{2.2b}{15}{\scriptsize MediaWiki 1.28.0\relax }{figure.caption.17}{}}
+\newlabel{sub@fig:venn_mwk}{{b}{15}{\scriptsize MediaWiki 1.28.0\relax }{figure.caption.17}{}}
+\newlabel{fig:venn_mgt}{{2.2c}{15}{\scriptsize Magento 2.0.5\relax }{figure.caption.17}{}}
+\newlabel{sub@fig:venn_mgt}{{c}{15}{\scriptsize Magento 2.0.5\relax }{figure.caption.17}{}}
+\newlabel{fig:venn_wp}{{2.2d}{15}{\scriptsize WordPress 4.7.1\relax }{figure.caption.17}{}}
+\newlabel{sub@fig:venn_wp}{{d}{15}{\scriptsize WordPress 4.7.1\relax }{figure.caption.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Venn Diagrams showing covered files during the execution of Tutorials, Crawler, Monkey testing and Vulnerability scanner\relax }}{15}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:venncoverage}{{2.2}{15}{Venn Diagrams showing covered files during the execution of Tutorials, Crawler, Monkey testing and Vulnerability scanner\relax }{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Debloating web applications}{15}{section.2.4}\protected@file@percent }
+\newlabel{sec:debloating}{{2.4}{15}{Debloating web applications}{section.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Debloating strategies}{15}{subsection.2.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{$\bullet $ File-level debloating:}{16}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{$\bullet $ Function-level debloating:}{16}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Detecting the execution of removed code}{16}{subsection.2.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{$\bullet $ Exit the application:}{16}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{$\bullet $ Record information about the missing function:}{16}{section*.21}\protected@file@percent }
+\citation{mcconnell2004code}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Results}{17}{section.2.5}\protected@file@percent }
+\newlabel{section:results}{{2.5}{17}{Results}{section.2.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}Tutorials vs. Monkey Testing vs. \\Crawling vs. Vulnerability Scanning}{17}{subsection.2.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Debloating by the numbers}{17}{subsection.2.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Logical lines of code}{17}{section*.22}\protected@file@percent }
+\newlabel{subsubsec:lloc}{{2.5.2}{17}{Logical lines of code}{section*.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Logical Lines of Code before and after debloating\relax }}{18}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:lloc}{{2.3}{18}{Logical Lines of Code before and after debloating\relax }{figure.caption.24}{}}
+\@writefile{toc}{\contentsline {paragraph}{Number of logical lines over time.}{18}{section*.23}\protected@file@percent }
+\citation{mccabe1976complexity}
+\citation{gill1991cyclomatic}
+\citation{shin2008empirical,kurmus2013attack}
+\@writefile{toc}{\contentsline {paragraph}{File-level debloating.}{19}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Function-level debloating.}{19}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Cyclomatic complexity}{19}{section*.27}\protected@file@percent }
+\newlabel{subsubsec:cyclomatic-complexity}{{2.5.2}{19}{Cyclomatic complexity}{section*.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Evolution of cyclomatic complexity before and after debloating\relax }}{20}{figure.caption.28}\protected@file@percent }
+\newlabel{fig:ccoverloc}{{2.4}{20}{Evolution of cyclomatic complexity before and after debloating\relax }{figure.caption.28}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Number of CVEs removed after application debloating\relax }}{20}{table.caption.29}\protected@file@percent }
+\newlabel{table:debloatingcvesresults}{{2.2}{20}{Number of CVEs removed after application debloating\relax }{table.caption.29}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}Analysis of CVEs}{20}{subsection.2.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{CVE reduction after debloating}{20}{section*.30}\protected@file@percent }
+\newlabel{sec:cve_reduction}{{2.5.3}{20}{CVE reduction after debloating}{section*.30}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Types of CVEs in analyzed web applications}{21}{section*.32}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Vulnerability Categories\relax }}{22}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:vulnpercat}{{2.5}{22}{Vulnerability Categories\relax }{figure.caption.31}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.\relax }}{22}{table.caption.33}\protected@file@percent }
+\newlabel{table:numberofpackages}{{2.3}{22}{Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.\relax }{table.caption.33}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.4}External packages}{23}{subsection.2.5.4}\protected@file@percent }
+\newlabel{subsec:external}{{2.5.4}{23}{External packages}{subsection.2.5.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Quantifying the bloat from external packages}{23}{section*.34}\protected@file@percent }
+\citation{shacham2007geometry}
+\citation{POI}
+\citation{Dahse:2014:CRA:2660267.2660363}
+\citation{PHPAutoload}
+\citation{PHPWakeup}
+\@writefile{toc}{\contentsline {subsubsection}{Removing POI gadgets}{24}{section*.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{What are POI gadgets?}{24}{section*.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{PHP unsafe deserialization.}{24}{section*.37}\protected@file@percent }
+\citation{PHPGGC}
+\@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces List of packages with known POP gadget chains\relax }}{25}{table.caption.39}\protected@file@percent }
+\newlabel{table:knowngadgets}{{2.4}{25}{List of packages with known POP gadget chains\relax }{table.caption.39}{}}
+\@writefile{toc}{\contentsline {paragraph}{Can debloating remove gadgets from external packages?}{25}{section*.38}\protected@file@percent }
+\citation{phpunitVulnerability}
+\@writefile{toc}{\contentsline {subsubsection}{Utilizing development packages in production}{26}{section*.40}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.5}Qualitative analysis of the removed code}{26}{subsection.2.5.5}\protected@file@percent }
+\newlabel{subsec:qualitative}{{2.5.5}{26}{Qualitative analysis of the removed code}{subsection.2.5.5}{}}
+\citation{guzzle}
+\citation{Symfony}
+\citation{PHP_CodeSniffer}
+\citation{less.php}
+\citation{elastica}
+\citation{twentyfourteen_theme}
+\citation{twentytwelve_theme}
+\citation{zendframework1}
+\@writefile{lot}{\contentsline {table}{\numberline {2.5}{\ignorespaces Features and external packages with the most removed files after file debloating (removed features are marked in italic). Entries marked with $\ast $ are packages that are indirectly pulled by other ``require-dev'' packages (not used by core application) for the purpose of test coverage reporting and coding standard enforcement.\relax }}{27}{table.caption.41}\protected@file@percent }
+\newlabel{tab:removed_files_categories}{{2.5}{27}{Features and external packages with the most removed files after file debloating (removed features are marked in italic). Entries marked with $\ast $ are packages that are indirectly pulled by other ``require-dev'' packages (not used by core application) for the purpose of test coverage reporting and coding standard enforcement.\relax }{table.caption.41}{}}
+\citation{wordpressPlugin}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.6}Testing debloated web applications against real exploits}{28}{subsection.2.5.6}\protected@file@percent }
+\newlabel{section:metasploit}{{2.5.6}{28}{Testing debloated web applications against real exploits}{subsection.2.5.6}{}}
+\citation{xdebug-performance1}
+\@writefile{lot}{\contentsline {table}{\numberline {2.6}{\ignorespaces Verifying exploitability of vulnerabilities by testing exploits against original \& debloated web applications\relax }}{29}{table.caption.42}\protected@file@percent }
+\newlabel{table:metasploit_vulns}{{2.6}{29}{Verifying exploitability of vulnerabilities by testing exploits against original \& debloated web applications\relax }{table.caption.42}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Performance analysis}{29}{section.2.6}\protected@file@percent }
+\newlabel{subsection:performance}{{2.6}{29}{Performance analysis}{section.2.6}{}}
+\citation{xdebug-performance2}
+\@writefile{lot}{\contentsline {table}{\numberline {2.7}{\ignorespaces Measurements of the execution time, the CPU and memory consumption for the tested web applications with XDebug and Code Coverage (CC) and without XDebug. The reported values for the CPU and memory correspond to the average for each application.\relax }}{30}{table.caption.43}\protected@file@percent }
+\newlabel{table:performance}{{2.7}{30}{Measurements of the execution time, the CPU and memory consumption for the tested web applications with XDebug and Code Coverage (CC) and without XDebug. The reported values for the CPU and memory correspond to the average for each application.\relax }{table.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Measurement of the CPU consumption for the tested web applications. 100\% corresponds to the use of a single CPU core.\relax }}{30}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:cpu}{{2.6}{30}{Measurement of the CPU consumption for the tested web applications. 100\% corresponds to the use of a single CPU core.\relax }{figure.caption.44}{}}
+\citation{bugbox}
+\citation{wordpressPlugin}
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}Limitations and future work}{31}{section.2.7}\protected@file@percent }
+\newlabel{sec:limitations}{{2.7}{31}{Limitations and future work}{section.2.7}{}}
+\citation{snyder2017vibrate}
+\citation{Schwarz2018}
+\@writefile{toc}{\contentsline {section}{\numberline {2.8}Related work}{33}{section.2.8}\protected@file@percent }
+\newlabel{sec:related}{{2.8}{33}{Related work}{section.2.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8.1}Debloating for the web}{33}{subsection.2.8.1}\protected@file@percent }
+\citation{boomsma2012Dead}
+\citation{regehr2012CReduce}
+\citation{sun2018perses}
+\citation{heo2018effective}
+\citation{zeller2002Delta}
+\citation{sharif2018Trimmer}
+\citation{jiang2016Jred}
+\citation{jiang2018reddroid}
+\citation{quach2018debloating}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8.2}Debloating in other platforms}{34}{subsection.2.8.2}\protected@file@percent }
+\citation{rastogi2017Cimplifier}
+\citation{Koo:2019:CSD:3301417.3312501}
+\@writefile{toc}{\contentsline {section}{\numberline {2.9}Conclusion}{35}{section.2.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.10}Availability}{36}{section.2.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.11}Appendix}{36}{section.2.11}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.8}{\ignorespaces Comprehensive list of tutorials collected from the first two pages of Google search results\relax }}{37}{table.caption.45}\protected@file@percent }
+\newlabel{table:listoftutorials}{{2.8}{37}{Comprehensive list of tutorials collected from the first two pages of Google search results\relax }{table.caption.45}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.9}{\ignorespaces Comprehensive list of mapped CVEs and whether vulnerable files, functions or lines were triggered based on our usage profiles. Grey rows indicate CVEs located in modules that are, by default, disabled.\relax }}{38}{table.caption.46}\protected@file@percent }
+\newlabel{table:listofallcves}{{2.9}{38}{Comprehensive list of mapped CVEs and whether vulnerable files, functions or lines were triggered based on our usage profiles. Grey rows indicate CVEs located in modules that are, by default, disabled.\relax }{table.caption.46}{}}
+\@setckpt{sections/chapter_two_lim}{
+\setcounter{page}{39}
+\setcounter{equation}{0}
+\setcounter{enumi}{0}
+\setcounter{enumii}{0}
+\setcounter{enumiii}{0}
+\setcounter{enumiv}{0}
+\setcounter{footnote}{0}
+\setcounter{mpfootnote}{0}
+\setcounter{part}{0}
+\setcounter{chapter}{2}
+\setcounter{section}{11}
+\setcounter{subsection}{0}
+\setcounter{subsubsection}{0}
+\setcounter{paragraph}{0}
+\setcounter{subparagraph}{0}
+\setcounter{figure}{6}
+\setcounter{table}{9}
+\setcounter{parentequation}{0}
+\setcounter{Item}{0}
+\setcounter{Hfootnote}{0}
+\setcounter{bookmark@seq@number}{32}
+\setcounter{pp@next@reset}{0}
+\setcounter{NAT@ctr}{0}
+\setcounter{AM@survey}{0}
+\setcounter{lstnumber}{22}
+\setcounter{caption@flags}{2}
+\setcounter{continuedfloat}{0}
+\setcounter{subfigure}{0}
+\setcounter{subtable}{0}
+\setcounter{section@level}{1}
+\setcounter{lstlisting}{1}
+}

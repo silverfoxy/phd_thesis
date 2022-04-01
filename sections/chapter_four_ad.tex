@@ -1,4 +1,4 @@
-\chapter{AnimateDead and wizardry Stuff}
+\chapter{\sys{} and wizardry Stuff}
 
 \section*{Preamble}
 
@@ -17,15 +17,153 @@ Similarly, we abstract away the database which allows our analysis to identify t
 At the same time, we incorporate the concrete values for existing information from the web server logs such as HTTP GET parameters and headers such as HTTP REFERER. 
 
 Symbolic analysis engines capable of analyzing application wide PHP source code are novel and are the main contribution of our work. 
-In the remainder of this chapter, we describe our design for our system called ``AnimateDead'' and our preliminary experiments to develop such a system and discuss its challenges in more detail. 
+In the remainder of this chapter, we describe our design for our system called ``\sys{}'' and our preliminary experiments to develop such a system and discuss its challenges in more detail. 
 
 \section{Introduction}
 
 \section{System Design}
+In this section, we discuss the design of \sys{}. 
+Starting from the usage profile models, \sys{} incorporates the client requests in the form of web server access log file. 
+Based on the logs, \sys{} recreates the running environment of the underlying web application entry point. 
+This preparation stage consists of populating concrete HTTP request parameters that are available in the logs (e.g., headers, and GET parameters) and marking other user-specific parameters as symbolic (e.g., post parameters, cookies, and sessions). 
+
+Next, \sys{}'s PHP emulator executes the PHP application while replicating the behavior of the original PHP interpreter. 
+This step starts with parsing the PHP script to extract the AST (Abstract Syntax Tree), and then traversing the nodes while keeping track of the symbol table and defined variables and classes. 
+
+We emulate calls to PHP builtin functions with concrete parameters natively by calling the original implementation for the target function in the PHP engine. 
+For functions that change the state of the emulator or rely on symbolic parameters, we provide an alternative emulator-level implementation that we run instead of the original function. 
+\sys{} hooks into three categories of PHP builtin functions. 
+We will discuss them in more detail in Section~\ref{sec:mocks}.
+\begin{itemize}
+    \item Modifying the state of the emulator
+    \item Interacting with the execution environment
+    \item Operating based on symbolic parameters
+\end{itemize}
+
+Through the emulation process, often we reach conditions which their truth value relies on symbolic variables. 
+In such cases, \sys{}'s current emulation process continues to explore one of the branches and adds a task to its task scheduler to explore the other branches. 
+This module is implemented as an asynchronous queue where emulator processes (i.e., workers) take their emulation tasks from the queue orchestrator. 
+Workers often add further tasks to explore symbolicly satisfiable branches to the queue of tasks. 
+
+To allow workers to continue the emulation from the point that the previous worker left it, we designed a forced execution engine named ``Reanimation engine''. 
+During the emulation, for symbolic branches, the workers log which of the branches they take in a log file. 
+This log file, referred to as the reanimatino log is then used to reproduce the same execution to the point where they deviate to explore the other symbolic branches. 
+
+Workers assign a priority number to each reanimation task. 
+This priority defines the order in which new tasks are picked up from the queue. 
+Previous work in the realm of fuzzing as well as symbolic execution has explAored various heuristics to prioritize unexplored paths or paths that lead to sensitive function calls and potential vulnerabilities. 
+In our implementation, we assign priorities based on the number of unexplored lines of code that each branch will execute. 
+
+During the emulation process, workers log the line numbers for the code that they emulate. 
+As a result, the output of the emulation process is a list of files and lines of code that are reachable based on the entry points the the web server logs. 
+From this point, the rest of the debloating procedure is analogous to those of dynamic debloating schemes, where the line coverage information is used to identify unused functions which will be removed through the debloating process. 
+
+In the remainder of this section, we explain the design and implementation of \sys{} in more detail and finally discuss the future work and its challenges. 
+
+\subsection{Identifying the web application entry points}
+The first step in emulating a web application is to identify the entry points and prepopulate the emulator environment to match those of the original web server. 
+\sys{} relies on the readily-available web server access logs to extract these information. 
+For each entry in the logs, we follow the same logic of the webserver to identify the underlying PHP script that is invoked by the web server to respond to this request. 
+
+Each HTTP request either directly targets an executable file (e.g., login.php) or points to a directory (e.g., /). 
+In the latter scenario, web servers rely on a configuration option named \texttt{DirectoryIndex} directive to map the request to an executable. 
+Be default, Apache web server looks for index.html and index.php. 
+We follow the same logic in \sys{} to map the HTTP requests from the logs to the PHP files. 
+
+
+Web server logs in their default configuration include information from the user requests including HTTP Verb, Request URI, HTTP headers limited to REFERER header and User-Agent, and the HTTP response code. 
+These logs do not include certain pieces of information that are critical to the process of emulation such as:
+
+\begin{itemize}
+    \item POST parameters
+    \item Cookies and Session variables
+    \item File uploads
+\end{itemize}
+
+In the current implementation of \sys{}, we mark all accesses for the aforementioned parameters as a Symbolic variable. 
+This way, our emulation captures the effect of the target variable being Null (i.e., not supplied by the users), and also the specific values that satisfies various conditions (e.g., if session variable of ``role'' is equal to ``admin''). 
+
+\paragraph{Handling request routing and URL rewriting:} 
+
+Modern applications commonly rely on URL rewriting and internal routing modules (e.g., Single page web applications) to map incoming HTTP requests to their respective PHP files. 
+To enable URL rewriting in Apache, \texttt{mod\_rewrite} module has to be configured through the \texttt{.htaccess} files. 
+Developers provide a combination of rewrite conditions (e.g., if the request URL matches a regex), and rewrite rules that apply if the conditions are met. 
+Rewrite rules consist of string transformations on the request URL. 
+The output of rewriting phase is a PHP file that is then executed by the web server. 
+
+\sys{} incorporates a builtin web server that takes a request as input, and applies the rewrite rules to output the target PHP file. 
+This way, the emulator is notified about the entry point based on log entries when URL rewriting takes place. 
+Orthogonally, some web applications incorporate builtin modules to handle routing of the requests and loading the corresponding modules. 
+Given the capability of \sys{} in emulating PHP code execution, no special treatment is required in handling such applications. 
+
+\subsection{PHP Emulator}
+
+To analyze web applications concolically, we develop a PHP emulator that undestands PHP code and can traverse the AST, resolve function calls and populate the symbol table. 
+We expanded the PHP emulator which was part of the MalMax PHP malware analysis research prototype~\cite{naderi2019malmax}. 
+Concretely, we added support for PHP constructs such as the syntax that was introduced in PHP 7, as well as support for inheritence, namespaces, and autoloaders. 
+Moreover, we incorporated the support for symbolic conditions, loops, and propagating symbolic values through the different function calls and assignments. 
+
+\sys{} by design passes the calls to PHP APIs to the original PHP engine. 
+At the same time, certain API calls need special treatment. 
+More specifically, we identified three categories of PHP APIs for which we provide an emulator-level implementation.
+
+% \subsubsection{Symbolic functions}
+% \label{sec:mocks}
+
+\begin{enumerate}
+    \item \textbf{Modifying the state of the emulator:} Such functions directly interact with the symbol table (i.e., read or modify variables that are not passed as parameters). Some examples of these functions include \texttt{compact}: which takes a list of variable names in the form of strings and returns an array of their values, and \texttt{define}: which defines a new global constant. 
+    \item \textbf{Interacting with the execution environment:} These functions are arguably one of the most important constructs of emulation. In our setup, we mark all database interactions (e.g., \texttt{mysql} and \texttt{mysqli} APIs) as symbolic. That is, any calls to the database would return a symbolic result. Another category of such functions are PHP APIs that provide information about the execution environment. To that end, we emulate the underlying PHP version to a configurable value (i.e., We can report any PHP version regardless of the version of the PHP engine that is being used by the emulator). Moreover, PHP APIs that return information about the current execution path, environment variables, and the HTTP requests are emulated to return the values that correspond to the original execution environment of the emulated request. 
+    \item \textbf{Operating based on symbolic parameters:} By design, PHP APIs only operate based on concrete parameters. Therefore, whenever a symbolic parameter is passed to such APIs, we mark the return value os symbolic and skip the execution of the function. An example of this behavior is when we check whether a concrete key exists in a symbolic array. Contrastingly, we experimentally identified the list of APIs that affect the correct emulation of the application. For such functions, we provide an emulated implementation that can still operate based on symbolic values. For instance, when checking whether a symbolic file exists on the file system, we perform a regular expression matching and if we can determine that the pattern does not match any files, we return false. 
+\end{enumerate}
+
+
+\subsection{Symbolic variables}
+
+During emulation, a subset of program variables will be populated with the data that is either provided by the users, or is fetched from abstract sources such as the database. 
+In such cases where \sys{} cannot assign a concrete value to the variables, it marks them as Symbolic. 
+While the actual value of symbolic variables are unknown, based on their source and the program conditions that has been satisfied during emulation, \sys{} limits the value set of symbols. 
+By doing so, we eliminate the execution of paths based on symbolic conditions that are unsatisfiable.
+
+Path conditions as well as other operations such as type casting limites the value set or the type of symbolic variables. 
+As an example, casting a database query result to boolean enforces the boolean type on the output. 
+Similarly, concatenating symbolic variables with concrete strings produces a symbolic string which follows a deterministic pattern (e.g., has a known prefix and can be encoded as \texttt{/(prefix).*/}). 
+\sys{} encodes this pattern in the form of regular expressions. 
+Finally, a subset of symbolic branches in the application are eliminated based on these conditions. 
+
+\paragraph{SMT Solvers}
+In our initial design we explored the incorporation of SMT solvers to eliminate unsatisfiable branch conditions. 
+To justify the effort to integrate SMT solvers like Z3 into PHP and translating path constraints into the SMT-lib v2 language, we conducted a pilot experiment. 
+
+First, we extracted the list of symbolic branch conditions when running the main entry point for phpMyAdmin in \sys{}. 
+Next, we analyzed the source of each symbolic conditions and identified the underlying variables that have a symbolic value and are used as part of the conditions. 
+Table~\ref{tab:symbolicvars} provides a breakdown of variables and the checks that is performed on them. 
+
+Based on the results in Table~\ref{tab:symbolicvars}, majority (72\%) of symbolic conditions in phpMyAdmin only check for the presence or absence of user-based variables. 
+As a result, we focused our efforts on type tracking and limiting the value set of variables directly in our emulator rather than incorporating an external SMT solver as the benefits of such approach would be limited. 
+
+
+\begin{table}[]
+    \caption{Breakdown of variables and ratio of isset vs other checks in symbolic conditions for phpMyAdmin main entry point.}
+    \label{tab:symbolicvars}
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Variable Type} & \textbf{\# Conditions} & \textbf{IsSet Checks} & \textbf{Request Type} \\ \hline
+    POST                   & 5                      & 0                     & POST                  \\ \hline
+    REQUEST                & 124                    & 95 (76\%)             & GET/POST              \\ \hline
+    COOKIE                 & 13                     & 12 (92\%)             & GET/POST              \\ \hline
+    SESSION                & 87                     & 87 (100\%)            & GET/POST              \\ \hline
+    Other                  & 152                    & 82 (54\%)             & GET/POST              \\ \hline
+    Total                  & 381                    & 276 (72\%)            & GET/POST                      \\ \hline
+    \end{tabular}
+    \end{table}
+
+Unlike binary executables, web application conditions more commonly rely on string comparisons, array membership tests, and null checks. 
+
+
 
 \subsection{Log Parser}
 \subsection{PHP Emulator}
-\subsection{Modelling Symbolic Interactions of PHP APIs and the environment}
+\subsection{Modeling Symbolic Interactions of PHP APIs and the environment}
 \subsection{Task Scheduler and Execution Replay}
 \subsection{Challenges}
 \subsubsection{Path Explosion}
