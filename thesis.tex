@@ -28,11 +28,13 @@
 \usepackage{graphics}
 \usepackage{multirow}
 \usepackage{fontawesome}
+\usepackage{adjustbox}
 
 \def\faChecked{\FA\symbol{"F00C}}
 \def\faCrossed{\FA\symbol{"F00D}}
 
-\def\sys{\textit{AnimateDead}}
+\def\sys{\textit{DBLTR}}
+\def\animatedead{\textit{AnimateDead}}
 
 
 \definecolor{dkgreen}{rgb}{0,.6,0}
@@ -41,8 +43,9 @@
 \definecolor{lightgray}{gray}{0.75}
 
 \lstset{
+  % literate={~} {$\sim$}{1} % set tilde as a literal (no process)
   language        = c++,
-  basicstyle      = \fontsize{7.5}{9}\ttfamily,
+  basicstyle      = \fontsize{9}{9}\ttfamily,
   keywordstyle    = \color{dkyellow},
   stringstyle     = \color{red},
   identifierstyle = \color{dkblue},
@@ -54,6 +57,7 @@
   emph            =[2]{if,and,or,else},
   emphstyle       =[2]\color{dkyellow}
 }
+
 
 \hyphenation{put words here which LaTeX does not hy-phen-ate pro-per-ly}
 
@@ -87,9 +91,9 @@
 %
 %\listoftables %
 %
-\begin{acknowledgements}
-    \input{sections/acknowledgements}
-\end{acknowledgements}
+% \begin{acknowledgements}
+%     \input{sections/acknowledgements}
+% \end{acknowledgements}
 \pagestyle{thesis}
 \newpage
 \pagenumbering{arabic}
@@ -97,7 +101,7 @@
 \include{sections/chapter_two_lim}
 \include{sections/chapter_three_dbltr}
 \include{sections/chapter_four_ad}
-\include{sections/chapter_conclusion}
+% \include{sections/chapter_conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{unsrtnat}
 \renewcommand{\baselinestretch}{1}

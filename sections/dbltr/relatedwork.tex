@@ -1,0 +1,23 @@
+\section{Related Work} 
+The idea of software debloating was initially discussed by Zeller et al.~\cite{zeller2002simplifying} as a means to isolate failure-inducing code. 
+This idea was later applied to the context of software security to reduce the attack surface of applications. 
+Ghavamnia et al. and Rastogi et al. explored the idea of debloating containers~\cite{rastogi2017cimplifier, 259711}, while Abubakar et al. debloated the kernel~\cite{abubakar2021shard}. 
+Orthogonally, another line of research explores binary debloating~\cite{snyder2017most, redini2019b, heo2018effective, quach2018debloating, qian2020slimium, ghavamnia2020temporal, mishra2020saffire, koo2019configuration}, and debloating web applications~\cite{lessismore, saphire, mininode, jahanshahi2020you}. 
+
+At a high level, there are three mainstream approaches to debloating: 
+i) using static analysis to identify unreachable code~\cite{redini2019b, snyder2017most, quach2018debloating, mininode, 255308}, ii) 
+debloating reachable code which is unused given a set of tests (e.g., automated test cases, or dynamic code-coverage traces)~\cite{lessismore, heo2018effective,qian2020slimium, koo2019configuration}, and finally, iii) API specialization, which consists of disabling sensitive APIs or hardening them with respect to the execution context of applications~\cite{mishra2020saffire, saphire, jahanshahi2020you, mishra2021sgxpecial}. 
+
+Our work is mainly motivated by the ``Less is More'' approach of Amin Azad et al.~\cite{lessismore}. By comparing the debloating results of \sys{} with the baseline debloating approach of ``Less is More'' (Section~\ref{sec:debloatingresults}), we demonstrated that role-based debloating outperforms the ``Less is More'' approach, both in terms of security metrics, as well as on reducing concrete vulnerabilities. 
+
+In another line of work targeting binaries and web applications, Mishra et al.~\cite{mishra2018shredder, mishra2021sgxpecial}, Bulekov et al.~\cite{saphire}, and Jahanshahi et al.~\cite{jahanshahi2020you} provided solutions to reduce the software attack surface of applications through limiting the list of available APIs for each piece of code. 
+By incorporating their defense, attackers are limited in their ability to exploit the application vulnerabilities. 
+These solutions are orthogonal to our work and can be used in combination with \sys{} to further protect the applications against the exploitation of potential vulnerabilities. 
+
+Koishybayev et al. proposed Mininode, a tool to reduce the attack surface of Node.js applications by debloating third-party modules~\cite{mininode}. 
+Their approach is based on static analysis which they use to identify unreachable code in third-party modules and the chain dependencies of Node.js applications. 
+While static analysis is helpful in identifying unused code, several categories of common web application vulnerabilities (e.g., SQLi, XSS, CSRF, etc.) reside in reachable parts of the source code. 
+\sys{} incorporates dynamic analysis and therefore, is capable of debloating even the reachable but unused parts of the code. 
+
+Bocic et al. and Son et al. studied access-control bugs in web applications~\cite{7582754, son2013fix}. 
+They analyzed access-control flaws in Ruby on Rails and PHP applications and identified over 100 authorization bugs in the existing open-source applications. Their findings reinforce the motivation for \sys{}'s role-based debloating which can guarantee the separation of public vs. authenticated users, even in the presence of access-control errors.

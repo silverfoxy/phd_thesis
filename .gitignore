@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 sections/appendixSdkr.aux
 sections/chapter_conclusion.aux
 sections/chapter_four_ad.aux
@@ -9,3 +10,6 @@ sections/chapterfour_ad.aux
 sections/chapterone_intro.aux
 sections/chapterthree_dbltr.aux
 sections/chaptertwo_lim.aux
+=======
+*.aux
+>>>>>>> 5dce8df93887dced2d054cdda4ee07c92a9fad08
