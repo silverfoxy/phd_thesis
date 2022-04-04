@@ -1,0 +1,71 @@
+\section{Introduction}
+
+Since the introduction of the World Wide Web, there has been an exponential growth in the number of online websites and web services~\cite{websitestatistics}. 
+Our lives are entangled with online services, and companies and governments are hosting their vital infrastructure online. 
+Nowadays, companies host their web services behind complex infrastructure that ensures fast and reliable content delivery. 
+Moreover, both the quality and the complexity of services have increased drastically over the past decade. 
+As the need for more complex online services rose, the development community matured and started building more and more reusable pieces of code. 
+
+% Virtually all popular web development languages and frameworks provide repositories for packages that enhance applications with numerous features and integrations. 
+% PHP includes its own package manager called Composer, hosting over 300,000 packages and 3 million versions~\cite{packagist_stats}. 
+% NPM, Node.js's package repository, hosts over 1.3 million packages~\cite{npm_statistics}, and Python has Pip which uses PyPI with over 340,000 packages and 3 million versions~\cite{pypi}.
+
+The industry standard in web-development practices switched from writing in-house code from ``scratch'' to the use of professionally developed and maintained third-party modules~\cite{packagiststats, npmstatistics, pypi}. 
+Modern web applications commonly incorporate frameworks and packages from public sources to provide routine features such as page management, user authentication, error handling, testing, and logging~\cite{popularphp}. 
+Inherent to the use of off-the-shelf software, is the resulting amalgam of features. 
+Packages provide a variety of features (e.g., support for multiple database backends) to be useful to as many projects as possible.
+At the same time, this added flexibility comes at the price of code bloat. 
+Code bloat refers to parts of the application source code that serve no purpose to its users. 
+In the example of database APIs, if the website only interacts with a MySQL database, the source code for other database APIs still remains in the application. 
+While this may seem benign, flaws in the unused parts of applications can lead to security vulnerabilities~\cite{lessismore, saphire}. 
+
+One line of research called \emph{software debloating} focuses on identifying and neutralizing unused parts of applications. 
+Existing systems perform debloating either directly at the source-code level by rewriting the code to remove/block unused code paths~\cite{lessismore, mininode}, or alternatively 
+limit the underlying APIs available to each page to reduce the impact of exploits~\cite{saphire}. 
+Unlike binaries, when dealing with web-application vulnerabilities, attackers can inject data and execute code, but \emph{cannot} jump to arbitrary instructions within the code. 
+Therefore, removing dead code is only of limited benefit for web applications. 
+As a result, web application debloating mechanisms commonly remove live code that is deemed as unnecessary based on dynamic code-coverage traces and static analysis. 
+
+One of the main limitations of prior work is the sole focus on one-size-fits-all debloating. 
+In such schemes, all users of the web application regardless of their role and access type, receive the same treatment. 
+In other words, existing debloating systems produce only one copy of a debloated application to serve all public and authenticated users. 
+One may be hopeful that the authentication and access hierarchy within the web applications would prevent access to critical features for untrusted users, yet
+this assumption is critically flawed. 
+First, not all popular web applications provide fine grained access control (e.g., phpMyAdmin), and for those that provide access control (e.g., WordPress), the predefined list of available roles may not match the behavioral patterns of users, which can lead to over-authorization. 
+
+Furthermore, access-control flaws where users have access to features that they should not have access to, are commonly found even in popular platforms~\cite{dalton2009nemesis,doupe2011fear}. 
+Among other examples, attackers have been able to directly invoke privileged vulnerable modules, which allowed them to fully bypass the authentication and authorization of the main application~\cite{wpfilemanager}. 
+Finally, while its not the main objective of \sys{}, restricting privileged users to well-defined sets of operations can thwart potential insider attacks.
+
+To address the limitations of prior web-application debloating systems
+we propose \sys{}, an automatic role-based debloating pipeline that identifies clusters of similar usage patterns among users which can be considered equivalent to an access-control role. 
+After identifying the optimal number of clusters (\emph{N}), \sys{} creates \emph{N} debloated copies of the web application tailored to the needs of each subset of users. \sys{} orchestrates the access to these applications through the use of a transparent reverse proxy that captures the successful authentication requests and subsequent authentication cookies to route known users to their custom debloated web applications. 
+This process is done without the need to modify target web applications beyond the debloating process, and happens transparently from the perspective of users.
+
+% Public vs. authenticated separation
+% Explicit limiting of
+
+\sys{} yields multiple concrete advantages compared to prior schemes of debloating web applications. First, it creates a separation between public and authenticated users which protects web applications even in the face of access-control errors. 
+Second, it contains the damage that is possible by a given authenticated user (e.g., due to compromised credentials or client-side attacks) by limiting the attack to the parts of the web application that the user requires for their tasks. 
+Lastly, the clustering of users into sets that access differently-debloated web applications, provides a fine-grained access control mechanism, which operates on top of any existing access-control mechanisms and can capture the real needs of users on a feature-by-feature basis. 
+For instance, an authenticated WordPress user that only publishes blog posts and replies to comments will receive access to a tailored WordPress application where critical features (e.g., theme modification and plugin installation) are neutralized for that user, yet remain available to other privileged users in the same deployment who rely on them. 
+
+To better understand how the various components of \sys{} work in unison to differentially-debloat and secure web applications, we have prepared the following demonstration. We show a scenario involving a CSRF exploit on phpMyAdmin (CVE-2019-12616) and two users who both visit the same exploit-launching page prepared by an attacker. The video of our demonstration is available online at: \url{https://vimeo.com/652161913} (the video is hosted on a third-party platform to preserve the anonymity of both authors and reviewers).
+
+\noindent Overall, we make the following original contributions:
+
+
+\begin{itemize}
+    \item To back our intuition that different users utilize web applications in different ways, we perform a user study including 60 participants to understand how experienced developers and administrators interact with popular web applications.
+    \item We propose \sys{}, an automated web-application debloating and content-delivery system which is capable of reducing the size of applications by up to 70\% and removing as much as 80\% of severe security vulnerabilities beyond the state-of-the-art in web application debloating.
+    \item We analyze the security gains and quantify the attack surface reduction of our debloating scheme based on various source code (e.g., line reduction) and security metrics (e.g., CVE reduction, Critical API removal, etc.)
+\end{itemize}
+
+To motivate additional research in the area of software debloating, and to ensure reproducibility of our findings, we will be releasing \emph{all} of our software artifacts upon publication of this paper.
+
+
+% As an example, we can look at a recent vulnerability on WordPress ``File Manager'' plugin~\cite{wpfilemanager}. 
+% This popular plugin that has over 800,000 active installations, provides the ability to manage the server's file system to WordPress administrators. 
+% While users would assume that this plugin only allows authorized users to interact with the file system, a vulnerability in the implementation allowed even public users to directly upload files without authentication. 
+% This attack was possible by sending direct requests to the PHP files of this plugin under \emph{wp-content/plugins/wp-file-manager/lib/files/} to upload malicious files. 
+% Unfortunately, existing debloating mechanisms would retain the files for this plugin as long as at least one administrator of that web application used the upload plugin during the trace-collection phase.

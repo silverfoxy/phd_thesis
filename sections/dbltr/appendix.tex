@@ -1,0 +1,100 @@
+\section{Appendix}
+
+\begin{table*}[]
+    \caption{List of CVEs and statistics of affected clusters and users after debloating.}
+    \label{tab:cve_details}
+    \centering
+    \begin{adjustbox}{max width=0.65\textwidth}
+    \begin{tabular}{|lllll|}
+    \hline
+    % phpMyAdmin CVEs
+    \multicolumn{5}{|c|}{\textbf{phpMyAdmin}}                                                                                                                                                                                                 \\ \hline
+    \multicolumn{1}{|l|}{\multirow{2}{*}{\textbf{\#}}} & \multicolumn{1}{l|}{\multirow{2}{*}{\textbf{CVE}}} & \multicolumn{2}{l|}{\textbf{Percentage of Affected}}                         & \multirow{2}{*}{\textbf{Affected Functionality}} \\ \cline{3-4}
+    \multicolumn{1}{|l|}{}            & \multicolumn{1}{l|}{}                 & \multicolumn{1}{l|}{\textbf{Clusters}} & \multicolumn{1}{l|}{\textbf{Users}} &                                 \\ \hline
+    \multicolumn{1}{|l|}{1}           & \multicolumn{1}{l|}{CVE-2020-26935}   & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & SQLi in SearchController        \\ \hline
+    \multicolumn{1}{|l|}{2}           & \multicolumn{1}{l|}{CVE-2020-26934}   & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & XSS in Table Transformation     \\ \hline
+    \multicolumn{1}{|l|}{3}           & \multicolumn{1}{l|}{CVE-2020-10802}   & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & SQLi in search action           \\ \hline
+    \multicolumn{1}{|l|}{4}           & \multicolumn{1}{l|}{CVE-2020-10804}   & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & SQLi in username                \\ \hline
+    \multicolumn{1}{|l|}{5}           & \multicolumn{1}{l|}{CVE-2020-5504}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & SQLi in user accounts page      \\ \hline
+    \multicolumn{1}{|l|}{6}           & \multicolumn{1}{l|}{CVE-2019-6798}    & \multicolumn{1}{l|}{40\%}                 & \multicolumn{1}{l|}{25\%}              & SQLi in username                \\ \hline
+    \multicolumn{1}{|l|}{7}           & \multicolumn{1}{l|}{CVE-2019-12616}   & \multicolumn{1}{l|}{100\%}                & \multicolumn{1}{l|}{100\%}             & CSRF to run arbitrary queries   \\ \hline
+    \multicolumn{1}{|l|}{8}           & \multicolumn{1}{l|}{CVE-2018-12613}   & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & RCE in page load module         \\ \hline
+    \multicolumn{1}{|l|}{9}           & \multicolumn{1}{l|}{CVE-2017-1000499} & \multicolumn{1}{l|}{100\%}                & \multicolumn{1}{l|}{100\%}             & CSRF to delete tables \& rows   \\ \hline
+    \multicolumn{1}{|l|}{10}          & \multicolumn{1}{l|}{CVE-2017-1000017} & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & Authorization bypass            \\ \hline
+    \multicolumn{1}{|l|}{11}          & \multicolumn{1}{l|}{CVE-2016-5734}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & RCE in table search \& replace  \\ \hline
+    \multicolumn{1}{|l|}{12}          & \multicolumn{1}{l|}{CVE-2016-6616}    & \multicolumn{1}{l|}{40\%}                 & \multicolumn{1}{l|}{25\%}              & SQLi in user group \& designer  \\ \hline
+    \multicolumn{1}{|l|}{13}          & \multicolumn{1}{l|}{CVE-2016-5703}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & SQLi in central columns         \\ \hline
+    \multicolumn{1}{|l|}{14}          & \multicolumn{1}{l|}{CVE-2016-6606}    & \multicolumn{1}{l|}{100\%}                & \multicolumn{1}{l|}{100\%}             & Crypto vulnerability in cookies \\ \hline
+    \multicolumn{1}{|l|}{15}          & \multicolumn{1}{l|}{CVE-2016-9849}    & \multicolumn{1}{l|}{100\%}                & \multicolumn{1}{l|}{100\%}             & Root restriction bypass         \\ \hline
+    \multicolumn{1}{|l|}{16}          & \multicolumn{1}{l|}{CVE-2016-6633}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & RCE in dBase extension          \\ \hline
+    \multicolumn{1}{|l|}{17}          & \multicolumn{1}{l|}{CVE-2016-6609}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & RCE in array export             \\ \hline
+    \multicolumn{1}{|l|}{18}          & \multicolumn{1}{l|}{CVE-2016-6619}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & SQLi against control user       \\ \hline
+    \multicolumn{1}{|l|}{19}          & \multicolumn{1}{l|}{CVE-2014-8959}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & Directory traversal in GIS      \\ \hline
+    \multicolumn{1}{|l|}{20}          & \multicolumn{1}{l|}{CVE-2013-3240}    & \multicolumn{1}{l|}{80\%}                 & \multicolumn{1}{l|}{80\%}              & RCE in export format            \\ \hline
+    % WordPress CVEs
+    \multicolumn{5}{|c|}{\textbf{WordPress}}                                                                                                                                                                 \\ \hline
+    \multicolumn{1}{|l|}{1}           & \multicolumn{1}{l|}{CVE-2018-12895}   & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & RCE in posts page                       \\ \hline
+    \multicolumn{1}{|l|}{2}           & \multicolumn{1}{l|}{CVE-2018-10101}   & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & URL validator bypass                    \\ \hline
+    \multicolumn{1}{|l|}{3}           & \multicolumn{1}{l|}{CVE-2018-10100}   & \multicolumn{1}{l|}{100\%}                & \multicolumn{1}{l|}{100\%}             & Open redirect in login page             \\ \hline
+    \multicolumn{1}{|l|}{4}           & \multicolumn{1}{l|}{CVE-2017-5611}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & SQLi in WP\_Query                       \\ \hline
+    \multicolumn{1}{|l|}{5}           & \multicolumn{1}{l|}{CVE-2017-14723}   & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & SQLi in prepare query                   \\ \hline
+    \multicolumn{1}{|l|}{6}           & \multicolumn{1}{l|}{CVE-2017-16510}   & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & SQLi in double prepare                  \\ \hline
+    \multicolumn{1}{|l|}{7}           & \multicolumn{1}{l|}{CVE-2017-5492}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & CSRF in widget accessibility mode       \\ \hline
+    \multicolumn{1}{|l|}{8}           & \multicolumn{1}{l|}{CVE-2017-9064}    & \multicolumn{1}{l|}{100\%}                & \multicolumn{1}{l|}{100\%}             & CSRF in filesystem credentials dialog   \\ \hline
+    \multicolumn{1}{|l|}{9}           & \multicolumn{1}{l|}{CVE-2017-17091}   & \multicolumn{1}{l|}{60\%}                 & \multicolumn{1}{l|}{40\%}              & Access restriction bypass               \\ \hline
+    \multicolumn{1}{|l|}{10}          & \multicolumn{1}{l|}{CVE-2017-6815}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & Open redirect in plugins interface      \\ \hline
+    \multicolumn{1}{|l|}{11}          & \multicolumn{1}{l|}{CVE-2016-6635}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & CSRF in AJAX compression                \\ \hline
+    \multicolumn{1}{|l|}{12}          & \multicolumn{1}{l|}{CVE-2016-7169}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & Directory traversal in file upload      \\ \hline
+    \multicolumn{1}{|l|}{13}          & \multicolumn{1}{l|}{CVE-2015-2213}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & SQLi in un-trash comments               \\ \hline
+    \multicolumn{1}{|l|}{14}          & \multicolumn{1}{l|}{CVE-2015-5731}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & CSRF in edit posts                      \\ \hline
+    \multicolumn{1}{|l|}{15}          & \multicolumn{1}{l|}{CVE-2014-5203}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & RCE in customize widgets                \\ \hline
+    \multicolumn{1}{|l|}{16}          & \multicolumn{1}{l|}{CVE-2014-5204}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & CSRF in plugins interface               \\ \hline
+    \multicolumn{1}{|l|}{17}          & \multicolumn{1}{l|}{CVE-2014-5205}    & \multicolumn{1}{l|}{0\%}                  & \multicolumn{1}{l|}{0\%}               & CSRF in plugins interface               \\ \hline
+    \multicolumn{1}{|l|}{18}          & \multicolumn{1}{l|}{CVE-2014-9033}    & \multicolumn{1}{l|}{100\%}                & \multicolumn{1}{l|}{100\%}             & CSRF in reset password                  \\ \hline
+    \multicolumn{1}{|l|}{19}          & \multicolumn{1}{l|}{CVE-2014-9037}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & Authentication bypass                   \\ \hline
+    \multicolumn{1}{|l|}{20}          & \multicolumn{1}{l|}{CVE-2014-9038}    & \multicolumn{1}{l|}{20\%}                 & \multicolumn{1}{l|}{15\%}              & SSRF in HTTP module                     \\ \hline
+    % Magento
+    \multicolumn{5}{|c|}{\textbf{Magento}}                                                                                                                                                                   \\ \hline
+    \multicolumn{1}{|l|}{1}           & \multicolumn{1}{l|}{CVE-2020-9689}   & \multicolumn{1}{l|}{0\%}                   & \multicolumn{1}{l|}{0\%}               & RCE in WYSIWYG                           \\ \hline
+    \multicolumn{1}{|l|}{2}           & \multicolumn{1}{l|}{CVE-2019-7877}   & \multicolumn{1}{l|}{0\%}                   & \multicolumn{1}{l|}{0\%}               & XSS in manage orders                     \\ \hline
+    \multicolumn{1}{|l|}{3}           & \multicolumn{1}{l|}{CVE-2019-7139}   & \multicolumn{1}{l|}{100\%}                 & \multicolumn{1}{l|}{100\%}             & Unauthenticated SQLi                     \\ \hline
+    \multicolumn{1}{|l|}{4}           & \multicolumn{1}{l|}{CVE-2019-8144}   & \multicolumn{1}{l|}{100\%}                 & \multicolumn{1}{l|}{100\%}             & RCE in page builder                      \\ \hline
+    \multicolumn{1}{|l|}{5}           & \multicolumn{1}{l|}{CVE-2019-7877}   & \multicolumn{1}{l|}{0\%}                   & \multicolumn{1}{l|}{0\%}               & Stored XSS in admin panel                \\ \hline
+    \multicolumn{1}{|l|}{6}           & \multicolumn{1}{l|}{CVE-2019-8118}   & \multicolumn{1}{l|}{29\%}                  & \multicolumn{1}{l|}{15\%}              & Weak crypto in customer login            \\ \hline
+    \multicolumn{1}{|l|}{7}           & \multicolumn{1}{l|}{CVE-2019-8141}   & \multicolumn{1}{l|}{29\%}                  & \multicolumn{1}{l|}{50\%}              & RCE in import functionality              \\ \hline
+    \multicolumn{1}{|l|}{8}           & \multicolumn{1}{l|}{CVE-2018-5301}   & \multicolumn{1}{l|}{0\%}                   & \multicolumn{1}{l|}{0\%}               & CSRF in delete address                   \\ \hline
+    \multicolumn{1}{|l|}{9}           & \multicolumn{1}{l|}{CVE-2016-6485}   & \multicolumn{1}{l|}{0\%}                   & \multicolumn{1}{l|}{0\%}               & Weak random generator in crypto module   \\ \hline
+    \multicolumn{1}{|l|}{10}          & \multicolumn{1}{l|}{CVE-2016-4010}   & \multicolumn{1}{l|}{43\%}                  & \multicolumn{1}{l|}{6\%}               & RCE in shopping cart                     \\ \hline
+    \end{tabular}
+    \end{adjustbox}
+    \end{table*}
+
+\begin{table*}[t]
+\caption{List of Critical PHP APIs}
+\label{tab:cacs}
+\begin{tabular}{|l|p{14cm}|}
+\hline
+    \textbf{Category}               & \textbf{Critical APIs} \\ \hline 
+    \textbf{Command Execution} & \texttt{exec, passthru,
+    system, shell\_exec, popen, proc\_open, pcntl\_exec, backticks, expect\_popen, shell\_exec, w32api\_invoke\_function, w32api\_register\_function, eval, assert, create\_function, preg\_replace, include, include\_once, require, require\_once, ReflectionFunction, mb\_ereg\_replace, mb\_eregi\_replace, preg\_filter, php\_check\_syntax, set\_include\_path, virtual, yaml\_parse, unserialize, ob\_start, array\_diff\_uassoc, array\_diff\_ukey, array\_filter, array\_intersec\_uassoc, array\_intersect\_ukey, array\_map,
+    array\_reduce, array\_udiff\_assoc, array\_udiff\_uassoc, array\_udiff, array\_uintersect\_assoc, array\_uintersect\_uassoc, array\_intersect\_uassoc, array\_intersect\_ukey, array\_uintersect, array\_walk\_recursive, 
+    array\_walk, assert\_options, uasort, uksort, usort, preg\_replace\_callback, spl\_autoload\_register, iterator\_apply, call\_user\_func, call\_user\_func\_array, 
+    register\_shutdown\_function, register\_tick\_function, set\_error\_handler, set\_exception\_handler, session\_set\_save\_handler, sqlite\_create\_aggregate, sqlite\_create\_function, forward\_static\_call, forward\_static\_call\_arraycall\_user\_func\_array,
+    yaml\_parse, yaml\_parse\_file, yaml\_parse\_url}
+    \\ \hline
+    \textbf{Information Disclosure} & \texttt{phpinfo, posix\_mkfifo, posix\_getlogin, posix\_ttyname, getenv, get\_current\_user, proc\_get\_status, get\_cfg\_var, disk\_free\_space, 
+    disk\_total\_space, diskfreespace, getcwd, getlastmo, getmygid, getmyinode, getmypid, getmyuid} \\ \hline 
+    \textbf{Filesystem} & \texttt{fopen, tmpfile, bzopen, gzopen, chgrp, chmod, chown, copy, file\_put\_contents, lchgrp, lchown, link, mkdir, move\_uploaded\_file, 
+    rename, rmdir, symlink, tempnam, touch, unlink, imagepng, imagewbmp, image2wbmp, imagejpeg, imagexbm, imagegif, imagegd, imagegd2, iptcembed, 
+    ftp\_get, gtp\_nb\_get, file\_exists, eio\_busy, eio\_chmod, eio\_chown, eio\_close, eio\_custom, eio\_dup2, eio\_fallocate, eio\_fchmod, eio\_fchown, eio\_fdatasync, eio\_fstat, eio\_fstatvfs,
+    bzread, bzflush, dio\_read, eio\_readdir, fdf\_open, file, file\_get\_contents, finfo\_file, fflush, fgetc, fgetcsv, fgets, fgetss, fread, fpassthru, fscanf, ftok,
+    get\_meta\_tags, glob, gzfile, gzgetc, gzgets, gzgetss, gzread, gzpassthru, highlight\_file, imagecreatefrompng, imagecreatefromjpg, imagecreatefromgif, imagecreatefromgd2, 
+    imagecreatefromgd2part, imagecreatefromgd, opendir, parse\_ini\_file, php\_strip\_whitespace, readfile, readgzfile, readlink, stat, scandir, show\_source, simplexml\_load\_file, stream\_get\_contents, 
+    stream\_get\_line, xdiff\_file\_bdiff, xdiff\_file\_bpatch, xdiff\_file\_diff\_binary, xdiff\_file\_diff, xdiff\_file\_merge3, xdiff\_file\_patch\_binary, xdiff\_file\_patch, xdiff\_file\_rabdiff, yaml\_parse\_file, zip\_open,
+    bzwrite, dio\_write, eio\_chmod, eio\_chown, eio\_mkdir, eio\_mknod, eio\_rmdir, eio\_write, eio\_unlink, event\_buffer\_write, file\_put\_contents, fputcsv, fputs, fprintf, ftruncate, fwrite, 
+    gzwrite, gzputs, loadXML, move\_uploaded\_file, posix\_mknod, recode\_file, shmop\_write, vfprintf, xdiff\_file\_bdiff, xdiff\_file\_bpatch, xdiff\_file\_diff\_binary, xdiff\_file\_diff, xdiff\_file\_merge3, 
+    xdiff\_file\_patch\_binary, xdiff\_file\_patch, xdiff\_file\_rabdiff, yaml\_emit\_file} \\ \hline 
+    \textbf{Other} & \texttt{extract, parse\_str, putenv, ini\_set, mail, mb\_send\_mail, header, proc\_nice, proc\_terminate, proc\_close, pfsockopen, fsockopen, 
+    apache\_child\_terminate, posix\_kill, posix\_setpgid, posix\_setsid, posix\_setuid, dotnet\_load} \\ \hline 
+\end{tabular}
+\end{table*}

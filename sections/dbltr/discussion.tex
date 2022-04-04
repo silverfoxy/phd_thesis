@@ -1,0 +1,57 @@
+\section{Discussion}
+
+In this section we review the important takeaways of our work, and then discuss some of the limitations of our approach.
+
+\subsection{Main Takeaways}
+
+\noindent\textbf{One-size-fits-all debloating still produces bloated applications:} 
+As demonstrated by this work and the literature, debloating web applications is highly effective in reducing the attack surface of web applications by removing unused features and their underlying vulnerabilities. 
+The one-size-fits-all debloating approach explored by the prior work produces one debloated web application which as demonstrated by our analysis, can contain as much as 29\% extra LLOC compared to what users actually need. 
+From the perspective of historic CVEs, certain clusters contained 80\% fewer CVEs compared to the one-size-fits-all (i.e., 1 Cluster) debloating. 
+
+\noindent\textbf{Clustering users with similar behavior together reduces the likelihood of broken features:} 
+In Table~\ref{tab:augmented_coverage} we reported that 15-38\% of files covered by each user in a cluster had new functions covered by other users in the same cluster. 
+Moreover, 29-71\% of third-party packages in a cluster and more than half of internal modules had new files added to the coverage from the perspective of each member of the clusters. 
+Both of these results show that clustering users based on their feature usage can produce debloated applications with shrunk attack surface, while reducing the likelihood of debloating useful features due to overfitting to the specific usage traces of individual users. 
+
+\noindent\textbf{\sys{} provides a content delivery environment for debloated web applications:} 
+One of the main contributions of our work is our content delivery pipeline which reduces the need for modifications and customizations to target web applications, while keeping the entire debloating and content-delivery platform entirely invisible to web application users.
+
+\subsection{Limitations} 
+
+%Our work comes with some limitations that we discuss in this section. 
+
+\noindent\textbf{Debloating statistics: }
+As part of our analysis on the security benefits of debloating, we mapped 50 CVEs to the source code of our applications. 
+We used recent versions of three popular web applications for our user study and debloating.
+By the time they become public, CVEs are either already patched or will be patched soon. 
+Therefore, we mapped historic CVEs to the patched functions within the new web applications. 
+As a result, our reports on CVE reduction indicate the removal of a feature in a more recent version of web application compared to the original version that included the actual vulnerability. This was a ``necessary evil'' since we could not rely on users perfectly replicating their workloads across multiple versions of the same web applications where the original vulnerabilities resided.
+
+Our debloating reports are based on the code-coverage that we collected during our user study. Using our domain knowledge, we have established that the collected dataset is a representative sample of web-application use in the real world. At the same time, different deployments of web applications may be used differently and therefore be debloated differently. Regardless of the degree of use, \sys{} can offer concrete security advantages by automatically removing code that is not globally required by all users of a given deployment and clustering users to their appropriately-debloated codebase.
+
+
+\noindent\textbf{Applications with a public interface: }
+As depicted in Figure~\ref{fig:system_architecture}, \sys{} routes unauthenticated requests towards a ``public'' profile of the debloated web application. 
+This profile includes the code for user authentication as well as any other code required for public unauthenticated users. 
+
+For administrative applications that are behind an authentication wall, producing a public profile is straightforward. 
+In the example of phpMyAdmin, we only need to perform successful and failed login attempts to generated the baseline code-coverage and debloat the application to produce the public debloated profile. 
+For other applications such as WordPress and Magento, this step is more involved. 
+We need to retain the features that are available to public users. 
+Therefore, we need to record the code-coverage of unauthenticated users with benign activity. 
+
+One of the main benefits of our cluster-based debloating is the removal of features that are not limited by the authentication and authorization boundaries of web applications. 
+If attackers can somehow taint the code-coverage of unauthenticated profiles to include a vulnerable piece of code, they can force the debloating pipeline to retain that code, and exploit it later. 
+A possible solution to this problem is to use artificial modeling techniques such as Selenium scripts, and automated crawlers to extract the code-coverage of unauthenticated users. 
+
+\noindent\textbf{Changes to the source code:} 
+In this work, we studied the debloating of web applications at a stable state. 
+That is, all the required configurations, updates, and plugins were installed and available at the time of debloating. 
+For smaller updates, we need to repeat the debloating to produce new copies of the updated web application while not touching the modified files during the update. 
+For major version changes that include drastic changes to the architecture of the source code and modules, we would need to collect the code-coverage traces again. This limitation is shared by all debloating systems that offer security-benefits via late-stage code transformations.
+
+\noindent\textbf{Number of users of the web applications:} 
+In our user study, we hired a total of 60 participants (20 participants for each web application). 
+While most websites are operated by a small number of administrators, there clearly exist web applications (such as popular social networks) with billions of users and thousands of administrators. 
+Understanding how \sys{} could be used in such an environment requires the collaboration of a global web application and we therefore leave it for future work.
