@@ -72,7 +72,8 @@
 \begin{table*}[t]
 \caption{List of Critical PHP APIs}
 \label{tab:cacs}
-\begin{tabular}{|l|p{14cm}|}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{|l|p{20cm}|}
 \hline
     \textbf{Category}               & \textbf{Critical APIs} \\ \hline 
     \textbf{Command Execution} & \texttt{exec, passthru,
@@ -97,4 +98,5 @@
     \textbf{Other} & \texttt{extract, parse\_str, putenv, ini\_set, mail, mb\_send\_mail, header, proc\_nice, proc\_terminate, proc\_close, pfsockopen, fsockopen, 
     apache\_child\_terminate, posix\_kill, posix\_setpgid, posix\_setsid, posix\_setuid, dotnet\_load} \\ \hline 
 \end{tabular}
+\end{adjustbox}
 \end{table*}
