@@ -1,6 +1,6 @@
 all:
 	pdflatex thesis.tex
-	#bibtex ref
+	bibtex thesis
 	pdflatex thesis.tex
 	pdflatex thesis.tex
 

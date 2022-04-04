@@ -26,7 +26,7 @@ Finally for Magento, creating new products, managing product inventory, and modi
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.3\textwidth]{figures/dbltr/magento_wordcloud.pdf}
+    \includegraphics[width=0.5\textwidth]{figures/dbltr/magento_wordcloud.pdf}
     \caption{Word cloud of important terms for Magento cluster number four}
     \label{fig:magento_wordcloud}
 \end{figure}
@@ -71,6 +71,7 @@ The number in the parenthesis for Baseline and \sys{} denotes the percentage of 
 
 \begin{table}[]
     \caption{LLOC reduction of debloated clusters: Numbers are reported in terms of thousands of LLOC. For Baseline, and \sys{}, we report the percentage of LLOC reduction compared to the Original application.}
+    \centering
     \scalebox{0.87}{
         \begin{tabular}{|l|l|l|lll|}
             \hline
@@ -147,7 +148,7 @@ Nevertheless, we observed that one of our clusters produced by \sys{} included f
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.48\textwidth]{figures/dbltr/cac_reduction.pdf}
+    \includegraphics[width=0.65\textwidth]{figures/dbltr/cac_reduction.pdf}
     \caption{Critical API Call (CAC) reduction after debloating.}
     \label{fig:cac_reduction}
 \end{figure}
@@ -198,6 +199,7 @@ Therefore, from a CAC-reduction perspective, increasing the number of clusters p
     \caption{Statistics on the contribution of cluster to individual code-coverage. 
     For files, third-party packages and first-party class modules, from the perspective of each individual user in the clusters, we show what percentage of those files or packages had new code-coverage by other users. Removed packages list the number of packages where a given percentage of their source code is removed by debloating.}
     \label{tab:augmented_coverage}
+    \adjustbox{max width=\columnwidth}{
     \begin{tabular}{|l|c|c|c|c|c|ccc|}
     \hline
     \multirow{2}{*}{\textbf{Web Application}}   & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}l@{}}\% Files with \\ new coverage\end{tabular}}} & \multirow{2}{*}{\textbf{\# Packages}} & \multirow{2}{*}{\textbf{\# Classes}} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Average Package}}} & \multirow{2}{*}{\textbf{Average Class}} & \multicolumn{3}{c|}{\textbf{Removed Packages}}                                                                       \\ \cline{7-9} 
@@ -206,6 +208,7 @@ Therefore, from a CAC-reduction perspective, increasing the number of clusters p
     WordPress                                   & 38.3\%                                                                                          & NA                                    & 23                                   & NA                                                             & 50\%                                    & \multicolumn{1}{c|}{NA}                         & \multicolumn{1}{c|}{NA}                 & \multicolumn{1}{c|}{NA}  \\ \hline
     Magento                                     & 15.3\%                                                                                          & 493                                   & 190                                  & 71\%                                                           & 68\%                                    & \multicolumn{1}{c|}{251}                        & \multicolumn{1}{c|}{164}                & \multicolumn{1}{c|}{78}  \\ \hline
     \end{tabular}
+    }
 \end{table*}
 
 To identify existing object injection gadgets in the applications of our dataset, we incorporate PHPGGC~\cite{PHPGGC}, an open-source project listing available gadget chains for popular composer packages. 
@@ -296,7 +299,7 @@ We test the following setups:
 
 \begin{figure}[]
     \centering
-    \includegraphics[width=0.45
+    \includegraphics[width=0.55
     \textwidth]{figures/dbltr/performance.pdf}
     \caption{Distribution of request response time in milliseconds for Apache, Baseline, and \sys{} with a varying number of roles (i.e., backed Apache servers).}
     \label{fig:performance}
