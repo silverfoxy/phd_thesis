@@ -1,6 +1,21 @@
 \chapter{Quantifying the security benefits of debloating web applications}
 \label{chap:lim}
+
 \section*{Preamble}
+Web application exploitation is unique in many ways compared to the binary exploitation. 
+Common web application vulnerabilities (XSS, SQL injection, etc.) are orthogonal to data-only attacks on the binaries~\cite{ispoglou2018block}. 
+As a result, removing dead-code which consists of code pieces that are unreachable from all entry points, provides marginal security benefits, since attackers cannot control the flow of execution in web applications through common exploits. 
+
+Identifying this detail, we focused on modelling of code bloat as parts of the application (i.e., files, or functions) that are unused from the perspective of their users. 
+To that end, we built synthetic models of usage behavior through encoding online tutorials of popular web applications as a means to model common tasks that the users perform. 
+We then augmented this model by incorporating automated crawlers and testing mechanisms to further expand the code coverage of the web applications. 
+
+Based on this modelling of the usage behavior, we characterized the main sources of bloat to be the third-party dependencies and unused modules and obscure features in web applications. 
+We then proposed source-code based (i.e., reduction in logical lines of code, and code complexity~\cite{gill1991cyclomatic}) and security based (i.e., removal of CVEs, and object injection gadget) as metrics to quantify the security benefits of debloating. 
+
+The remainder of this chapter is replicated from the paper titled ``Less is More: Quantifying the Security Benefits of Debloating Web Applications'' which was published in the proceedings of the 28th Usenix Security Symposium in 2019. 
+
+\section*{Less is More: Quantifying the Security Benefits of Debloating Web Applications}
 
 \input{sections/lim/parts/abstract}
 \input{sections/lim/parts/introduction}
