@@ -259,9 +259,29 @@ Potential solutions to this challenge include path merging (e.g., treating all p
     \end{lstlisting}
 \end{figure}
 
-\section{Future Work}
+\section{Conclusion \& Future Work}
 
-In the previous sections, we discussed the design of \animatedead{} and summarized the existing challenges. 
-For the remainder of my PhD, I plan to identify the missing features in \animatedead{}'s emulator to be able to correctly emulate popular PHP applications through the iterative process discussed in Section~\ref{sec:debugging}. 
-Moreover, I plan to experiment and design a path prioritization heuristic that fits the code structure of existing web applications and leads to a fast convergence of correct code coverage. 
-Finally, I plan to evaluate the debloating performance of \animatedead{} on popular PHP applications and report on the findings. 
+In this dissertation we evaluated the potential benefits of debloating in terms of security. 
+To that end, we presented our pipeline to simulate usage behaviors, debloat web applications with file and function level granularity and introduced various metrics to quantify the security benefits of debloating web applications. 
+By evaluating our framework on four popular PHP applications (phpMyAdmin, MediaWiki, Magento, and WordPress) we demonstrated a decrease of 46.8\% on average in LLOC (Logical Lines Of Code) reduction and a comparable reduction in the cyclomatic complexity of debloated applications. 
+We discussed how the structure of applications affects the debloating results (e.g., monolithic design of WordPress leads to less debloating compared to modular ones such as Magento). 
+From the perspective of code reuse attacks, we witnessed that debloating disrupts the majority of publicly known gadget chains used in object injection attacks. 
+Similarly, debloating removed up to 60\% of high impact CVEs. 
+
+After demonstrating the effectiveness of debloating web applications from a security perspective, we proposed a novel approach for debloating. 
+Unlike the prior work which focuses on a single debloated application, we explored the idea of ``role-based debloating''. 
+Our system named \sys{} takes in the code coverage information of web application users and clusters users with similar usage behavior together. 
+Based on these clusters, it produces multiple versions of debloated web applications each of which are tailored for a group of users. 
+
+We started this project by conducting a user study to understand how experienced administrators and developers interact with web applications. 
+We then used this information in \sys{} to produce debloated web applications and evaluate their security metrics. 
+Our results show that role-based debloating can further reduce the size of web applications in terms of LLOC by 30\%, and remove the severe security vulnerabilities by up to 80\% for some roles, compared to the globally debloated application similar to our approach in Chapter~\ref{chap:lim}. 
+\sys{} also incorporates the content-delivery modules to transparently extract user identities from login requests and route their requests towards their custom debloated web applications. 
+Overall, our results indicate that role-based debloating is a practical approach with tangile security benefits.
+
+\subsection*{Future Work}
+
+In Chapter~\ref{chap:ad}, we discussed the design of \animatedead{} and summarized the existing challenges. 
+For the remainder of my PhD, I plan to complete building the \animatedead{}'s emulator to be able to correctly emulate popular PHP applications through the iterative debugging process discussed in Section~\ref{sec:debugging}. 
+Moreover, I plan to experiment and design an optimized path prioritization heuristic that fits the code structure of existing web applications and leads to a fast convergence of correct code coverage. 
+Finally, I plan to evaluate the debloating performance of \animatedead{} on popular PHP applications and report on the findings and security gains. 
