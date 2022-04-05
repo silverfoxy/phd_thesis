@@ -1,0 +1,87 @@
+\chapter{Related Work}
+\label{chap:relatedwork}
+
+In this chapter we review the literature of research on the topic of software debloating. 
+The idea of software debloating was initially discussed by Zeller et al.~\cite{zeller2002simplifying} as a means to isolate failure-inducing code. 
+This idea was later applied to the context of software security to reduce the attack surface of applications. 
+At a high level, there are three mainstream approaches to debloating: 
+
+\begin{enumerate}
+    \item Using static analysis to identify and debloat unreachable code (i.e., dead code)~\cite{redini2019b, snyder2017most, quach2018debloating, mininode, 255308}.
+    \item Debloating reachable code which is unused given a set of tests (e.g., automated test cases, or dynamic code coverage traces)~\cite{lessismore, heo2018effective,qian2020slimium, koo2019configuration}.
+    \item API specialization, which consists of disabling sensitive APIs or hardening them with respect to the execution context of applications~\cite{mishra2020saffire, saphire, jahanshahi2020you, mishra2021sgxpecial}. 
+\end{enumerate}
+
+Orthogonally, we can categorize debloating methods based on their target platform. 
+
+\section{Debloating for the web}
+
+Web applications consist of client side and server side modules. 
+The client side modules, mainly including HTML, JavaScript and CSS, directly interact with clients' browsers. 
+Snyder et al. investigated the idea of API specialization for the JavaScript APIs in web browsers~\cite{snyder2017vibrate}. 
+The authors performed a risk analysis of providing access to various browser features and APIs to the JavaScript code.
+They evaluated the use of different
+JavaScript APIs in the wild and proposed the use of a client-side extension
+which controls which APIs any given website would get access to, depending
+on that website's level of trust. 
+Schwarz et al. similarly utilized a browser
+extension to limit the attack surface of Chrome and show that they are able
+to protect users against microarchitectural and side-channel
+attacks~\cite{Schwarz2018}. 
+Finally, Qian et al. debloated the Chromium browser with respect to the feature usage of specific websites~\cite{qian2020slimium}. 
+These studies are orthogonal to our work in this thesis since
+they both focus on the client-side of the web platform, whereas we focus on
+the server-side web applications.
+
+Web servers, as the integral part of serving web applications, are prime candidates for debloating. 
+Koo et al. explored the debloating of web servers through the analysis of unused features based on a given web server configuration file~\cite{koo2019configuration}. 
+Ghavamnia et al. identified that applications such as web servers by design have separate phases (e.g., setup vs serve), and introduced teh idea of temporal system call specialization to limit the availabel APIs based on the current status of the target application. 
+
+For the server-side debloating, Boomsma et al. performed dynamic profiling of a custom web application (a PHP application from an industry partner)~\cite{boomsma2012Dead}. 
+The authors measured the time it takes for their dynamic profile system to get
+complete coverage and the percentage of files that they could remove. Since the
+application was a custom one, the authors were not able to report specifics
+in terms of the reduction of the programs attack surface, as that relates
+to CVEs. 
+
+Koishybayev et al. focused on the bloat from third-party Node.js libraries. 
+The authors designed Mininode, which uses static analysis to identify unreachable code in third-party moduels and the chain of dependencies in Node.js applications~\cite{mininode}. 
+The threat model of Mininode assumes the presence of a arbitrary code exection vulnerability and prevents the attackers from escalating their code execution privileges by accessing sensitive APIs within the main application dependencies. 
+Nevertheless, their threat model does not cover the majority of web vulnerabilities including SQLi~\cite{sqlInjection}, XSS~\cite{xss}, CSRF~\cite{csrf}, etc. which by definition are only exploitable from the reachable code. 
+
+Another group of researchers focused on API specialization to protect web applications against SQL injection attacks~\cite{jahanshahi2020you}.
+Orthogonally, Redini et al. proposed BreakApp, which protects Node.js applications by limiting the available APIs for Node.js libraries~\cite{vasilakis2018breakapp} and Jahanshahi et al. designed Saphire, which is their API specialization approach that functions by identifying and limiting the system calls available to each PHP script, thereby limiting the ability of attackers in causing harm~\cite{saphire}. 
+Their threat model is similar to Minonode and protects web applications from further exploitation in the presence of a vulnerability that leads to arbitrary code execution. 
+API specialization is orthogonal to the debloating schemes discussed in this thesis and can be applied in parallel to our work to provide further protection for web applications. 
+
+
+\section{Debloating in other platforms}
+
+The body of research on debloating binaries consists of mechanisms that operate on the source code level, and those that debloat libraries and system calls. 
+From the former category, Regehr et al. developed \textit{C-Reduce} which is a tool that performs reduction of C/C++ files by applying very specific program transformation rules~\cite{regehr2012CReduce}.
+%Perses
+Sun et al. designed a framework called \textit{Perses} that utilizes the grammar of any programming language to guide reduction~\cite{sun2018perses}.
+Its advantage is that it does not generate syntactically invalid variants during reduction so that the whole process is made faster.
+%Chisel
+Heo et al. worked on \textit{Chisel} whose distinguishing feature is that it performs fine-grained debloating by removing code even on the functions that are executed, using reinforcement learning to identify the best reduced program~\cite{heo2018effective}.
+%Summary
+
+All three aforementioned approaches are founded on Delta debugging~\cite{zeller2002Delta}.
+They reduce the size of an application progressively and verify at each step if the created variant still satisfies the desired properties (e.g., successfully compiles, or passes a set of predefined test cases).
+
+Contrastingly, Sharif et al. proposed \textit{Trimmer}, a system that goes further than simple static analysis~\cite{sharif2018Trimmer}.
+It propagates the constants that are defined in program arguments and configuration files so that it can remove code that is not used in that particular execution context.
+However, their system is not particularly well suited for web applications where we remove complete features.
+
+Redini et al. utilized abstract interpretation to identify basic blocks within the code that are unused~\cite{redini2019b}. 
+They start by building the control flow graph of their target application and removing the non-connected nodes (i.e., basic blocks). 
+Mishra et al. explored ways to identify and build profiles of allowlists for system calls and the parameters passed to them~\cite{mishra2018shredder,mishra2020saffire}. 
+Their threat model includes attackers who abuse code execution exploits and limits their ability to abuse the existing code from the applications and disrupts the gadget chains. 
+
+Debloating Kernels, containers and trusted execution environments have also received the attention of researchers~\cite{abubakar2021shard,mishra2021sgxpecial}. 
+Rastogi et al. looked at debloating a container by partitioning it into smaller and more secure ones~\cite{rastogi2017Cimplifier}. They perform dynamic analysis on system-call logs to determine which components and executables are used in a container, in order to keep them. 
+Ghavamnia et al. looked at this problem from another perspective. 
+They proposed Confine, their tool generates system call profiles for containers~\cite{259711}.
+Lastly, Abubakar et al. debloated the Linux kernel~\cite{abubakar2021shard} and Mishra et al. proposed an API specialization scheme for Intel SGX APIs~\cite{mishra2021sgxpecial}.
+
+
