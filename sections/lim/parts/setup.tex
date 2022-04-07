@@ -6,7 +6,6 @@ known vulnerabilities (in the form of CVEs) for web applications, designing
 and executing tests against web applications of interest, and identifying
 the server-side code that was executed as a result of client-side actions.
 
-
 \subsection{Overview}
 The setup for our framework is depicted in
 Figure~\ref{fig:debloatingpipeline}. To debloat target applications, we first
@@ -18,6 +17,12 @@ we simulate usage of the application through a combination of different
 techniques (Step 2, Section~\ref{subsec:profiling}). Using a PHP profiler
 tool (\texttt{XDebug}), we record the lines, functions, and files, that are
 triggered during the simulation (Step 3, Section~\ref{subsec:coverage}).
+
+\begin{figure*}[t]
+  \includegraphics[width=\linewidth]{figures/lim/DebloatingPipeline.pdf}
+  \caption{Overview of the architecture of our pipeline for debloating web applications and assessing the effects of different debloating strategies.}
+  \label{fig:debloatingpipeline}
+\end{figure*}
 
 In the middle part of our pipeline, the debloating engine takes both the
 target applications and coverage information to perform debloating at
@@ -32,7 +37,7 @@ a set of tests against the debloated web applications, and verifying that
 no removed piece of code is triggered (Step 5). To this end, we
 utilize assertions in place of the removed code blocks. An absence of error
 messages from these assertions means that all tests were successfully
-completed without triggering any missing server-side code. As an final step of
+completed without triggering any missing server-side code. As a final step of
 verification, we also test the debloated applications against a series of
 exploits and verify that exploits which
 abuse any of the vulnerabilities that were removed as part of the debloating
@@ -227,7 +232,7 @@ the deleted database is no-longer shown in the list of databases). Note that
 this mapping of tutorials to Selenium scripts is yet another time-consuming
 process which, occasionally, has to be repeated for different versions of
 the same web application. One change in a form field or in a selector can
-break the complete flow of a test suite and we observed a significant number
+break the complete flow of a test suite, and we observed a significant number
 of cases with slight interface changes between two consecutive versions of
 the same application.
 
@@ -287,7 +292,7 @@ application as it can trigger paths and actions that were not anticipated by
 developers. In our case, we use such a technique to trigger additional code,
 not covered by tutorials. We observe that this approach adds breadth to the
 code coverage by reaching easy to access features. In addition, by feeding
-random key strokes into forms, monkey testing can bring the application in an
+random keystrokes into forms, monkey testing can bring the application in an
 error state thus exercising error-handling pieces of code.
 
 We rely on the stress-testing library called
@@ -457,6 +462,32 @@ when it finishes executing.
 %Every time a destructor is called, we query the XDebug engine to know if it was registered before.
 %If it was not, we start recording all executed lines and save the coverage information when it finishes executing.
 
+\begin{figure}[t]
+  \begin{lstlisting}[frame=single, caption={Code rewritten by the debloating framework to ensure correct code coverage of corner cases.},captionpos=b, label={listing:rewriting_webapps}]
+  <?php
+  register_shutdown_function("PMA_Response::resp");
+  class PMA_Response {
+    public static function resp() {
+      $buffer->flush();
+      // Prepend original call to exit:
+      collect_code_coverage();
+      exit;
+    }
+  }
+  
+  class TCPDF {
+    public function __destruct() {
+      // If called after shutdown_functions
+      // start recording code coverage
+      ...
+      // If called after shutdown_functions
+      // stop coverage
+    }
+  }
+  ?>
+  \end{lstlisting}
+\end{figure}
+
 \vspace{1ex}
 \noindent\textbf{Summary.}
 %We use prepend and register shutdown functions
@@ -472,64 +503,6 @@ added a code-coverage call before an \texttt{exit} which happens inside a shutdo
 loss due to early exits. On lines 14 and 17, we wrapped the destructor with
 code-coverage calls.
 
-
-\begin{figure}[t]
-\begin{lstlisting}[frame=single, caption={Code rewritten by the debloating framework to ensure correct code coverage of corner cases.},captionpos=b, label={listing:rewriting_webapps}]
-<?php
-register_shutdown_function("PMA_Response::resp");
-class PMA_Response {
-  public static function resp() {
-    $buffer->flush();
-    // Prepend original call to exit:
-    collect_code_coverage();
-    exit;
-  }
-}
-
-class TCPDF {
-  public function __destruct() {
-    // If called after shutdown_functions
-    // start recording code coverage
-    ...
-    // If called after shutdown_functions
-    // stop coverage
-  }
-}
-?>
-\end{lstlisting}
-\vspace{-4ex}
-\end{figure}
-
-\begin{figure*}[t]
-  \centering
-  \begin{subfigure}[b]{0.7\textwidth}
-      \includegraphics[width=\textwidth]{figures/lim/venn_legend.pdf}
-      \vspace{-5ex}
-  \end{subfigure}
-
-    \begin{subfigure}[b]{0.24\textwidth}
-        \includegraphics[width=\textwidth]{figures/lim/venn_pma.pdf}
-        \caption{\scriptsize phpMyAdmin 4.7.0}
-        \label{fig:venn_pma}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.24\textwidth}
-          \includegraphics[width=\textwidth]{figures/lim/venn_mwk.pdf}
-          \caption{\scriptsize MediaWiki 1.28.0}
-          \label{fig:venn_mwk}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.24\textwidth}
-          \includegraphics[width=\textwidth]{figures/lim/venn_mgt.pdf}
-          \caption{\scriptsize Magento 2.0.5}
-          \label{fig:venn_mgt}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.24\textwidth}
-          \includegraphics[width=\textwidth]{figures/lim/venn_wp.pdf}
-          \caption{\scriptsize WordPress 4.7.1}
-          \label{fig:venn_wp}
-    \end{subfigure}
-  \caption{Venn Diagrams showing covered files during the execution of Tutorials, Crawler, Monkey testing and Vulnerability scanner}
-  \label{fig:venncoverage}
-\end{figure*}
 
 %*****************************OLD
 %\paragraph{Gathering coverage information when all PHP code has finished executing}

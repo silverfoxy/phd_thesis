@@ -12,7 +12,7 @@ We report the performance of \sys{} and compare it to our baseline model through
 During our data collection step, we collected the code-coverage data from web application usage from 20 experts for each web application.
 We then clustered their code-coverage information into 1-20 clusters. 
 On one end, the code coverage information from all users are aggregated in a single cluster. 
-On the other end, all users have their own uniquely debloated web applications that contains only the code that they have interacted with before. 
+On the other end, all users have their own uniquely debloated web applications that contain only the code that they have interacted with before. 
 While \sys{} is capable of providing uniquely debloated web applications for each user, it is beneficial to keep the number of clusters low in order to reduce the complexity of separately maintaining $N$ applications. 
 
 \subsubsection{Characterizations of \sys{} clustering}
@@ -22,7 +22,7 @@ For the web applications in our dataset, we observe a common list of tasks that 
 For phpMyAdmin, virtually all users created new database and tables, executed SQL queries, and used the functionality of exporting and importing the database.
 Some users also renamed or modified existing databases, dropped tables, or deleted rows of data. 
 For WordPress, setting up themes and installing custom plugins, and creating new blog posts were among the commonly used features. 
-Finally for Magento, creating new products, managing product inventory, and modifying prices were the most popular features. 
+Finally, for Magento, creating new products, managing product inventory, and modifying prices were the most popular features. 
 
 \begin{figure}[t]
     \centering
@@ -34,7 +34,7 @@ Finally for Magento, creating new products, managing product inventory, and modi
 On the other hand, we observe patterns of feature usage that are unique to a subset of users. 
 Among these user-specific features we observe exporting files with specific file extensions (e.g., CSV), using filters while displaying the query results, and modifying privileges. 
 Similarly, Import/Export, modifying settings such as permalinks, RSS, and WXR are unique to certain clusters among the WordPress users. 
-Finally for Magento, sales promotions, gifts and shopping cart rules, front end content modification, and sales analytics are among the unique features. 
+Finally, for Magento, sales promotions, gifts and shopping cart rules, front end content modification, and sales analytics are among the unique features. 
 
 We incorporate this observation into our clustering via the max-document-frequency parameter in TF-IDF. 
 This way, we can ignore the common features that are used across all clusters and focus on the unique features when building the clusters. 
@@ -93,7 +93,7 @@ Moreover, we observe that \emph{all} \sys{} clusters (including the one with max
 \subsubsection{CVE Reduction}
 
 One of the metrics to model the effects of debloating on the security of applications is removal of actual vulnerabilities. 
-Historic CVEs provide a good source of information on vulnerabilities and we incorporate a mapping of CVE to source code to identify whether a debloated variant of applications includes the vulnerability or not. 
+Historic CVEs provide a good source of information on vulnerabilities, and we incorporate a mapping of CVE to source code to identify whether a debloated variant of applications includes the vulnerability or not. 
 
 One of the challenges of this approach is the availability of patch information. 
 In order to map a CVE to the vulnerable parts of the source code, we use the data that is available in the form of bug report analysis, git diffs, or security patches. 
@@ -103,7 +103,7 @@ In our user study, we focused on the latest versions of web applications, so we 
 In practice, this translates to mapping the location of a CVE to a specific function in a specific file, even if that function is currently patched. 
 The purpose of this step is to identify whether the code that contained the vulnerability would have been retained by a debloating approach because it was part of the functionality that the administrators in our user study relied upon.
 
-Some of the web applications in our dataset maintained a stable structure of their source code over time (e.g., WordPress) which makes the process of mapping CVEs from older versions to the recent one straightforward. 
+Some web applications in our dataset maintained a stable structure of their source code over time (e.g., WordPress) which makes the process of mapping CVEs from older versions to the recent one straightforward. 
 Conversely, phpMyAdmin and Magento changed drastically since their older versions (i.e., Magento version 1 vs 2) and it is not always possible to find the same PHP file/class to perform the mapping. 
 Moreover, the developers of phpMyAdmin and WordPress usually acknowledge CVEs in their patches and GitHub commits whereas for Magento, CVEs are only discussed with minimal details and the patches are released in the form of Major and Minor updates including anywhere from 500 to 4,000 modified files.
 
@@ -157,7 +157,8 @@ Another security metric that we look at is the reduction in Critical API Calls (
 Figure~\ref{fig:cac_reduction} depicts the CAC reduction trend for various clusters. 
 The first bar of each group shows the total number of CACs for the original web applications.
 Next, the Baseline bar shows the cluster that includes all users grouped together to form a single cluster. 
-Finally, the \sys{} bar refers to number of clusters optimally chosen via \sys{}'s Silhouette scores. whereas the Max Clusters bar refers to the extreme of placing each user in their own singleton cluster.
+Finally, the \sys{} bar refers to number of clusters optimally chosen via \sys{}'s Silhouette scores. 
+Whereas the Max Clusters bar refers to the extreme of placing each user in their own singleton cluster.
 %Third bar is the Optimal-Cluster where \sys{} determines the number of clusters by maximizing the average Silhouette scores. 
 %Finally, Max-Cluster denotes the scenario in which individual users receive their own custom debloated web applications. 
 
@@ -170,22 +171,23 @@ Contrasting the CAC reduction by the cluster size yields an interesting result.
 First, we observe that debloating has removed the majority of CACs from all clusters. 
 For phpMyAdmin and Magento, \sys{} reduced the number of code execution APIs by 90\%. 
 This essentially signifies that none of the users in our dataset ever interacted with the majority of these APIs. 
-Similarly, for WordPress \sys{} removed  removed 27.5\% of all code execution APIs. 
+Similarly, for WordPress \sys{} removed 27.5\% of all code execution APIs. 
 For other categories of CACs, we observe a similar trend in reduction which ranges from 80-95\% for phpMyAdmin and Magento, and an average of 40\% reduction for WordPress CACs from File system, Information disclosure, and Other categories. 
 
 \begin{table}[]
     \centering
     \caption{PHP Object Injection Gadgets statistics after debloating. Listing number of existing gadgets for Baseline and the ratio of clusters of \sys{} exposed to those gadgets.}
     \label{tab:poi_gadgets}
-    \begin{tabular}{|l|l|c|c|c|}
-    \hline
-    \textbf{Web Application}          & \textbf{Package} & \textbf{Original} & \textbf{Baseline} & \textbf{\begin{tabular}[c]{@{}l@{}}\sys{}\end{tabular}} \\ \hline
-    phpMyAdmin               & Guzzle  & 2        & 1         & 100\%              \\ \hline
-    WordPress                & Generic & 1        & 0         & 0                \\ \hline
-    \multirow{3}{*}{Magento} & Guzzle  & 3        & 2         & 83\%, 16\%       \\ \cline{2-5} 
-                             & Magento & 1        & 1         & 16\%             \\ \cline{2-5} 
-                             & Monolog & 6        & 0         & 0                \\ \hline
-    \end{tabular}
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        Web Application             & Package & Original & Baseline & DBLTR \\ \hline
+        \multirow{2}{*}{phpMyAdmin} & Symfony & 2        & 0        & 0     \\ \cline{2-5} 
+                                    & TCPDF   & 1        & 1        & 83\%  \\ \hline
+        WordPress                   & Generic & 1        & 0        & 0     \\ \hline
+        \multirow{3}{*}{Magento}    & Guzzle  & 3        & 2        & 83\%, 16\% \\ \cline{2-5} 
+                                    & Magento & 1        & 1        & 16\%  \\ \cline{2-5} 
+                                    & Monolog & 6        & 0        & 0     \\ \hline
+        \end{tabular}
 \end{table}
 
 The majority of CAC reduction occurs during the 1-Cluster baseline debloating. 
@@ -193,6 +195,25 @@ Nevertheless, smaller clusters can reduce CAC count by a further 10-40\% compare
 Therefore, from a CAC-reduction perspective, increasing the number of clusters past the Optimal-cluster size results in diminishing returns.
 
 \subsubsection{PHP Object Injection Gadget Reduction}
+
+To identify existing object injection gadgets in the applications of our dataset, we incorporate PHPGGC~\cite{PHPGGC}, an open-source project listing available gadget chains for popular composer packages. 
+After mapping the list of vulnerable package with those in phpMyAdmin, WordPress, and Magento, we search for the removal of classes and functions used within the gadget chains after debloating. 
+
+Table~\ref{tab:poi_gadgets} lists the packages in each of our web applications with a known gadget chain based on PHPGGC. 
+Under the column named ``Original'' we list the number of gadget chains within each package. 
+As before, the Baseline column lists the number of gadget chains available after debloating, whereas the \sys{} column lists the percentage of the optimal number of clusters that contain those gadgets. 
+
+The Symfony package in phpMyAdmin includes 2 known gadget chains that can lead to arbitrary file write and code execution. 
+Debloating the application into 1-Cluster (Baseline) as well as \sys{} debloating remove these gadgets. 
+For TCPDF gadget, while the baseline debloating does not remove it, \sys{} protects 17\% of the clusters from object injection exploits using this gadget. 
+For WordPress, the baseline debloating strategy removes the existing gadget therefore there are no opportunities for any additional gains by \sys{}.
+
+More interestingly, Magento contains 10 known gadget chains. 
+For Magento's Guzzle package, we observe that while 2 gadgets are still present in the Baseline debloating, (5/6) 83\% of clusters contain one gadget chain while only 16\% contain the other. 
+For the gadget chain within the Magento package itself, only 16\% of clusters produced by the \sys{} contain this gadget. 
+
+Our results confirm the findings of previous work that debloating is a highly effective defense for removing publicly known object injection gadget chains. 
+Moreover, we observe that by clustering users into multiple groups, we can further breakdown the availability of gadgets and in certain cases, protect as much as 83\% of users and clusters against exploitation of an object injection vulnerability.
 
 \begin{table*}[]
     \centering
@@ -211,33 +232,15 @@ Therefore, from a CAC-reduction perspective, increasing the number of clusters p
     }
 \end{table*}
 
-To identify existing object injection gadgets in the applications of our dataset, we incorporate PHPGGC~\cite{PHPGGC}, an open-source project listing available gadget chains for popular composer packages. 
-After mapping the list of vulnerable package with those in phpMyAdmin, WordPress, and Magento, we search for the removal of classes and functions used within the gadget chains after debloating. 
-
-Table~\ref{tab:poi_gadgets} lists the packages in each of our web applications with a known gadget chain based on PHPGGC. 
-Under the column named ``Original'' we list the number of gadget chains within each package. 
-As before, the Baseline column lists the number of gadget chains available after debloating, whereas the \sys{} column lists the percentage of the optimal number of clusters that contain those gadgets. 
-
-The Guzzle package in phpMyAdmin includes 2 known gadget chains that can lead to arbitrary file write and code execution. 
-Debloating the application into 1-Cluster (Baseline) removes one of these gadgets but the other gadget remains present across all clusters. 
-For WordPress, the baseline debloating strategy removes the existing gadget therefore there are no opportunities for any additional gains by \sys{}.
-
-More interestingly, Magento contains 10 known gadget chains. 
-For Magento's Guzzle package, we observe that while 2 gadgets are still present in the Baseline debloating, (5/6) 83\% of clusters contain one gadget chain while only 16\% contain the other. 
-For the gadget chain within the Magento package itself, only 16\% of clusters produced by the \sys{} contain this gadget. 
-
-Our results confirm the findings of previous work that debloating is a highly effective defense for removing publicly known object injection gadget chains. 
-Moreover, we observe that by clustering users into multiple groups, we can further breakdown the availability of gadgets and in certain cases, protect as much as 83\% of users and clusters against exploitation of an object injection vulnerability.
-
 \subsection{Contribution of individual users to the overall code-coverage of clusters}
 \label{sec:augmented_coverage}
 
 Dynamic code-coverage data precisely models how users interact with web applications. 
 One of the limitations of this modeling is that it overlooks the use cases that it has not seen before. 
 As an example in our dataset, we observed that certain users executed queries that resulted only in a few rows. 
-Therefore, some of the functions of the ``Display Results'' class of phpMyAdmin relating to pagination of results were never invoked. 
+Therefore, some of the functions within the ``Display Results'' class of phpMyAdmin relating to pagination of results were never invoked. 
 Meanwhile, other users with very similar usage behavior that ended up in the same cluster executed queries that exercised the pagination functions. 
-As a result, all users within this cluster would retain this functionality and can run queries that result in a large number of rows.
+As a result, all users within this cluster would retain this functionality and can run queries that result in numerous rows.
 In such scenarios, the clustering expands the available features for users with similar usage patterns. 
 
 To quantify this effect, we look at the contribution of individual users in the cluster compared to the overall cluster code-coverage. 
@@ -288,12 +291,12 @@ This setup simulates the work load for a website with 192,000 daily page views r
 We run each test for five minutes and repeat the tests five times and report the average statistics and remove the outliers. 
 
 For the server setup, our web server hosts a WordPress website and we run each configuration in a containerized environment. 
-We run our webservers on a server with 32GBs of RAM, and 32 Cores Intel Xeon E5-2440 CPUs running . 
+We run our web servers on a server with 32GBs of RAM, and 32 Cores Intel Xeon E5-2440 v2 CPUs running Ubuntu 18.04 LTS. 
 We test the following setups:
 
 \begin{itemize}
-    \item \textbf{Single web server (Apache)} consists of one Apache webserver without a reverse-proxy. 
-    \item \textbf{Baseline} is made up of an OpenResty reverse proxy and one Apache webserver. This setup serves as our baseline. 
+    \item \textbf{Single web server (Apache)} consists of one Apache web server without a reverse-proxy. 
+    \item \textbf{Baseline} is made up of an OpenResty reverse proxy and one Apache web server. This setup serves as our baseline. 
     \item \textbf{\sys{} setups} expand the baseline setup by including the \sys{} modules and consist of one reverse-proxy and 1-50 Apache web servers. Each web server is responsible for the debloated web application for a specific role. This way, we measure the effect of the number of roles on the request response times. Under this setup, each client is assigned to one role in a round-robin fashion.
 \end{itemize}
 
@@ -314,7 +317,7 @@ Moreover, a higher number of roles reduces the variance in the response times, a
 \subsubsection{Resource Utilization}
 We measured the CPU and memory utilization of our test setup using the Docker runtime metrics API. 
 Table~\ref{tab:performance} reports the resource usage statistics for the web servers and content-delivery (i.e., reverse-proxy) modules. 
-Overall, the content-delivery module both in baseline and \sys{} setups utilizes 5-6\% of CPU and less than 20MiB of RAM which is very small compared to the amount of resources utilized by the web server. 
+Overall, the content-delivery module both in baseline and \sys{} setups utilizes 5-6\% of CPU and less than 20~MiB of RAM which is very small compared to the amount of resources utilized by the web server. 
 Moreover, across all setups, the CPU utilization of the web server modules remains constant. 
 At the same time, increasing the number of roles in \sys{} which results in an increase in the number of web servers results in a linear increase in the overall memory utilization. 
 During our tests, we observed a 5x increase in overall memory usage of \sys's web servers when increasing the number of roles by an order of 50x. 
@@ -323,7 +326,7 @@ During our tests, we observed a 5x increase in overall memory usage of \sys's we
 As a result, the disk utilization overhead of \sys{} is proportional to the number of roles. 
 While shrinking the disk utilization of \sys{} is not a main goal, by definition, the debloating process removes unused lines of code. 
 Overall, debloated web applications occupy 5-10\% less disk space. 
-While this reduction may be insignificant for smaller web applications, for larger ones such as Magento, debloated web applications on average occupy 100MB less disk space. 
+While this reduction may be insignificant for smaller web applications, for larger ones such as Magento, debloated web applications on average occupy 100~MB less disk space. 
 
 
 \begin{table}[]
@@ -334,11 +337,11 @@ While this reduction may be insignificant for smaller web applications, for larg
     \begin{tabular}{|l|l|l|l|}
     \hline
     \textbf{Setup}                    & \textbf{Module}  & \textbf{Avg CPU} & \textbf{Avg Memory (MiB)} \\ \hline
-    Apache                            & Web Server       & 3117\%              & 2378                            \\ \hline
+    Apache                            & Web Server       & 3,117\%              & 2,378                            \\ \hline
     \multirow{2}{*}{Baseline}         & Content-Delivery & 6\%                 & 17                           \\ \cline{2-4} 
-                                      & Web Server       & 3057\%              & 2332                         \\ \hline
+                                      & Web Server       & 3057\%              & 2,332                         \\ \hline
     \multirow{2}{*}{\textit{DBLTR N}} & Content-Delivery & 6\%                 & 19                           \\ \cline{2-4} 
-                                      & Web Servers      & 2905-3072\%      & 2179-10374                \\ \hline
+                                      & Web Servers      & 2,905-3,072\%      & 2,179-10,374                \\ \hline
     \end{tabular}
     }
 \end{table}

@@ -1,5 +1,12 @@
 \section{Experimental Design}
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[]{figures/dbltr/EnvironmentPreparation.pdf}
+    \caption{During the training phase, we collect user interaction code coverage traces to generate clusters. Based on these clusters, specialized debloated copies of web applications are produced for each cluster.}
+    \label{fig:environment_preparation}
+\end{figure}
+
 In this section we lay the foundations and discuss the design decisions of our system. 
 First we present the details of our user study and data collection. 
 We then introduce the design concepts behind \sys{}, our automated pipeline for clustering users into debloating sets and assigning each set to a differently-debloated web application.
@@ -15,13 +22,6 @@ We specifically interviewed candidates who mentioned phpMyAdmin, WordPress, or M
 The main goal of this user study is to understand which features in the web applications in our dataset are commonly used among developers and administrators, and which features are relatively unpopular, used by only a fraction of administrators.
 
 \subsubsection{User Study Tasks}
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[]{figures/dbltr/EnvironmentPreparation.pdf}
-    \caption{During the training phase, we collect user interaction code coverage traces to generate clusters. Based on these clusters, specialized debloated copies of web applications are produced for each cluster.}
-    \label{fig:environment_preparation}
-\end{figure}
 
 \begin{figure*}[h]
     \centering
@@ -66,7 +66,7 @@ To facilitate the setup of web applications for our user study participants, we 
 Each participant received their own instance with the admin credentials on a unique subdomain. 
 We re-create the same environment as ``Less is More'' to collect the usage traces from user interactions in the form of file and line coverage information. 
 
-Through out this user study, we interviewed over 110 individuals, some of whom decided not to participate in our study due to reasons such as non-recurring and short-term nature of our tasks, their busy schedule, etc.
+Throughout this user study, we interviewed over 110 individuals, some of whom decided not to participate in our study due to reasons such as non-recurring and short-term nature of our tasks, their busy schedule, etc.
 Overall, we spent numerous weeks interviewing our participants and following up with them to ensure the timely delivery of their tasks. The cost of this experiment was approximately \$1,000, most of which was used to pay the administrators in our user study and the remainder to pay for domain names and the hosting of virtual machines on public clouds.
 
 \subsection{Debloating Pipeline}
@@ -84,7 +84,7 @@ In this scenario, by providing the ability to install new plugins to the first g
 
 For certain web applications, their role-based, access-control mechanisms can limit, to a certain extent, unnecessary capabilities.
 Unfortunately many PHP applications that provide administrative features lack this ability (e.g., phpMyAdmin). 
-Moreover, the provided roles do not always match the real-world requirements of users. For instance, WordPress comes with only 6 hardcoded roles ranging from Super Admin to Subscriber. 
+Moreover, the provided roles do not always match the real-world requirements of users. For instance, WordPress comes with only 6 hard-coded roles ranging from Super Admin to Subscriber. 
 The benefit of our approach is that we dynamically identify the required web application features based on runtime traces. 
 
 This effect is most significant when applications do not provide fine-grained permission management. 

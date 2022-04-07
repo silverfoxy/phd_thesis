@@ -1,6 +1,6 @@
 \section{Discussion}
 
-In this section we review the important takeaways of our work, and then discuss some of the limitations of our approach.
+In this section we review the important takeaways of our work, and then discuss the limitations of our approach.
 
 \subsection{Main Takeaways}
 
@@ -36,7 +36,7 @@ As depicted in Figure~\ref{fig:system_architecture}, \sys{} routes unauthenticat
 This profile includes the code for user authentication as well as any other code required for public unauthenticated users. 
 
 For administrative applications that are behind an authentication wall, producing a public profile is straightforward. 
-In the example of phpMyAdmin, we only need to perform successful and failed login attempts to generated the baseline code-coverage and debloat the application to produce the public debloated profile. 
+In the example of phpMyAdmin, we only need to perform successful and failed login attempts to generate the baseline code-coverage and debloat the application to produce the public debloated profile. 
 For other applications such as WordPress and Magento, this step is more involved. 
 We need to retain the features that are available to public users. 
 Therefore, we need to record the code-coverage of unauthenticated users with benign activity. 
@@ -54,4 +54,4 @@ For major version changes that include drastic changes to the architecture of th
 \noindent\textbf{Number of users of the web applications:} 
 In our user study, we hired a total of 60 participants (20 participants for each web application). 
 While most websites are operated by a small number of administrators, there clearly exist web applications (such as popular social networks) with billions of users and thousands of administrators. 
-Understanding how \sys{} could be used in such an environment requires the collaboration of a global web application and we therefore leave it for future work.
+Understanding how \sys{} could be used in such an environment requires the collaboration of a global web application operator, and we therefore leave it for future work.

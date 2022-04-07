@@ -9,7 +9,37 @@ a closer look at the bloat introduced by external packages along with the
 security implications that come with using this specific development practice.
 Finally, we look at what has effectively been removed in debloated applications and test a number of exploits against the original and debloated versions of the evaluated web applications.
 % we use clustering to find which parts of the application are more affected by debloating.
+  
+\begin{figure*}[t]
+  \centering
+  \begin{subfigure}[b]{0.7\textwidth}
+      \includegraphics[width=\textwidth]{figures/lim/venn_legend.pdf}
+      \vspace{-5ex}
+  \end{subfigure}
 
+    \begin{subfigure}[b]{0.24\textwidth}
+        \includegraphics[width=\textwidth]{figures/lim/venn_pma.pdf}
+        \caption{\scriptsize phpMyAdmin 4.7.0}
+        \label{fig:venn_pma}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+          \includegraphics[width=\textwidth]{figures/lim/venn_mwk.pdf}
+          \caption{\scriptsize MediaWiki 1.28.0}
+          \label{fig:venn_mwk}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+          \includegraphics[width=\textwidth]{figures/lim/venn_mgt.pdf}
+          \caption{\scriptsize Magento 2.0.5}
+          \label{fig:venn_mgt}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+          \includegraphics[width=\textwidth]{figures/lim/venn_wp.pdf}
+          \caption{\scriptsize WordPress 4.7.1}
+          \label{fig:venn_wp}
+    \end{subfigure}
+  \caption{Venn Diagrams showing covered files during the execution of Tutorials, Crawler, Monkey testing and Vulnerability scanner}
+  \label{fig:venncoverage}
+\end{figure*}
 
 %Property Oriented Programing (POP) is an exploitation technique in PHP which works similar to ROP (Return Oriented %Programming) and is used to exploit POI vulnerabilities. In this technique, the attacker creates exploit gadgets from %available code in the applications. Each object within the chain performs malicious actions or prepares the environment for %execution of next object in the chain upon deserialization. Dahse et al. have studied automatic generation of such gadget %chains in \cite{Dahse:2014:CRA:2660267.2660363}.
 
@@ -26,7 +56,7 @@ insights into what has actually been removed during the debloating process.
 
 \subsubsection{Logical lines of code}
 \label{subsubsec:lloc}
-The size of a program positively correlates with the number of programming errors (i.e., bugs). According to McConnel~\cite{mcconnell2004code}, the industry average, at least in 2004, was to have between 1 and 25 bugs for every one thousands lines of code. Given the importance of the size of an application to its overall security, we start by estimating the reduction of the attack surface by looking at the
+The size of a program positively correlates with the number of programming errors (i.e., bugs). According to McConnel~\cite{mcconnell2004code}, the industry average, at least in 2004, was to have between 1 and 25 bugs for every one thousand lines of code. Given the importance of the size of an application to its overall security, we start by estimating the reduction of the attack surface by looking at the
 Logical Lines Of Code (LLOC, sometimes also called Effective Lines Of
 Code). LLOC is intended to measure lines of code without comments, empty
 lines and syntactic structure required by the programming language. LLOC
@@ -111,26 +141,6 @@ more suited to all kinds of web applications as shown earlier through LLOC
 reduction achieved via function-level debloating.
 
 
-\begin{table}[t]
-\caption{Number of CVEs removed after application debloating}
-\centering
-\scalebox{0.72}{
-\begin{tabular}{|c|l|l|l|l|l|}
-\hline
-\multicolumn{1}{|l|}{\textbf{Application}} & \textbf{Strategy}   & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Total}\\ \textbf{Removed CVEs}\end{tabular}} & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Removed}\\ \textbf{Exploitable CVEs}\end{tabular}} \\ \hline
-\multirow{2}{*}{phpMyAdmin}       & File Debloating     & 4/20                                    & 20 \%                                   & 3/19                                      & 15.7 \%                                     \\ \cline{2-6}
-                                  & Function Debloating & 12/20                                   & 60 \%                                   & 11/19                                     & 57.8 \%                                     \\ \hline
-\multirow{2}{*}{MediaWiki}        & File Debloating     & 8/21                                    & 38 \%                                   & 3/16                                      & 18.7 \%                                     \\ \cline{2-6}
-                                  & Function Debloating & 10/21                                   & 47.6 \%                                 & 5/16                                      & 31.2 \%                                     \\ \hline
-\multirow{2}{*}{WordPress}        & File Debloating     & 0/20                                    & 0 \%                                    & 0/20                                      & 0 \%                                        \\ \cline{2-6}
-                                  & Function Debloating & 2/20                                    & 10 \%                                   & 2/20                                      & 10 \%                                       \\ \hline
-\multirow{2}{*}{Magento}          & File Debloating     & 1/8                                     & 12.5 \%                                 & 1/8                                       & 12.5 \%                                     \\ \cline{2-6}
-                                  & Function Debloating & 3/8                                     & 37.5 \%                                 & 3/8                                       & 37.5 \%                                     \\ \hline
-\end{tabular}
-}
-\label{table:debloatingcvesresults}
-\end{table}
-
 \subsection{Analysis of CVEs}
 In this section, we investigate the number of removed CVEs after debloating
 along with the effects of debloating on different vulnerability categories.
@@ -145,6 +155,25 @@ code associated with them. However, if some vulnerabilities reside in parts
 of a web application that are not commonly used, the process of debloating
 can effectively remove them.
 
+\begin{table}[t]
+  \caption{Number of CVEs removed after application debloating}
+  \centering
+  \scalebox{0.72}{
+  \begin{tabular}{|c|l|l|l|l|l|}
+  \hline
+  \multicolumn{1}{|l|}{\textbf{Application}} & \textbf{Strategy}   & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Total}\\ \textbf{Removed CVEs}\end{tabular}} & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Removed}\\ \textbf{Exploitable CVEs}\end{tabular}} \\ \hline
+  \multirow{2}{*}{phpMyAdmin}       & File Debloating     & 4/20                                    & 20 \%                                   & 3/19                                      & 15.7 \%                                     \\ \cline{2-6}
+                                    & Function Debloating & 12/20                                   & 60 \%                                   & 11/19                                     & 57.8 \%                                     \\ \hline
+  \multirow{2}{*}{MediaWiki}        & File Debloating     & 8/21                                    & 38 \%                                   & 3/16                                      & 18.7 \%                                     \\ \cline{2-6}
+                                    & Function Debloating & 10/21                                   & 47.6 \%                                 & 5/16                                      & 31.2 \%                                     \\ \hline
+  \multirow{2}{*}{WordPress}        & File Debloating     & 0/20                                    & 0 \%                                    & 0/20                                      & 0 \%                                        \\ \cline{2-6}
+                                    & Function Debloating & 2/20                                    & 10 \%                                   & 2/20                                      & 10 \%                                       \\ \hline
+  \multirow{2}{*}{Magento}          & File Debloating     & 1/8                                     & 12.5 \%                                 & 1/8                                       & 12.5 \%                                     \\ \cline{2-6}
+                                    & Function Debloating & 3/8                                     & 37.5 \%                                 & 3/8                                       & 37.5 \%                                     \\ \hline
+  \end{tabular}
+  }
+  \label{table:debloatingcvesresults}
+  \end{table}
 
 Table~\ref{table:debloatingcvesresults} compares the effectiveness of
 debloating strategies by listing the fractions of removed CVEs. We consider
@@ -218,23 +247,6 @@ ZIP extension while importing data (CVE-2016-6633), and the abilities
 to copy table definitions (CVE-2013-3238) and perform Regex search and replace over table columns
 (CVE-2016-5734).
 
-\begin{table*}[t]
-\caption{Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.}
-\centering
-\scalebox{0.5}{
-\begin{tabular}{c|c|c|c|c|c|c|c|c|c|}
-\cline{2-10}
- & \multicolumn{3}{c|}{\textbf{Before debloating}} & \multicolumn{6}{c|}{\textbf{After function-level debloating}} \\ \hline
-\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Application}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely}\\\textit{removed}\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages where a given \%}\\\textit{lines were removed}\end{tabular}} \\ \cline{8-10}
-\multicolumn{1}{|c|}{} &  &  &  &  &  &  & \textgreater{}\textit{70\%} & \begin{tabular}[c]{@{}c@{}}\textless{}\textit{70\% and}\\ \textgreater{}\textit{30\%}\end{tabular} & \textless{}\textit{30\%}\\ \hline
-\multicolumn{1}{|c|}{phpMyAdmin 4.7.0} & 35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%) & 2 & 1  & 4  \\ \hline
-\multicolumn{1}{|c|}{MediaWiki 1.28.0} & 133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%) & 2 & 2  & 12 \\ \hline
-\multicolumn{1}{|c|}{Magento 2.0.5}    & 396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%) & 6 & 5  & 2  \\ \hline
-\end{tabular}
-}
-\label{table:numberofpackages}
-\end{table*}
-
 
 Contrastingly, the three cryptography-related vulnerabilities we analyzed are
 still present in the debloated versions of web applications. One of the CVEs
@@ -250,14 +262,29 @@ are a core part of web applications and thus unlikely to be removed through
 the process of debloating.
 
 
-
-
 \subsection{External packages}
 \label{subsec:external}
 
+\begin{table*}[t]
+  \caption{Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.}
+  \centering
+  \scalebox{0.52}{
+  \begin{tabular}{c|c|c|c|c|c|c|c|c|c|}
+  \cline{2-10}
+   & \multicolumn{3}{c|}{\textbf{Before debloating}} & \multicolumn{6}{c|}{\textbf{After function-level debloating}} \\ \hline
+  \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Application}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely}\\\textit{removed}\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages where a given \%}\\\textit{lines were removed}\end{tabular}} \\ \cline{8-10}
+  \multicolumn{1}{|c|}{} &  &  &  &  &  &  & \textgreater{}\textit{70\%} & \begin{tabular}[c]{@{}c@{}}\textless{}\textit{70\% and}\\ \textgreater{}\textit{30\%}\end{tabular} & \textless{}\textit{30\%}\\ \hline
+  \multicolumn{1}{|c|}{phpMyAdmin 4.7.0} & 35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%) & 2 & 1  & 4  \\ \hline
+  \multicolumn{1}{|c|}{MediaWiki 1.28.0} & 133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%) & 2 & 2  & 12 \\ \hline
+  \multicolumn{1}{|c|}{Magento 2.0.5}    & 396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%) & 6 & 5  & 2  \\ \hline
+  \end{tabular}
+  }
+  \label{table:numberofpackages}
+  \end{table*}
+
 \subsubsection{Quantifying the bloat from external packages}
 
-In our testbed, phpMyAdmin v.4.7.0, MediaWiki v.1.28.0 and Magento v.2.0.5 rely
+In our test bed, phpMyAdmin v.4.7.0, MediaWiki v.1.28.0 and Magento v.2.0.5 rely
 on external dependencies that can be downloaded via Composer (WordPress does not rely on external packages). As described in
 Section~\ref{sec:background}, Composer is a package manager for PHP (similar
 to the NPM manager for NodeJS applications) which allows web applications
@@ -645,13 +672,6 @@ applications. The worst overhead is observed when evaluating WordPress with
 an increase of 4.3\% of the total device memory (16GB), i.e., an additional
 700MB of RAM.
 
-\begin{figure}[t]
-  \includegraphics[width=\linewidth]{figures/lim/cpu.pdf}
-  \caption{Measurement of the CPU consumption for the tested web
-  applications. 100\% corresponds to the use of a single CPU core.}
-  \label{fig:cpu}
-\end{figure}
-
 Even though our results show that the overall overhead is substantial, it is
 important to note that this overhead is not the overhead of the debloated
 web applications. Debloated web applications do not require code-coverage
@@ -667,3 +687,10 @@ overloads 43 opcodes to obtain line-level code-coverage information that
 is more fine-grained than required by our debloating techniques and incurs
 an unnecessary performance overhead~\cite{xdebug-performance2}. We leave
 the development and evaluation of faster code profilers for future work.
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{figures/lim/cpu.pdf}
+  \caption{Measurement of the CPU consumption for the tested web
+  applications. 100\% corresponds to the use of a single CPU core.}
+  \label{fig:cpu}
+\end{figure}

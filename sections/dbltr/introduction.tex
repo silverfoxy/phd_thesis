@@ -31,11 +31,11 @@ In such schemes, all users of the web application regardless of their role and a
 In other words, existing debloating systems produce only one copy of a debloated application to serve all public and authenticated users. 
 One may be hopeful that the authentication and access hierarchy within the web applications would prevent access to critical features for untrusted users, yet
 this assumption is critically flawed. 
-First, not all popular web applications provide fine grained access control (e.g., phpMyAdmin), and for those that provide access control (e.g., WordPress), the predefined list of available roles may not match the behavioral patterns of users, which can lead to over-authorization. 
+First, not all popular web applications provide fine-grained access control (e.g., phpMyAdmin), and for those that provide access control (e.g., WordPress), the predefined list of available roles may not match the behavioral patterns of users, which can lead to over-authorization. 
 
 Furthermore, access-control flaws where users have access to features that they should not have access to, are commonly found even in popular platforms~\cite{dalton2009nemesis,doupe2011fear}. 
 Among other examples, attackers have been able to directly invoke privileged vulnerable modules, which allowed them to fully bypass the authentication and authorization of the main application~\cite{wpfilemanager}. 
-Finally, while its not the main objective of \sys{}, restricting privileged users to well-defined sets of operations can thwart potential insider attacks.
+Finally, while it is not the main objective of \sys{}, restricting privileged users to well-defined sets of operations can thwart potential insider attacks.
 
 To address the limitations of prior web-application debloating systems
 we propose \sys{}, an automatic role-based debloating pipeline that identifies clusters of similar usage patterns among users which can be considered equivalent to an access-control role. 

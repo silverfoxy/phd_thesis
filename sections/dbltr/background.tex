@@ -1,15 +1,15 @@
 \section{Background}
 
+In this section, we review the topics that will be used as building blocks for the remainder of the paper. 
+First, we discuss the details of debloating web applications based on dynamic code-coverage traces. 
+Then, we review several source code metrics that can be used to measure the effectiveness of debloating from the perspective of attack surface reduction.
+
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.75\columnwidth]{figures/dbltr/file_vs_function_debloating.drawio.pdf}
     \caption{File vs Function level debloating based on dynamic code-coverage traces. Root of each AST denotes the entry point of the underlying PHP file. Second layer nodes denote functions, and the leaves are statements inside functions.}
     \label{fig:file_vs_func_debloating}
 \end{figure}
-
-In this section, we review the topics that will be used as building blocks for the remainder of the paper. 
-First, we discuss the details of debloating web applications based on dynamic code-coverage traces. 
-Then, we review several source code metrics that can be used to measure the effectiveness of debloating from the perspective of attack surface reduction.
 
 \subsection{Debloating based on dynamic usage traces}
 Debloating based on dynamic traces for web applications was first introduced by the work of Amin Azad et al.~\cite{lessismore}. 
@@ -18,8 +18,8 @@ Figure~\ref{fig:file_vs_func_debloating} represents the two debloating approache
 Based on this code-coverage information (Step 1 in Figure~\ref{fig:file_vs_func_debloating}) ``Less is More'' identifies unused nodes in the Abstract Syntax Tree (AST). 
 
 The authors discussed two debloating strategies, file-level and function-level debloating. 
-In the first approach, file debloating only removes the whole AST of a file, if none if its underlying statements are ever exercised based on the dynamic usage traces. 
-Conversely, function debloating analysis is more fine grained and can remove sub-graphs of the AST if it identifies a function with no code-coverage, and therefore, can produce smaller applications with fewer vulnerabilities. 
+In the first approach, file debloating only removes the whole AST of a file, if none of its underlying statements are ever exercised based on the dynamic usage traces. 
+Conversely, function debloating analysis is more fine-grained and can remove sub-graphs of the AST if it identifies a function with no code-coverage, and therefore, can produce smaller applications with fewer vulnerabilities. 
 
 %Nick: these two sentences seem to do more harm than good. Commenting out for now...
 %

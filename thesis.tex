@@ -64,9 +64,9 @@
 \hyphenation{put words here which LaTeX does not hy-phen-ate pro-per-ly}
 
 \author{Babak Amin Azad}%
-\title{Protecting web applications through software debloating}%
+\title{Protecting Web Applications Through Software Debloating}%
 
-\month{March}
+\month{April}
 \year{2022}%
 \program{Computer Science}%
 \director{Dominik~A.~Schneble}{Professor, Yang Institute of Theoretical Physics}%
@@ -78,6 +78,9 @@
 \outmember{Name of Outside Member}{Position}{Institution}%
 \dean{Eric Wertheimer}%
 
+\widowpenalty10000
+\clubpenalty10000
+
 \begin{document}
 
 \singlespacing %
@@ -85,13 +88,13 @@
 \maketitle %
 % \makeapproval %
 
-\section*{abstract}
+\section*{Abstract}
 \input{sections/abstract}
 % \end{abstract}
 \tableofcontents %
 \listoffigures %
 %
-%\listoftables %
+\listoftables %
 %
 % \begin{acknowledgements}
 %     \input{sections/acknowledgements}
@@ -104,7 +107,7 @@
 \include{sections/chapter_three_lim}
 \include{sections/chapter_four_dbltr}
 \include{sections/chapter_five_ad}
-% \include{sections/chapter_conclusion}
+\include{sections/chapter_six_conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{unsrtnat}
 \renewcommand{\baselinestretch}{1}
@@ -120,6 +123,8 @@
 \newpage
 
 \appendix
+\include{sections/lim/parts/appendices}
+\include{sections/dbltr/appendix}
 % \include{sections/appendixSdkr}
 %\include{sections/appendixNOON}
 
