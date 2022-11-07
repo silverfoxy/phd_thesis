@@ -1,0 +1,45 @@
+\section{Introduction}
+
+Web applications and web APIs are the main interface of users with online services. 
+WordPress, the blogging platform written in PHP, single-handedly accounts for over 60 million deployments~\cite{wpstatsbuildwith} and 43\% of all websites~\cite{wpstatsw3techs}. 
+Therefore, protecting these online platforms against harm by proactively identifying security vulnerabilities and integrating attack surface reduction mechanisms offers protection to a large user base. 
+
+Modern software aims to be flexible by offering support for various features such as authentication APIs (e.g., built-in authentication and oauth), as well as database adapters (e.g., MySQL vs MongoDB). 
+This added flexibility through first party modules and third party dependencies comes at the price of code bloat. 
+Code bloat refers to parts of the source code in an application that serve no purpose for their users. 
+In the realm of binary applications, researchers focused on identification and removal of unnecessary modules which are often used in code-reuse attacks~\cite{redini2019b, quach2018debloating, 255308}. 
+
+Conversely, code-reuse attacks in web applications only account for a subset of niche vulnerabilities (i.e., object injection attacks). 
+In reality, common web application vulnerabilities such as XSS and SQL injection, and those rooted in misconfigurations, reside in reachable parts of the code. 
+At the same time, vulnerable functions in web applications often reside in features that are unnecessary for the majority of the users of the applications~\cite{azad2019less}. 
+Therefore, web application debloating mechanisms have historically focused on removing live code that is deemed unused under specific workloads. 
+
+For instance, Amin Azad et al. designed Less is More (LIM), a dynamic debloating system for web applications~\cite{azad2019less}. 
+By running a set of user-mimicking automated tests during the training phase, LIM collects dynamic code-coverage information and removes unused files and functions from web applications. 
+
+Due to the prevalence of dynamic code constructs in web development languages (e.g., PHP, Node.js and Python), end-to-end static analysis is so challenging such that even the state-of-the-art static analysis tools reach an unsupported code structure after analyzing 20 lines of code on average~\cite{altestability}. 
+While this limitation is alleviated by localized and context-specific analysis in the realm of vulnerability discovery, debloating requires sound resolution for dynamic code structures (e.g., dynamic file inclusion, functions calls, etc.). 
+Failure to resolve dynamic code structures results in removal of necessary features, and therefore, can lead to breakage when interacting with the debloated web applications.
+
+Recognizing this gap between the scalability of dynamic debloating due to runtime instrumentation overhead and accuracy of static analysis due to over-generalizations, we devised a hybrid approach using concolic execution to perform a reachability analysis on target web applications, which we later use to debloat them. 
+In this approach, we mark specific sources of information as symbolic (e.g., user controlled values) and the analysis generalizes for all possible values of these parameters. 
+The concolic aspect of this analysis consists of transitions of the execution from parameters with symbolic values to concrete values when required. 
+
+We developed \animatedead{}, a distributed analysis system which contains a PHP emulator capable of concolic execution. 
+The main contribution of our concolic execution system is its ability to perform end-to-end program analysis. 
+Our generic concolic execution engine can be employed for vulnerability assessment, code analysis, and as we discuss in this paper, for software debloating. 
+
+In this paper, we focused on using \animatedead{} to perform a module reachability analysis for target web applications given their entry points, and use this information to debloat unused modules. 
+This approach benefits from the abstractions of user-provided parameters and an abstract database and network, which results in debloated web applications that retain \emph{all} the code responsible for the exercised entry points from the logs. 
+This is in contrast with dynamic debloating schemes that suffer from lack of generalizability, since they only retain the \emph{exact} code paths that were exercised during training, which is biased towards successful actions and overlooks less common yet critical features (e.g., error handlers). 
+
+We show that \animatedead{} is capable of analyzing popular PHP applications (i.e., phpMyAdmin, WordPress, HotCRP, and FluxBB). 
+We use the resulting code-coverage of our analysis to debloat web applications and show that by using concolic execution, we can produce debloated web applications that are 25-69\% smaller than their original versions, contain 55\% fewer calls to critical PHP APIs on average, and are exposed to 35-65\% fewer historic CVEs in our dataset, all while maintaining their required functionality. 
+In this paper, we make the following contributions:
+
+\begin{itemize}
+    \item We develop and test a feature-complete concolic PHP emulator that supports PHP 5.x and PHP 7.x instructions and is capable of analyzing web applications with abstract inputs and environments.
+    \item We use the existing web server log files to extract web application entry points with virtually zero extra overhead, and incorporate them in \animatedead{} to perform a reachability analysis. 
+    \item We debloat popular PHP applications and demonstrate the performance of \animatedead{} in improving crucial security metrics such as reducing the size of target web applications and removing historic CVEs. 
+    We show that the performance of concolic execution is comparable to dynamic debloating with the added benefits such as offline analysis (no runtime instrumentation overhead) and generalizable debloating (retaining all accessible functions from each entry point).
+\end{itemize}
