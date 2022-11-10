@@ -158,7 +158,7 @@ can effectively remove them.
 \begin{table}[t]
   \caption{Number of CVEs removed after application debloating}
   \centering
-  \scalebox{0.72}{
+  \adjustbox{max width=\linewidth}{
   \begin{tabular}{|c|l|l|l|l|l|}
   \hline
   \multicolumn{1}{|l|}{\textbf{Application}} & \textbf{Strategy}   & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Total}\\ \textbf{Removed CVEs}\end{tabular}} & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Removed}\\ \textbf{Exploitable CVEs}\end{tabular}} \\ \hline
@@ -268,19 +268,35 @@ the process of debloating.
 \begin{table*}[t]
   \caption{Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.}
   \centering
-  \scalebox{0.52}{
-  \begin{tabular}{c|c|c|c|c|c|c|c|c|c|}
-  \cline{2-10}
-   & \multicolumn{3}{c|}{\textbf{Before debloating}} & \multicolumn{6}{c|}{\textbf{After function-level debloating}} \\ \hline
-  \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Application}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely}\\\textit{removed}\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages where a given \%}\\\textit{lines were removed}\end{tabular}} \\ \cline{8-10}
-  \multicolumn{1}{|c|}{} &  &  &  &  &  &  & \textgreater{}\textit{70\%} & \begin{tabular}[c]{@{}c@{}}\textless{}\textit{70\% and}\\ \textgreater{}\textit{30\%}\end{tabular} & \textless{}\textit{30\%}\\ \hline
-  \multicolumn{1}{|c|}{phpMyAdmin 4.7.0} & 35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%) & 2 & 1  & 4  \\ \hline
-  \multicolumn{1}{|c|}{MediaWiki 1.28.0} & 133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%) & 2 & 2  & 12 \\ \hline
-  \multicolumn{1}{|c|}{Magento 2.0.5}    & 396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%) & 6 & 5  & 2  \\ \hline
+  \adjustbox{max width=\linewidth}{
+  \begin{tabular}{c|c|c|c|c|c|c|}
+  \cline{2-7}
+   & \multicolumn{3}{c|}{\textbf{Before debloating}} & \multicolumn{3}{c|}{\textbf{After function-level debloating}} \\ \hline
+  \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Application}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely}\\\textit{removed}\end{tabular}} \\ \hline
+  \multicolumn{1}{|c|}{phpMyAdmin 4.7.0} & 35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%)  \\ \hline
+  \multicolumn{1}{|c|}{MediaWiki 1.28.0}   & 133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%)  \\ \hline
+  \multicolumn{1}{|c|}{Magento 2.0.5}      & 396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%)  \\ \hline
   \end{tabular}
   }
-  \label{table:numberofpackages}
-  \end{table*}
+\label{table:numberofpackages}
+\end{table*}
+
+% \begin{table*}[t]
+%   \caption{Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.}
+%   \centering
+%   \scalebox{0.52}{
+%   \begin{tabular}{c|c|c|c|c|c|c|c|c|c|}
+%   \cline{2-10}
+%    & \multicolumn{3}{c|}{\textbf{Before debloating}} & \multicolumn{6}{c|}{\textbf{After function-level debloating}} \\ \hline
+%   \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Application}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely}\\\textit{removed}\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages where a given \%}\\\textit{lines were removed}\end{tabular}} \\ \cline{8-10}
+%   \multicolumn{1}{|c|}{} &  &  &  &  &  &  & \textgreater{}\textit{70\%} & \begin{tabular}[c]{@{}c@{}}\textless{}\textit{70\% and}\\ \textgreater{}\textit{30\%}\end{tabular} & \textless{}\textit{30\%}\\ \hline
+%   \multicolumn{1}{|c|}{phpMyAdmin 4.7.0} & 35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%) & 2 & 1  & 4  \\ \hline
+%   \multicolumn{1}{|c|}{MediaWiki 1.28.0} & 133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%) & 2 & 2  & 12 \\ \hline
+%   \multicolumn{1}{|c|}{Magento 2.0.5}    & 396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%) & 6 & 5  & 2  \\ \hline
+%   \end{tabular}
+%   }
+% \label{table:numberofpackages}
+% \end{table*}
 
 \subsubsection{Quantifying the bloat from external packages}
 
