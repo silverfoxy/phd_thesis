@@ -10,13 +10,13 @@ Similarly, debloating removed up to 60\% of high impact CVEs.
 
 After demonstrating the effectiveness of debloating web applications from a security perspective, we proposed a novel approach for debloating. 
 Unlike the prior work which focuses on a single debloated application, we explored the idea of ``role-based debloating''. 
-Our system named \sys{} takes in the code coverage information of web application users and clusters users with similar usage behavior together. 
+Our system named \dbltr{} takes in the code coverage information of web application users and clusters users with similar usage behavior together. 
 Based on these clusters, it produces multiple versions of debloated web applications each of which are tailored for a group of users. 
 
 We started this project by conducting a user study to understand how experienced administrators and developers interact with web applications. 
-We then used this information in \sys{} to produce debloated web applications and evaluate their security metrics. 
+We then used this information in \dbltr{} to produce debloated web applications and evaluate their security metrics. 
 Our results show that role-based debloating can further reduce the size of web applications in terms of LLOC by 30\%, and remove the severe security vulnerabilities by up to 80\% for some roles, compared to the globally debloated application similar to our approach in Chapter~\ref{chap:lim}. 
-\sys{} also incorporates the content-delivery modules to transparently extract user identities from login requests and route their requests towards their custom debloated web applications. 
+\dbltr{} also incorporates the content-delivery modules to transparently extract user identities from login requests and route their requests towards their custom debloated web applications. 
 Overall, our results indicate that role-based debloating is a practical approach with tangile security benefits.
 
 \subsection*{Future Work}

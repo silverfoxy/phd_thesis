@@ -1,260 +1,54 @@
-\chapter{Debloating web applications via concolic emulation}
+\chapter{Debloating Web Applications Using Concolic Execution}
 \label{chap:ad}
 \section*{Preamble}
 
-So far, in the previous chapters we explored the viability of debloating web applications and proposed debloating mechanisms based on dynamic usage traces of users of the web applications to identify unused code sections and remove them through the process of debloating. 
+So far, in the previous chapters we explored the security gains of debloating web applications. 
+We then proposed debloating mechanisms based on dynamic usage traces of users of the web applications to identify unused code sections and remove them through the process of debloating. 
 One of the main drawbacks of relying on dynamic traces is the overhead of the instrumentation to collect such code coverage traces. 
-Moreover, line level granularity of code coverage as a representation of feature usage for applications lacks generalizability. 
-As a result, a slight variation in the usage behavior of users can result in broken functionality (i.e., functionality that has been removed via debloating). 
-At the same time, line level code coverage information can be skewed with an over representation of common and successful code paths (e.g., successful login), and under-representation of unsuccessful and less commonly used yet important features (e.g., forgot password) as evident by the debloated web applications by the Less is More~\cite{azad2019less}.
+Moreover, dynamic code coverage as a representation of feature usage for applications lacks generalizability. 
+As a result, the correct functionality of debloated web applications would heavily rely on extensive training phase to collect usage traces of web application users. 
+Moreover, slight variations in the behavior of users can result in broken functionality (i.e., functionality that has been removed via debloating). 
+This, in part, can be attributed to the properties of line level code coverage information which is skewed with an over representation of common and successful code paths (e.g., successful login), and under-representation of unsuccessful and less commonly used yet important features (e.g., forgot password, and error handlers) as evident by the debloated web applications by the Less is More~\cite{azad2019less}.
 
-In this chapter we introduce our solution to the aforementioned challenges in debloating web applications. 
-To this end, we propose the usage of the readily available web server logs to identify the used functionality by users. 
-By focusing on application entry points and abstracting the specific parameters and database details, we allow for the exploration of the under-represented paths. 
+In this chapter we introduce our approach to address the aforementioned challenges in debloating web applications. 
+To this end, we propose the usage of the readily available web server access logs to identify the web application entry points invoked by the users. 
+By focusing on application entry points and abstracting the request parameters and the execution environment (e.g., state of the database), we allow for the exploration of the under-represented paths such as failed login attempts or database errors. 
 Moreover, relying on web server logs allows us to collect historic usage traces over longer periods of time without an additional overhead.
 
-After extracting the web application entry points from the web server logs, we explore the possible execution paths in the web application through its source code via concolic execution. 
-Concolic execution or concolic testing is a hybrid software verification technique that combines symbolic and concrete execution, by marking symbolic variables as concolic wherever possible~\cite{sen2007concolic}.  
-This enables us to execute the application in an abstract state where the value of certain request-specific parameters such as session variables, cookies, and HTTP POST parameters are unknown (i.e., symbolic) at the time of analysis. 
+After extracting the web application entry points from the web server logs, we perform a reachability analysis by exploring the possible execution paths in the web application through its source code via concolic execution. 
+Concolic execution or concolic testing is a hybrid software verification technique that combines symbolic and concrete execution, by marking symbolic variables as concolic wherever possible~\cite{sen2007concolic}. 
+This enables us to analyze the application in a generic environment where the value of certain request-specific parameters such as session variables, cookies, and HTTP POST parameters are unknown (i.e., symbolic) at the time of analysis. 
 Similarly, we abstract away the database which allows our analysis to identify the reachable code paths and modules that can be invoked based on the HTTP requests from the web server logs regardless of the application database state. 
-At the same time, we incorporate the concrete values for existing information from the web server logs such as HTTP GET parameters and headers such as HTTP REFERER to eliminate concretely unsatisfiable path conditions (e.g., paths that execute if a certain GET parameter is sent). 
+At the same time, we incorporate the concrete values for existing information from the web server logs such as HTTP GET parameters and headers such as HTTP REFERER to eliminate concretely unsatisfiable path conditions (e.g., paths that execute if a certain GET parameter is provided). 
 
-Symbolic analysis engines capable of analyzing application wide PHP source code are novel and are the main contribution of our work. 
-In the remainder of this chapter, we describe our design plan for our PHP concolic emulation system called ``\animatedead{}'' and our preliminary experiments to develop such a system and discuss its challenges in more detail. 
+One of the requirements of concolic execution is the instrumentation of the PHP engine to model the result of instructions with symbolic inputs, and exploration of multiple code paths based on symbolic conditions. 
+For that purpose, we build a PHP emulator capable of understanding and emulating \emph{all} PHP opcodes with concrete and symbolic inputs. 
+Moreover, we design a distributed execution environment to allow for the parallel exploration of symbolically satisfiable branches. 
 
-\section{Proposed System Design}
-In this section, we discuss the design of \animatedead{} and its different modules and their responsibility. 
-Starting from the usage profile models, \animatedead{} incorporates the client requests in the form of web server access log file. 
-Based on the logs, \animatedead{} recreates the running environment of the underlying web application entry point. 
-This preparation stage consists of populating concrete HTTP request parameters that are available in the logs (e.g., headers, and GET parameters) and marking other user-specific parameters as symbolic (e.g., post parameters, cookies, and sessions). 
+In the remainder of this chapter, which is replicated from the paper titled ``AnimateDead: Debloating Web Applications Using Concolic Execution'' which is currently under submission, we describe our design for our PHP concolic emulation system called ``\animatedead{}'', and use this system to debloat web applications and report on the improvement of security metrics as a means to quantifying the attack surface reduction. 
 
-Next, \animatedead{}'s PHP emulator executes the PHP application while replicating the behavior of the original PHP interpreter. 
-This step starts with parsing the PHP script to extract its AST (Abstract Syntax Tree), and then traversing the nodes of the AST while updating the state of the PHP emulator including the symbol table and variable values as well as the included files, defined classes objects and their properties. 
+\pagebreak{}
 
-Within our emulator, we pass the calls to PHP built-in APIs with concrete parameters to the original PHP implementation. 
-For other APIs that change the state of the emulator or rely on symbolic parameters, we provide an alternative emulator-level implementation that we run instead of the original function. 
-\animatedead{} hooks into three categories of PHP APIs. 
-\begin{itemize}
-    \item Modifying the state of the emulator
-    \item Interacting with the execution environment
-    \item Operating based on symbolic parameters
-\end{itemize}
-We will discuss them in more detail in Section~\ref{sec:emulator}.
+\section*{AnimateDead: Debloating Web Applications Using Concolic Execution}
 
-Through the emulation process, often we reach conditions which their truth value relies on symbolic variables. 
-In such cases, \animatedead{}'s current emulation process continues to explore one of the possible branches and leaves the exploration of other symbolically satisfiable branches to other worker emulators that run in parallel. 
-This module is implemented as an asynchronous queue where emulator processes (i.e., workers) take their emulation tasks from the queue orchestrator. 
-Workers often add further tasks to explore symbolicly satisfiable branches to the queue of tasks. 
+\subsection*{Abstract}
+Year over year, modern web applications evolve to cater to the needs of many users and support various runtime environments. 
+The ever-growing need to appeal to as many users as possible and the reliance on third-party dependencies comes at the price of code-bloat. 
+Previous research has highlighted the benefits of debloating mechanisms which produce smaller applications, customized to the real needs of their users with significant security improvements. 
 
-To allow workers to continue the emulation from the point that the previous worker left it, we design a forced execution engine named ``Reanimation engine''. 
-During the emulation, for symbolic branches, the workers log which of the branches they explored in a log file. 
-This log file, referred to as the reanimation log is then used to reproduce the same execution flow to the point where the last worker left. 
+Recognizing the limitations of dynamic and static debloating schemes (including high runtime overhead and lack of accuracy), we propose a hybrid approach based on concolic execution. 
+We developed \animatedead{}, a PHP emulator capable of concolic execution and designed a distributed analysis framework around it. 
 
-An orchestrator node is responsible for the assignment of a priority number to each reanimation task. 
-This priority number defines the order in which new tasks are picked up from the queue. 
-Previous work in the realm of fuzzing as well as symbolic execution has explored various heuristics ranging from depth-first-search and breadth-first-search, random path selection, to prioritizing unexplored paths or ones that lead to sensitive function calls or potential vulnerabilities~\cite{cadar2008klee, cadar2008exe, cha2012unleashing, chipounov2011s2e}. 
-In our implementation, we assign priorities based on the number of unexplored lines of code that each branch will execute. 
+By using the readily available web server logs as application entry points, we perform concolic reachability analysis and extract the code-coverage of target web applications in an abstract environment, which allows our results to generalize for \emph{all} user inputs and database states. 
+We demonstrate that debloating via concolic execution improves the security of web applications by shrinking the size of their code by an average of 47\% and reducing critical API calls by 55\%, while removing 35-65\% of vulnerabilities for historic CVEs. 
+We show that via concolic execution, we can debloat web applications with comparable security improvements of dynamic debloating schemes without suffering from the runtime overhead, and the need for a training phase. 
+Moreover, \animatedead{}-debloated web applications reduce the likelihood of breakage by allowing users to perform all actions reachable from the analyzed entry points.
 
-During the emulation process, workers log the line numbers for the code that they emulate. 
-As a result, the output of the emulation process is a list of files and lines of code that are reachable based on the entry points the web server logs. 
-From this point, the rest of the debloating procedure is analogous to those of dynamic debloating schemes, where the line coverage information is used to identify unused functions which will be removed through the debloating process. 
-
-In the remainder of this section, we explain the design and implementation of \animatedead{} in more detail and finally discuss the future work and its challenges. 
-
-\subsection{Identifying the web application entry points}
-The first step in emulating a web application is to identify the entry points and prepopulate the emulator environment to match those of the original web server. 
-\animatedead{} relies on the readily-available web server access logs to extract this information. 
-For each entry in the logs, we follow the same logic of the web server to identify the underlying PHP script that is invoked to respond to this request. 
-
-Each HTTP request URI either directly targets an executable file (e.g., login.php) or points to a directory (e.g., /). 
-In the latter scenario, web servers rely on a configuration option named \texttt{DirectoryIndex} directive to map the request to an executable. 
-Be default, Apache web server looks for index.html and index.php. 
-We follow the same logic in \animatedead{} to map the HTTP requests from the logs to the PHP files. 
-
-
-Web server logs in their default configuration include information from the user requests including HTTP Verb, Request URI, HTTP headers limited to REFERER header and User-Agent, and the HTTP response code. 
-These logs do not include certain pieces of information that are critical to the process of concolic execution such as:
-
-\begin{itemize}
-    \item POST parameters
-    \item Cookies and Session variables
-    \item File uploads
-\end{itemize}
-
-In the current implementation of \animatedead{}, we mark all the variables which not provided in the web server logs as a Symbolic variable. 
-This way, our emulation captures the effect of the target variable being Null (i.e., not supplied by the users), and also the specific values that satisfies various conditions (e.g., if session variable of ``role'' is equal to ``admin''). 
-
-\paragraph{Handling URL rewriting and request routing:} 
-
-Modern applications commonly rely on URL rewriting and internal routing modules (e.g., Single page web applications) to map incoming HTTP requests to their respective PHP files. 
-To enable URL rewriting in Apache, \texttt{mod\_rewrite} module has to be configured through the \texttt{.htaccess} files. 
-Developers provide a combination of rewrite conditions (e.g., if the request URL matches a regex), and rewrite rules that apply if the conditions are met. 
-Rewrite rules consist of string transformations on the request URL. 
-The output of the rewriting phase is a path to the PHP file that is then executed by the web server. 
-
-\animatedead{} incorporates a built-in web server that takes a request as input, and applies the rewrite rules to output the target PHP file. 
-This way, we dynamically resolve the rewriting rules and the emulator is informed about the entry point based on log entries after URL rewriting rules are applied. 
-Orthogonally, some web applications incorporate built-in modules to handle routing of the requests and loading the corresponding modules. 
-Given the capability of \animatedead{} in emulating PHP code, no special treatment is required in handling such applications that incorporate internal request routing. 
-
-\subsection{PHP Emulator}
-\label{sec:emulator}
-
-To analyze web applications concolically, we develop a PHP emulator that understands PHP code and can traverse the AST, resolve function calls and populate the symbol table. 
-We expanded the PHP emulator which is part of the MalMax PHP malware analysis research prototype~\cite{naderi2019malmax}. 
-Concretely, we added support for PHP constructs such as the syntax that was introduced in PHP 7, as well as support for inheritance, namespaces, and autoloaders along with various bug fixes. 
-Moreover, we incorporated the support for symbolic conditions, loops, and propagating symbolic values through the different function calls and assignments. 
-
-\animatedead{} by design passes the calls to PHP APIs to the original PHP engine. 
-At the same time, certain API calls need special treatment. 
-More specifically, we identified three categories of PHP APIs for which we provide an emulator-level implementation:
-
-% \subsubsection{Symbolic functions}
-% \label{sec:mocks}
-
-\begin{enumerate}
-    \item \textbf{Modifying the state of the emulator:} Such functions directly interact with the symbol table (i.e., read or modify variables that are not passed as parameters). Some examples of these functions include \texttt{compact}: which takes a list of variable names in the form of strings and returns an array of their values, and \texttt{define}: which defines a new global constant. 
-    \item \textbf{Interacting with the execution environment:} These functions are arguably one of the most important constructs of emulation. In our setup, we mark all database interactions (e.g., \texttt{mysql} and \texttt{mysqli} APIs) as symbolic. Therefore, any calls to the database would return a symbolic result. Another category of such functions are PHP APIs that provide information about the execution environment. To that end, we emulate the underlying PHP version among other PHP environment variables to a configurable value (i.e., We can report any PHP version regardless of the version of the PHP engine that is being used by the emulator). Moreover, PHP APIs that return information about the current execution path, environment variables, and the HTTP requests are emulated to return the values that correspond to the original execution environment of the original web server. This way, the emulated script would run as if it is executed by a web server rather than the PHP CLI.
-    \item \textbf{Operating based on symbolic parameters:} By design, PHP APIs only operate based on concrete parameters. Therefore, whenever a symbolic parameter is passed to such APIs, we mark the return value as symbolic and skip the execution of the function. An example of this behavior is when we check whether a concrete key exists in a symbolic array. Contrastingly, we experimentally identified the list of APIs that affect the correct emulation of the application. For such functions, we provide an emulated implementation that can still operate based on symbolic values. For instance, when checking whether a symbolic file exists on the file system, we perform a regular expression matching and if we can determine that the pattern does not match any files, we return false. If there are multiple candidates that match a regular expression (e.g., multiple modules for a similar task) we fork the emulator to explore the paths for each candidate separately. 
-\end{enumerate}
-
-
-\subsubsection{Symbolic variables}
-
-During emulation, a subset of program variables will be populated with the data that is either provided by the users, or is fetched from abstract sources such as the database. 
-In such cases where \animatedead{} cannot assign a concrete value to the variables, it marks them as Symbolic. 
-While the actual value of symbolic variables are unknown, based on their source and the program conditions that has been satisfied during emulation, \animatedead{} limits the value set of symbols. 
-By doing so, we eliminate the execution of paths based on symbolic conditions that are unsatisfiable.
-
-Path conditions as well as other operations such as type casting limits the value set or the type of symbolic variables. 
-As an example, casting a database query result to boolean enforces the boolean type on the output. 
-Similarly, concatenating symbolic variables with concrete strings produces a symbolic string which follows a deterministic pattern (e.g., has a known prefix and can be encoded as \texttt{/(prefix).*/}). 
-\animatedead{} encodes this pattern in the form of regular expressions. 
-Finally, a subset of symbolic branches in the application are eliminated based on these conditions. 
-
-\paragraph{SMT Solvers}
-In our initial design we explored the incorporation of SMT solvers to eliminate unsatisfiable branch conditions. 
-To justify the effort to integrate SMT solvers like Z3 into PHP and translating path constraints into the SMT-lib v2 language, we conducted a pilot experiment. 
-
-First, we extracted the list of symbolic branch conditions when running the main entry point for phpMyAdmin in \animatedead{}. 
-Next, we analyzed the source of each symbolic condition and identified the underlying variables that have a symbolic value and are used as part of the conditions. 
-Table~\ref{tab:symbolicvars} provides a breakdown of variables and the checks that is performed on them. 
-
-Based on the results in Table~\ref{tab:symbolicvars}, majority (72\%) of symbolic conditions in phpMyAdmin only check for the presence or absence of user-based variables. 
-As a result, we focused our efforts on type tracking and limiting the value set of variables directly in our emulator rather than incorporating an external SMT solver as the benefits of such approach would be limited. 
-
-
-\begin{table}[]
-    \centering
-    \caption{Breakdown of variables and ratio of isset vs other checks in symbolic conditions for phpMyAdmin main entry point.}
-    \label{tab:symbolicvars}
-    \begin{tabular}{|l|l|l|l|}
-    \hline
-    \textbf{Variable Type} & \textbf{\# Conditions} & \textbf{IsSet Checks} & \textbf{Request Type} \\ \hline
-    POST                   & 5                      & 0                     & POST                  \\ \hline
-    REQUEST                & 124                    & 95 (76\%)             & GET/POST              \\ \hline
-    COOKIE                 & 13                     & 12 (92\%)             & GET/POST              \\ \hline
-    SESSION                & 87                     & 87 (100\%)            & GET/POST              \\ \hline
-    Other                  & 152                    & 82 (54\%)             & GET/POST              \\ \hline
-    Total                  & 381                    & 276 (72\%)            & GET/POST                      \\ \hline
-    \end{tabular}
-    \end{table}
-
-As evident by the source code of popular web applications such as phpMyAdmin and WordPress, unlike binary executables, web application conditions more commonly rely on string comparisons, array membership tests, and null checks. 
-
-
-\subsection{Challenges}
-Concolically executing large web applications is inherently challenging. 
-Completeness of \animatedead{}'s PHP emulator and path explosion are the main challenges of concolic execution of PHP applications. 
-
-\subsubsection{Completeness of \animatedead{}'s PHP emulator}
-\label{sec:debugging}
-We started developing the PHP emulator by building simple test cases covering basic PHP operations. 
-We built these test cases by proactively identifying the limitations of our emulator and building test cases that exercise the underlying implementation. 
-For instance, we tested the propagation of symbolic variables through different forms of data flow such as variable assignments, arrays, globals, and function calls. 
-Moreover, we added test cases for language features introduced in PHP 7 such as the null coalesce (\texttt{a ?? b}) and the spaceship operators (\texttt{a <=> b}). 
-Finally, through static analysis, we identified the list of operations that phpMyAdmin performs on symbolic variables (e.g., POST parameters, Sessions, and Cookies) and isolated them in the form of test cases. 
-Currently, \animatedead{} includes 91 tests covering various concrete and symbolic test scenarios. 
-
-After developing \animatedead{}'s emulator to cover all the aforementioned test cases, we started our empirical tests to identify further PHP features that are either missing in the emulator or have an incomplete implementation. 
-The goal of this step is to ensure that \animatedead{} is capable of extracting the code coverage that is a superset of the dynamic traces for the same application entry points. 
-We start by reproducing the Less is More test environment for four popular PHP web applications including phpMyAdmin, WordPress, HotCRP and FluxBB. 
-We collect the web server log files after running the tests including the Selenium tests and compare the overall code coverage from \animatedead{} with the Less is More. 
-
-This debugging process starts by running individual web application entry points in \animatedead{}. 
-Next, we merge the line coverage information from \animatedead{} and compare them to the ground truth coverage data which is the dynamic line coverage information collected by the Less is More framework. 
-By identifying the mismatch in coverage in terms of missing files and missing lines, we manually investigate the root cause of this mismatch. 
-Common reasons include missing or incomplete implementation of a feature, missing a function from the list of symbolic functions (e.g., specific database APIs), or path priority of the code that leads to the paths to the missing coverage not having a high enough priority to be explored in time (i.e., path explosion). 
-Although this empirical debugging process does not guarantee the emulator's support for all the possible PHP functionality, the iterative debugging process prepares \animatedead{}'s emulator to execute real world web applications that use similar features and APIs to those within our dataset. 
-
-\subsubsection{Path Explosion}
-Prioritizing paths that lead to new code coverage can speed up the exploration of the code coverage of each entry point. 
-Certain code structures can generate a high number of symbolic branches, with only a few of them leading to new coverage. 
-
-One example of such code constructs are symbolic loops. 
-\animatedead{} can be configured to only execute such loops for a limited number of iterations. 
-Nevertheless, limiting the number of iterations only works for simple loops such as \texttt{for} and \texttt{while} loops. 
-Identifying and limiting the iterations for recursive function calls and complex loops is a challenging task. 
-
-Moreover, we identified that the majority of symbolic branches explored by \animatedead{} lead to the same code coverage. 
-Ocasionaly the existing values in the symbol table are set up in a way that the execution will always end up in a certain code path (e.g., database connection error) regardless of the execution of symbolic loops and branches. 
-To identify and skip these executions, we prioritize any path that is more likely to lead to new coverage. 
-
-In our current debugging setup, we execute each entry point for up to 24 hours. 
-In most cases, after several minutes to several hours new paths do not explore any new code paths. 
-Therefore, we terminate the emulation. 
-Our current heuristic to identify which paths will lead to new code coverage is capable of identifying code structures where the symbolic branches immediately lead to new coverage. 
-Conversely, for code structures where a variable is set earlier in the application and only affects the code coverage later on through the execution, our path priority heuristic is not capable of prioritizing such paths. 
-
-Listing~\ref{listing:path_explosion} demonstrates a code structure that is challenging for \animatedead{}'s path priority heuristic. 
-On line 3, we defined an \texttt{authenticate} function that verifies the login information for users. 
-Within this function, we perform various checks. 
-Given that the username and password values are symbolic (i.e., POST parameters), all the branches in the authenticate function are satisfiable. 
-Depending on the return value of \texttt{authenticate}, we set the \texttt{\$logged\_in} variable on lines 19 and 22. 
-
-Further down in the execution of this code on line 27, we cover new code depending on the value of \texttt{\$logged\_in}. 
-From the perspective of path priority, all branches in \texttt{authenticate} can cover a new line (e.g., 6, 9, or 12) and therefore have the same priority. 
-But the majority of these branches return the value of \texttt{false} which would guide the execution to cover the branch on line 31. 
-It is not uncommon for the branch on line 12 to not have the high priority to lead to the exploration of the code on line 28. 
-
-Potential solutions to this challenge include path merging (e.g., treating all paths within the \texttt{authenticate} function that return false as the same) and a forward data flow analysis to identify values that are used in branch conditions. 
-
-
-
-\begin{figure}[t]
-    \begin{lstlisting}[frame=single, caption={Demonstrating symbolic branches that affect the code coverage in later parts of the code},captionpos=b, label={listing:path_explosion}]
-    <?php
-
-    function authenticate($username, $password) {
-        $result = verify_password_hash($password);
-        if ($result === false) 
-            return false;
-        $result = verify_sessions();
-        if ($result === false) 
-            return false;
-        ...
-        if ($result === true)
-            return true;
-    }
-
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    if (authenticate($username, $password)) {
-        $logged_in = true;
-    }
-    else {
-        $logged_in = false;
-    }
-
-    ...
-
-    if ($logged_in === true) {
-        // cover new code
-    }
-    else {
-        // cover new code
-    }
-    ?>
-    \end{lstlisting}
-\end{figure}
+\input{sections/ad/1_introduction}
+\input{sections/ad/2_background}
+\input{sections/ad/3_design}
+\input{sections/ad/4_evaluation}
+\input{sections/ad/5_discussion}
+% \input{sections/ad/6_relatedwork}
+% \input{sections/ad/7_availability}
+\input{sections/ad/8_conclusion}

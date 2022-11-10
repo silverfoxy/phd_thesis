@@ -1,6 +1,6 @@
 \section{Implementation}
 
-\sys{} consists of multiple data processing, code rewriting, and content delivery steps, making up a full debloating pipeline. 
+\dbltr{} consists of multiple data processing, code rewriting, and content delivery steps, making up a full debloating pipeline. 
 Initially, our data-analysis step processes the code-coverage traces from web application users and performs the clustering based on the usage data and feature usage. 
 Our system incorporates clustering metrics to determine the optimal number of clusters based on code-coverage information, but system operators can decide to modify this configuration based on other post-debloating factors such as LLOC reduction. 
 
@@ -47,11 +47,11 @@ Specific to our user study, our cleanup step will essentially remove newly insta
 \label{sec:num-clusters}
 
 We can determine the optimal number of clusters based on a variety of source code similarity (i.e., file name and path) as well as debloating metrics (i.e., CVE reduction, and CAC reduction). 
-\sys{} bases its decision on file similarity, concretely file name and path information that is readily available before clustering is performed. 
+\dbltr{} bases its decision on file similarity, concretely file name and path information that is readily available before clustering is performed. 
 
-\sys{} then calculates the Silhouette score metric~\cite{kaufman2009finding} for the clusters. 
+\dbltr{} then calculates the Silhouette score metric~\cite{kaufman2009finding} for the clusters. 
 For each data point, the Silhouette score measures the similarity of the given data point to other points in its own cluster compared to points from other clusters. 
-\sys{} determines the number of clusters by maximizing the average Silhouette score. 
+\dbltr{} determines the number of clusters by maximizing the average Silhouette score. 
 
 Figure~\ref{fig:silhouette_scores} depicts the distribution of Silhouette scores based on the cluster size for each of the web applications in our dataset. 
 The average score for each cluster size is shown by a solid dot, and optimal cluster size is depicted with a solid red dot. 
@@ -63,23 +63,23 @@ Beyond this point, by approaching the extreme cluster size (e.g., 19 clusters), 
 \subsubsection{Debloating the applications} For each cluster, we merge the code-coverage information for all the users of that cluster, and then use the aggregate file and line coverage information to identify unused files and functions and debloat them. 
 
 The process of debloating consists of neutralizing unused files and functions by replacing them with a routine that blocks the further execution of the code. 
-This step provides us with \emph{N} copies of the original application, with \emph{N} being the optimal number of clusters determined by \sys{}. 
+This step provides us with \emph{N} copies of the original application, with \emph{N} being the optimal number of clusters determined by \dbltr{}. 
 Each debloated cluster caters to the use cases of its underlying users. 
 Finally, we calculate the debloating metrics such as size, CVE, and CAC reduction for each cluster. 
 We discuss these results in more detail in Section~\ref{sec:debloatingresults}.
 
 \subsection{Content delivery}
 
-The second stage of the \sys{} pipeline is responsible for serving the debloated web applications and seamlessly routing users to their underlying debloated web applications. 
+The second stage of the \dbltr{} pipeline is responsible for serving the debloated web applications and seamlessly routing users to their underlying debloated web applications. 
 
-\sys{} implements a reverse-proxy module based on OpenResty~\cite{openresty}, which is a popular high performance scalable web platform that extends NGINX and provides content manipulation APIs through Lua code. 
+\dbltr{} implements a reverse-proxy module based on OpenResty~\cite{openresty}, which is a popular high performance scalable web platform that extends NGINX and provides content manipulation APIs through Lua code. 
 This is depicted in Figure~\ref{fig:system_architecture} as step 3. 
 
 We implement the login-detection logic as a Lua module for OpenResty. 
 This module is responsible for detecting successful login requests, extracting username and session cookie information, as well as storing and retrieving the user to debloated web application mappings from the data store. 
 A high-level representation of the login detection module for phpMyAdmin is depicted in Listing~\ref{lst:lua}.
 
-During the debloating stage, \sys{} produces mappings that directs our OpenResty module to redirect users to specific instances of debloated web applications. 
+During the debloating stage, \dbltr{} produces mappings that directs our OpenResty module to redirect users to specific instances of debloated web applications. 
 This information is stored in a Redis datastore along with active session-cookie-to-username mappings extracted by the Lua module. 
 
 \definecolor{commentsColor}{rgb}{0.497495, 0.497587, 0.497464}
@@ -105,7 +105,7 @@ In the example of phpMyAdmin, successful login is composed of a POST request tow
 We extract the username from the POST request with the field name of ``pma\_username'' (Line 4) 
 and then verify through the HTTP response code that we detected a successful login (Line 9). Finally, we extract the session cookie named ``phpmyadmin'' (Line 12) and store this user-to-session-cookie mapping in the Redis data store for subsequent requests. 
 
-For subsequent requests containing a valid session cookie, \sys{} first queries the username from the data store and then determines the target web server based on the username mapping. 
+For subsequent requests containing a valid session cookie, \dbltr{} first queries the username from the data store and then determines the target web server based on the username mapping. 
 Steps 4, 5, and 6 in Figure~\ref{fig:system_architecture} depict this process. 
 Once the upstream web server is determined, traffic is routed to the corresponding web server. 
 Any subsequent log-out requests and timeouts invalidate the session-cookie mapping.

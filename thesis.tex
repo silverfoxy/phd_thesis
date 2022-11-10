@@ -21,8 +21,6 @@
 %\usepackage[nottoc]{tocbibind}
 \input{mathdefs}
 \input{callcommands}
-
-% \usepackage{xcolor}
 \usepackage[table]{xcolor}
 \usepackage{listings}
 \usepackage{subcaption}
@@ -31,11 +29,15 @@
 \usepackage{fontawesome}
 \usepackage{adjustbox}
 \usepackage[htt]{hyphenat}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage[font={small,it},labelfont=bf]{caption}
 
 \def\faChecked{\FA\symbol{"F00C}}
 \def\faCrossed{\FA\symbol{"F00D}}
 
-\def\sys{\textit{DBLTR}}
+\def\dbltr{\textit{DBLTR}}
 \def\animatedead{\textit{AnimateDead}}
 
 
@@ -64,18 +66,19 @@
 \hyphenation{put words here which LaTeX does not hy-phen-ate pro-per-ly}
 
 \author{Babak Amin Azad}%
-\title{Protecting Web Applications Through Software Debloating}%
+\title{Protecting Web Applications Via Software Debloating}%
 
-\month{April}
+\month{December}
 \year{2022}%
 \program{Computer Science}%
-\director{Dominik~A.~Schneble}{Professor, Yang Institute of Theoretical Physics}%
+\director{Nick Nikiforakis}{Associate Professor, Computer Science Department}%
 %\chairman{Name of Chairman}{Professor, Department of Physics and Astronomy}%
-\chairman{Robert~Shrock}{Professor,  Yang Institute of Theoretical Physics}%
+\chairman{R. Sekar}{Professor,  Computer Science Department}%
 %\fstmember{Name of Member}{Professor, Department of Physics and Astronomy}%
-\fstmember{Dominik~A.~Schneble}{Professor, Department of Physics and Astronomy}%
+\fstmember{Michalis Polychronakis}{Associate Professor, Computer Science Department}%
 %\outmember{Name of Outside Member}{Position}{Institution}%
-\outmember{Name of Outside Member}{Position}{Institution}%
+\outmember{Manuel Egele}{Associate Professor, Department of Electrical and Computer Engineering}{Boston University}%
+\sndoutmember{Adam Doupé}{Associate Professor, School of Computing and Augmented Intelligence}{Arizona State University}%
 \dean{Eric Wertheimer}%
 
 \widowpenalty10000
@@ -86,7 +89,7 @@
 \singlespacing %
 \pagenumbering{roman} %
 \maketitle %
-% \makeapproval %
+\makeapproval %
 
 \section*{Abstract}
 \input{sections/abstract}

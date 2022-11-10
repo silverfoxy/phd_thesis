@@ -14,7 +14,7 @@ In Table~\ref{tab:augmented_coverage} we reported that 15-38\% of files covered 
 Moreover, 29-71\% of third-party packages in a cluster and more than half of internal modules had new files added to the coverage from the perspective of each member of the clusters. 
 Both of these results show that clustering users based on their feature usage can produce debloated applications with shrunk attack surface, while reducing the likelihood of debloating useful features due to overfitting to the specific usage traces of individual users. 
 
-\noindent\textbf{\sys{} provides a content delivery environment for debloated web applications:} 
+\noindent\textbf{\dbltr{} provides a content delivery environment for debloated web applications:} 
 One of the main contributions of our work is our content delivery pipeline which reduces the need for modifications and customizations to target web applications, while keeping the entire debloating and content-delivery platform entirely invisible to web application users.
 
 \subsection{Limitations} 
@@ -28,11 +28,11 @@ By the time they become public, CVEs are either already patched or will be patch
 Therefore, we mapped historic CVEs to the patched functions within the new web applications. 
 As a result, our reports on CVE reduction indicate the removal of a feature in a more recent version of web application compared to the original version that included the actual vulnerability. This was a ``necessary evil'' since we could not rely on users perfectly replicating their workloads across multiple versions of the same web applications where the original vulnerabilities resided.
 
-Our debloating reports are based on the code-coverage that we collected during our user study. Using our domain knowledge, we have established that the collected dataset is a representative sample of web-application use in the real world. At the same time, different deployments of web applications may be used differently and therefore be debloated differently. Regardless of the degree of use, \sys{} can offer concrete security advantages by automatically removing code that is not globally required by all users of a given deployment and clustering users to their appropriately-debloated codebase.
+Our debloating reports are based on the code-coverage that we collected during our user study. Using our domain knowledge, we have established that the collected dataset is a representative sample of web-application use in the real world. At the same time, different deployments of web applications may be used differently and therefore be debloated differently. Regardless of the degree of use, \dbltr{} can offer concrete security advantages by automatically removing code that is not globally required by all users of a given deployment and clustering users to their appropriately-debloated codebase.
 
 
 \noindent\textbf{Applications with a public interface: }
-As depicted in Figure~\ref{fig:system_architecture}, \sys{} routes unauthenticated requests towards a ``public'' profile of the debloated web application. 
+As depicted in Figure~\ref{fig:system_architecture}, \dbltr{} routes unauthenticated requests towards a ``public'' profile of the debloated web application. 
 This profile includes the code for user authentication as well as any other code required for public unauthenticated users. 
 
 For administrative applications that are behind an authentication wall, producing a public profile is straightforward. 
@@ -54,4 +54,4 @@ For major version changes that include drastic changes to the architecture of th
 \noindent\textbf{Number of users of the web applications:} 
 In our user study, we hired a total of 60 participants (20 participants for each web application). 
 While most websites are operated by a small number of administrators, there clearly exist web applications (such as popular social networks) with billions of users and thousands of administrators. 
-Understanding how \sys{} could be used in such an environment requires the collaboration of a global web application operator, and we therefore leave it for future work.
+Understanding how \dbltr{} could be used in such an environment requires the collaboration of a global web application operator, and we therefore leave it for future work.

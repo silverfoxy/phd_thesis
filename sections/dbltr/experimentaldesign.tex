@@ -9,7 +9,7 @@
 
 In this section we lay the foundations and discuss the design decisions of our system. 
 First we present the details of our user study and data collection. 
-We then introduce the design concepts behind \sys{}, our automated pipeline for clustering users into debloating sets and assigning each set to a differently-debloated web application.
+We then introduce the design concepts behind \dbltr{}, our automated pipeline for clustering users into debloating sets and assigning each set to a differently-debloated web application.
 Figure~\ref{fig:environment_preparation} shows the high level steps including the data collection and clustering, followed by the preparation of the content delivery environment to serve debloated web applications.
 
 \subsection{User Study - Identifying common web application features from the perspective of experienced administrators}
@@ -26,7 +26,7 @@ The main goal of this user study is to understand which features in the web appl
 \begin{figure*}[h]
     \centering
     \includegraphics[width=0.95\columnwidth]{figures/dbltr/RoleModelsFlow.pdf}
-    \caption{System Architecture of \sys{}. In Step 1, we provide the debloated web applications and user to cluster mappings to \sys{}'s content delivery module. User requests (2) are processed by \sys{}'s reverse-proxy (Step 3). After identifying the identity of the user (Steps 4-6), \sys{} internally routes the requests to the custom debloated web applications (Step 7).}
+    \caption{System Architecture of \dbltr{}. In Step 1, we provide the debloated web applications and user to cluster mappings to \dbltr{}'s content delivery module. User requests (2) are processed by \dbltr{}'s reverse-proxy (Step 3). After identifying the identity of the user (Steps 4-6), \dbltr{} internally routes the requests to the custom debloated web applications (Step 7).}
 	\label{fig:system_architecture}
 \end{figure*}
 
@@ -71,8 +71,8 @@ Overall, we spent numerous weeks interviewing our participants and following up 
 
 \subsection{Debloating Pipeline}
 
-In this section we describe \sys{}, a dynamic debloating pipeline. 
-\sys{} is able to identify web-application users with similar usage profiles (i.e., roles), and create debloated applications that are tailored to the needs of users in each profile. 
+In this section we describe \dbltr{}, a dynamic debloating pipeline. 
+\dbltr{} is able to identify web-application users with similar usage profiles (i.e., roles), and create debloated applications that are tailored to the needs of users in each profile. 
 
 
 Unlike previous one-size-fits-all approaches, application users with specific usage patterns do not need to inherit the whole code-base from other users with vastly different usage behaviors. 
@@ -96,14 +96,14 @@ We provide a quantitative analysis of this effect in Section~\ref{sec:augmented_
 
 \subsubsection{Producing the debloated web applications}
 
-\sys{} extracts the list of exercised files from usage traces. 
+\dbltr{} extracts the list of exercised files from usage traces. 
 PHP file paths and names are effective indicators of the underlying feature corresponding to each file. 
 Most commonly, web application source files are partitioned under directories that indicate the feature they implement. 
 Moreover, for external dependencies (i.e., composer packages), the file-path includes the name of the module that the files belong to. 
 
 Based on this information, we cluster file paths using the K-means clustering algorithm, into 2 to \emph{N} clusters, with \emph{N} denoting the total number of web application users (in this case, 20).  
 
-\sys{} then produces the following artifacts:
+\dbltr{} then produces the following artifacts:
 \begin{itemize}
     \item \( \frac{N \times (N - 1)}{2} \) debloated variants of web applications.
     \item Configuration files for the reverse-proxy and the web servers to host the debloated web applications.
@@ -112,15 +112,15 @@ Based on this information, we cluster file paths using the K-means clustering al
 
 \subsubsection{Routing users to debloating clusters}
 
-One of the design requirements of \sys{} is seamless user experience. 
+One of the design requirements of \dbltr{} is seamless user experience. 
 Therefore, we incorporate a reverse-proxy that identifies user login information and routes any post-authentication traffic to specialized containers which include debloated variants of the main application customized for the user. 
 
-\sys{}'s reverse-proxy takes a config file for each web application. 
+\dbltr{}'s reverse-proxy takes a config file for each web application. 
 This file informs the proxy of how to identify successful login request-response pairs, the form field that contains the username and the session cookie name to track the user past authentication. 
 
 This information is stored along with the user to web application mappings in an in-memory datastore. 
 For authenticated users, the proxy extracts the session cookie, queries the datastore for the web server id for the user and routes the traffic to the appropriate debloated web application. 
-From the user's perspective, there is no observable effect while this routing is taking place. Due to the architecture of \sys{}, two users can both be visiting the same URL at the same time, yet accessing radically different (i.e., debloated to match their needs) web applications under the hood. 
+From the user's perspective, there is no observable effect while this routing is taking place. Due to the architecture of \dbltr{}, two users can both be visiting the same URL at the same time, yet accessing radically different (i.e., debloated to match their needs) web applications under the hood. 
 
 \subsubsection{Sharing web application state between web server instances}
 

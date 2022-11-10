@@ -2,12 +2,12 @@
 
 In this paper, we explored the idea of ``role-based debloating'', which consists of producing multiple versions of debloated web applications, each tailored to a cluster of users with similar usage behaviors (i.e., roles). 
 We started by conducting a user study to understand how experienced developers and administrators interact with web applications. 
-We then used this data in combination with \sys{}, our proposed tool that is capable of collecting code-coverage traces of the users of an application, to form clusters of users with similar usage behavior, and produce debloated applications customized to the needs of each cluster. 
-\sys{} also includes a content-delivery pipeline that can transparently route users to their clusters of dedicated debloated web applications without the need to modify the target web applications. 
+We then used this data in combination with \dbltr{}, our proposed tool that is capable of collecting code-coverage traces of the users of an application, to form clusters of users with similar usage behavior, and produce debloated applications customized to the needs of each cluster. 
+\dbltr{} also includes a content-delivery pipeline that can transparently route users to their clusters of dedicated debloated web applications without the need to modify the target web applications. 
 
-Through our detailed analysis, we quantitatively showed that \sys{} can outperform the state-of-the-art in web application debloating. 
+Through our detailed analysis, we quantitatively showed that \dbltr{} can outperform the state-of-the-art in web application debloating. 
 By incorporating the idea of role-based debloating, we can produce debloated web applications that are 30\% smaller in size, and contain 80\% fewer severe vulnerabilities (i.e., historic CVEs) compared to the ``globally'' debloated web applications produced by prior work. We also explored the contribution of each user to the code-coverage of clusters, in an effort to understand the robustness of clustered debloating compared to the extreme where each user receives their own copy of the debloated applications. 
 
-We showed that \sys{}'s clustering expands the code-coverage of similar features in each cluster for up to 38\% of all files, which affects more than half of the packages and classes in the web applications. This effect on the code-coverage allows \sys{} to retain the code for similar features that cluster members may use in future. 
+We showed that \dbltr{}'s clustering expands the code-coverage of similar features in each cluster for up to 38\% of all files, which affects more than half of the packages and classes in the web applications. This effect on the code-coverage allows \dbltr{} to retain the code for similar features that cluster members may use in future. 
 Overall, our results indicate that role-based debloating is a practical approach with tangible security benefits, and should be considered as a means to protect security-critical web applications. 
 

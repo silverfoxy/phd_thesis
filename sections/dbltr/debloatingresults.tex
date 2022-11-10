@@ -3,7 +3,7 @@
 
 In this section, we begin by reporting statistics about our clustering. 
 Next, we measure the performance of our debloating scheme and demonstrate its ability in reducing the attack surface of web applications. 
-We report the performance of \sys{} and compare it to our baseline model through source code metrics such as LLOC reduction, as well as security metrics, namely CVE, gadget chain and CAC reductions. 
+We report the performance of \dbltr{} and compare it to our baseline model through source code metrics such as LLOC reduction, as well as security metrics, namely CVE, gadget chain and CAC reductions. 
 % Historically, research papers demonstrated the attack surface reduction of debloating schemes via the reduction in size of debloated applications.
 % Other studies report the removal of historic CVEs and gadget chains as a means to measure the security gains of debloated applications. 
 % We extend the existing metrics by measuring and reporting the number of calls to critical API.
@@ -13,10 +13,10 @@ During our data collection step, we collected the code-coverage data from web ap
 We then clustered their code-coverage information into 1-20 clusters. 
 On one end, the code coverage information from all users are aggregated in a single cluster. 
 On the other end, all users have their own uniquely debloated web applications that contain only the code that they have interacted with before. 
-While \sys{} is capable of providing uniquely debloated web applications for each user, it is beneficial to keep the number of clusters low in order to reduce the complexity of separately maintaining $N$ applications. 
+While \dbltr{} is capable of providing uniquely debloated web applications for each user, it is beneficial to keep the number of clusters low in order to reduce the complexity of separately maintaining $N$ applications. 
 
-\subsubsection{Characterizations of \sys{} clustering}
-For \sys{} debloating clusters, we look at statistics such as number of users in each cluster, as well as the high level roles of each cluster. 
+\subsubsection{Characterizations of \dbltr{} clustering}
+For \dbltr{} debloating clusters, we look at statistics such as number of users in each cluster, as well as the high level roles of each cluster. 
 
 For the web applications in our dataset, we observe a common list of tasks that are shared among the majority of users. 
 For phpMyAdmin, virtually all users created new database and tables, executed SQL queries, and used the functionality of exporting and importing the database.
@@ -65,12 +65,12 @@ By reporting the size of the debloated applications in LLOC, we reduce the effec
 Table~\ref{tab:lloc_reduction} shows the LLOC reduction results of our debloating scheme. 
 The numbers are reported in terms of thousands of LLOC. 
 The column marked as ``Baseline'' lists the debloating results of combining the code coverage data of all users together, which is equivalent to prior debloating approaches, such as the one by ``Less is More'' of Amin Azad et al.~\cite{lessismore}.
-``\sys{}'' shows the LLOC statistics for the optimal number of clusters chosen by \sys{} for each web application, as determined by the Silhouette score described in Section~\ref{sec:num-clusters}. 
-For \sys{} column, we report the size of the smallest (Min) and the largest cluster size (Max) along with the median. 
-The number in the parenthesis for Baseline and \sys{} denotes the percentage of LLOC reduction with respect to the size of the original application. 
+``\dbltr{}'' shows the LLOC statistics for the optimal number of clusters chosen by \dbltr{} for each web application, as determined by the Silhouette score described in Section~\ref{sec:num-clusters}. 
+For \dbltr{} column, we report the size of the smallest (Min) and the largest cluster size (Max) along with the median. 
+The number in the parenthesis for Baseline and \dbltr{} denotes the percentage of LLOC reduction with respect to the size of the original application. 
 
 \begin{table}[]
-    \caption{LLOC reduction of debloated clusters: Numbers are reported in terms of thousands of LLOC. For Baseline, and \sys{}, we report the percentage of LLOC reduction compared to the Original application.}
+    \caption{LLOC reduction of debloated clusters: Numbers are reported in terms of thousands of LLOC. For Baseline, and \dbltr{}, we report the percentage of LLOC reduction compared to the Original application.}
     \centering
     \scalebox{0.87}{
         \begin{tabular}{|l|l|l|lll|}
@@ -85,10 +85,10 @@ The number in the parenthesis for Baseline and \sys{} denotes the percentage of 
     \label{tab:lloc_reduction}
 \end{table}
 
-By comparing the LLOC reduction of Baseline to \sys{}, it becomes evident that a one-size-fits-all debloating (i.e., Baseline), exposes certain users and roles to a much larger code-base than they actually require. 
+By comparing the LLOC reduction of Baseline to \dbltr{}, it becomes evident that a one-size-fits-all debloating (i.e., Baseline), exposes certain users and roles to a much larger code-base than they actually require. 
 This unnecessary bloat for Baseline debloating can be as high as 30\% of extra LLOC. 
-This unnecessary exposure is most significant for larger web applications such as Magento where certain users inherit up to 90,000 unnecessary LLOC which is 37\% larger---compared to the smallest \sys{} cluster---than what they actually need. 
-Moreover, we observe that \emph{all} \sys{} clusters (including the one with maximum LLOCs) are strictly smaller than the Baseline approach, meaning that the globally debloated web application is still bloated as far as individual users are concerned.
+This unnecessary exposure is most significant for larger web applications such as Magento where certain users inherit up to 90,000 unnecessary LLOC which is 37\% larger---compared to the smallest \dbltr{} cluster---than what they actually need. 
+Moreover, we observe that \emph{all} \dbltr{} clusters (including the one with maximum LLOCs) are strictly smaller than the Baseline approach, meaning that the globally debloated web application is still bloated as far as individual users are concerned.
 
 \subsubsection{CVE Reduction}
 
@@ -109,15 +109,15 @@ Moreover, the developers of phpMyAdmin and WordPress usually acknowledge CVEs in
 
 As a result we mapped 20 CVEs to the source code of phpMyAdmin and WordPress, and mapped 10 recent CVEs to source code of Magento, for a total of 50 mapped CVEs. 
 We selected the CVEs with the highest CVSS score, and skipped the ones where the vulnerability or patch information was unavailable. 
-The full list of the 50 CVEs that we used in our study along with the information about the \sys{} clusters such as the number of clusters and users that are exposed to each CVE after debloating is available in Table~\ref{tab:cve_details} in the Appendix. 
+The full list of the 50 CVEs that we used in our study along with the information about the \dbltr{} clusters such as the number of clusters and users that are exposed to each CVE after debloating is available in Table~\ref{tab:cve_details} in the Appendix. 
 
 \begin{table}[]
     \centering
-    \caption{CVE reduction statistics of debloated clusters. Baseline and \sys{} columns list the number of CVEs remaining after debloating. Min, Median, and Max point to the clusters produced by \sys{} affected with the lowest, to the highest number of CVEs.}
+    \caption{CVE reduction statistics of debloated clusters. Baseline and \dbltr{} columns list the number of CVEs remaining after debloating. Min, Median, and Max point to the clusters produced by \dbltr{} affected with the lowest, to the highest number of CVEs.}
     \label{tab:cve_reduction}
     \begin{tabular}{|l|c|c|ccc|}
     \hline
-    \multirow{2}{*}{\textbf{Web Application}} & \multirow{2}{*}{\textbf{Original}} & \multirow{2}{*}{\textbf{Baseline}} & \multicolumn{3}{c|}{\textbf{\sys{}}}                        \\ \cline{4-6} 
+    \multirow{2}{*}{\textbf{Web Application}} & \multirow{2}{*}{\textbf{Original}} & \multirow{2}{*}{\textbf{Baseline}} & \multicolumn{3}{c|}{\textbf{\dbltr{}}}                        \\ \cline{4-6} 
                                      &                           &                            & \multicolumn{1}{c|}{\textbf{Min}} & \multicolumn{1}{c|}{\textbf{Median}} & \multicolumn{1}{c|}{\textbf{Max}} \\ \hline
     phpMyAdmin                       & 20                        & 9                          & \multicolumn{1}{c|}{4}   & \multicolumn{1}{c|}{6}      & 8   \\ \hline
     WordPress                        & 20                        & 15                         & \multicolumn{1}{c|}{3}   & \multicolumn{1}{c|}{4}      & 15  \\ \hline
@@ -126,8 +126,8 @@ The full list of the 50 CVEs that we used in our study along with the informatio
 \end{table}
 
 Table~\ref{tab:cve_reduction} lists the number of CVEs remaining after debloating for each web application. 
-The ``\sys{}' column shows the range of CVE reduction across clusters. 
-For example, for phpMyAdmin we discover that the \sys{} cluster with the fewer vulnerabilities contained 4 historic CVEs corresponding to more than 50\% reduction of CVEs compared to the baseline debloating cluster. 
+The ``\dbltr{}' column shows the range of CVE reduction across clusters. 
+For example, for phpMyAdmin we discover that the \dbltr{} cluster with the fewer vulnerabilities contained 4 historic CVEs corresponding to more than 50\% reduction of CVEs compared to the baseline debloating cluster. 
 Similarly, the median number of vulnerabilities in our clusters were 6 whereas the cluster with the most remaining CVEs (8) still had fewer vulnerabilities than our baseline debloated web application. 
 This effect is even more pronounced in WordPress where the median number of CVEs per cluster is 4, while certain clusters include as many as 15 CVEs. 
 Magento exhibits a similar trend of localized debloating gains.
@@ -142,7 +142,7 @@ phpMyAdmin uses this variable to determine the database export file type (e.g., 
 Malicious users can abuse this flaw to load and execute arbitrary PHP files from the server. 
 
 The export feature in phpMyAdmin is commonly used to backup existing databases, and therefore, is a popular feature. 
-Nevertheless, we observed that one of our clusters produced by \sys{} included four users who did not exercise the export functionality. As a result, \sys{} is able to remove this feature from the source code of that cluster, protecting these four users against that vulnerability. 
+Nevertheless, we observed that one of our clusters produced by \dbltr{} included four users who did not exercise the export functionality. As a result, \dbltr{} is able to remove this feature from the source code of that cluster, protecting these four users against that vulnerability. 
 
 \subsubsection{Critical API Calls Reduction}
 
@@ -157,9 +157,9 @@ Another security metric that we look at is the reduction in Critical API Calls (
 Figure~\ref{fig:cac_reduction} depicts the CAC reduction trend for various clusters. 
 The first bar of each group shows the total number of CACs for the original web applications.
 Next, the Baseline bar shows the cluster that includes all users grouped together to form a single cluster. 
-Finally, the \sys{} bar refers to number of clusters optimally chosen via \sys{}'s Silhouette scores. 
+Finally, the \dbltr{} bar refers to number of clusters optimally chosen via \dbltr{}'s Silhouette scores. 
 Whereas the Max Clusters bar refers to the extreme of placing each user in their own singleton cluster.
-%Third bar is the Optimal-Cluster where \sys{} determines the number of clusters by maximizing the average Silhouette scores. 
+%Third bar is the Optimal-Cluster where \dbltr{} determines the number of clusters by maximizing the average Silhouette scores. 
 %Finally, Max-Cluster denotes the scenario in which individual users receive their own custom debloated web applications. 
 
 Across all CAC categories and all web applications, we observe a significant reduction for any method of debloating. 
@@ -169,14 +169,14 @@ This reduction clearly demonstrates the effect of third-party bloat where the ma
 
 Contrasting the CAC reduction by the cluster size yields an interesting result. 
 First, we observe that debloating has removed the majority of CACs from all clusters. 
-For phpMyAdmin and Magento, \sys{} reduced the number of code execution APIs by 90\%. 
+For phpMyAdmin and Magento, \dbltr{} reduced the number of code execution APIs by 90\%. 
 This essentially signifies that none of the users in our dataset ever interacted with the majority of these APIs. 
-Similarly, for WordPress \sys{} removed 27.5\% of all code execution APIs. 
+Similarly, for WordPress \dbltr{} removed 27.5\% of all code execution APIs. 
 For other categories of CACs, we observe a similar trend in reduction which ranges from 80-95\% for phpMyAdmin and Magento, and an average of 40\% reduction for WordPress CACs from File system, Information disclosure, and Other categories. 
 
 \begin{table}[]
     \centering
-    \caption{PHP Object Injection Gadgets statistics after debloating. Listing number of existing gadgets for Baseline and the ratio of clusters of \sys{} exposed to those gadgets.}
+    \caption{PHP Object Injection Gadgets statistics after debloating. Listing number of existing gadgets for Baseline and the ratio of clusters of \dbltr{} exposed to those gadgets.}
     \label{tab:poi_gadgets}
     \begin{tabular}{|l|l|l|l|l|}
         \hline
@@ -191,7 +191,7 @@ For other categories of CACs, we observe a similar trend in reduction which rang
 \end{table}
 
 The majority of CAC reduction occurs during the 1-Cluster baseline debloating. 
-Nevertheless, smaller clusters can reduce CAC count by a further 10-40\% compared to the baseline, while the difference between \sys{} size and Max-cluster size is less than 5\% on average.
+Nevertheless, smaller clusters can reduce CAC count by a further 10-40\% compared to the baseline, while the difference between \dbltr{} size and Max-cluster size is less than 5\% on average.
 Therefore, from a CAC-reduction perspective, increasing the number of clusters past the Optimal-cluster size results in diminishing returns.
 
 \subsubsection{PHP Object Injection Gadget Reduction}
@@ -201,16 +201,16 @@ After mapping the list of vulnerable package with those in phpMyAdmin, WordPress
 
 Table~\ref{tab:poi_gadgets} lists the packages in each of our web applications with a known gadget chain based on PHPGGC. 
 Under the column named ``Original'' we list the number of gadget chains within each package. 
-As before, the Baseline column lists the number of gadget chains available after debloating, whereas the \sys{} column lists the percentage of the optimal number of clusters that contain those gadgets. 
+As before, the Baseline column lists the number of gadget chains available after debloating, whereas the \dbltr{} column lists the percentage of the optimal number of clusters that contain those gadgets. 
 
 The Symfony package in phpMyAdmin includes 2 known gadget chains that can lead to arbitrary file write and code execution. 
-Debloating the application into 1-Cluster (Baseline) as well as \sys{} debloating remove these gadgets. 
-For TCPDF gadget, while the baseline debloating does not remove it, \sys{} protects 17\% of the clusters from object injection exploits using this gadget. 
-For WordPress, the baseline debloating strategy removes the existing gadget therefore there are no opportunities for any additional gains by \sys{}.
+Debloating the application into 1-Cluster (Baseline) as well as \dbltr{} debloating remove these gadgets. 
+For TCPDF gadget, while the baseline debloating does not remove it, \dbltr{} protects 17\% of the clusters from object injection exploits using this gadget. 
+For WordPress, the baseline debloating strategy removes the existing gadget therefore there are no opportunities for any additional gains by \dbltr{}.
 
 More interestingly, Magento contains 10 known gadget chains. 
 For Magento's Guzzle package, we observe that while 2 gadgets are still present in the Baseline debloating, (5/6) 83\% of clusters contain one gadget chain while only 16\% contain the other. 
-For the gadget chain within the Magento package itself, only 16\% of clusters produced by the \sys{} contain this gadget. 
+For the gadget chain within the Magento package itself, only 16\% of clusters produced by the \dbltr{} contain this gadget. 
 
 Our results confirm the findings of previous work that debloating is a highly effective defense for removing publicly known object injection gadget chains. 
 Moreover, we observe that by clustering users into multiple groups, we can further breakdown the availability of gadgets and in certain cases, protect as much as 83\% of users and clusters against exploitation of an object injection vulnerability.
@@ -276,14 +276,14 @@ Clustering led to inclusion of new files for an average of 29\% to 71\% of packa
 On a similar note, these results quantitatively demonstrate that clustering users with similar behavior together leads to inclusion of similar functions, and therefore, reduces the likelihood of removing functions that are actually required by the users. 
 Users who make extensive use of the necessary web-application features cluster together with users with more lightweight usage, allowing the latter to gradually expand their use without breaking the web application due to debloated code. 
 
-Finally, we look at the number of ``Removed Packages'' for the clusters produced by \sys{} in Table~\ref{tab:augmented_coverage}. 
+Finally, we look at the number of ``Removed Packages'' for the clusters produced by \dbltr{} in Table~\ref{tab:augmented_coverage}. 
 This column reports the number of packages in the web application where a given percentage of lines are removed after debloating.
 These statistics show that for over half of the packages for phpMyAdmin and Magento, debloating has removed more than 70\% of their lines. 
 In other words, while clustering users with similar behavior together expands their code-coverage of similar features significantly, the debloating procedure is still successfully removing the majority of the code from third-party dependencies, where majority of the bloated code resides~\cite{lessismore}.
 
-\subsection{Performance of \sys}
+\subsection{Performance of \dbltr}
 
-We analyze the performance of \sys{} from two perspectives, request response time, and server resource utilization. 
+We analyze the performance of \dbltr{} from two perspectives, request response time, and server resource utilization. 
 Our test setup consists of an HTTP client and the web server. 
 The HTTP clients simulate 100 users that send requests in parallel. 
 Each client runs in a separate thread and sends batches of 40 requests (average number of requests to load the homepage of WordPress and its resources) towards the main page of WordPress hosted on a remote server. 
@@ -297,41 +297,41 @@ We test the following setups:
 \begin{itemize}
     \item \textbf{Single web server (Apache)} consists of one Apache web server without a reverse-proxy. 
     \item \textbf{Baseline} is made up of an OpenResty reverse proxy and one Apache web server. This setup serves as our baseline. 
-    \item \textbf{\sys{} setups} expand the baseline setup by including the \sys{} modules and consist of one reverse-proxy and 1-50 Apache web servers. Each web server is responsible for the debloated web application for a specific role. This way, we measure the effect of the number of roles on the request response times. Under this setup, each client is assigned to one role in a round-robin fashion.
+    \item \textbf{\dbltr{} setups} expand the baseline setup by including the \dbltr{} modules and consist of one reverse-proxy and 1-50 Apache web servers. Each web server is responsible for the debloated web application for a specific role. This way, we measure the effect of the number of roles on the request response times. Under this setup, each client is assigned to one role in a round-robin fashion.
 \end{itemize}
 
 \begin{figure}[]
     \centering
     \includegraphics[width=0.55
     \textwidth]{figures/dbltr/performance.pdf}
-    \caption{Distribution of request response time in milliseconds for Apache, Baseline, and \sys{} with a varying number of roles (i.e., backed Apache servers).}
+    \caption{Distribution of request response time in milliseconds for Apache, Baseline, and \dbltr{} with a varying number of roles (i.e., backed Apache servers).}
     \label{fig:performance}
   \end{figure}
 
 \subsubsection{Request Response Time Statistics}
 We measure the request response time statistics from the perspective of our HTTP clients and report them in Figure~\ref{fig:performance}. 
 The mere addition of the reverse-proxy (Baseline) increases the median response time of requests by 2\%. 
-For \sys{}, the overhead from analysis and routing modules results in an average increase of 12\% in the median response time and 15\% increase in the 99th percentile response time. 
+For \dbltr{}, the overhead from analysis and routing modules results in an average increase of 12\% in the median response time and 15\% increase in the 99th percentile response time. 
 Moreover, a higher number of roles reduces the variance in the response times, as evident by the smaller boxes and shorter whiskers from one (DBLTR 1) to fifty roles (DBLTR 50). 
 
 \subsubsection{Resource Utilization}
 We measured the CPU and memory utilization of our test setup using the Docker runtime metrics API. 
 Table~\ref{tab:performance} reports the resource usage statistics for the web servers and content-delivery (i.e., reverse-proxy) modules. 
-Overall, the content-delivery module both in baseline and \sys{} setups utilizes 5-6\% of CPU and less than 20~MiB of RAM which is very small compared to the amount of resources utilized by the web server. 
+Overall, the content-delivery module both in baseline and \dbltr{} setups utilizes 5-6\% of CPU and less than 20~MiB of RAM which is very small compared to the amount of resources utilized by the web server. 
 Moreover, across all setups, the CPU utilization of the web server modules remains constant. 
-At the same time, increasing the number of roles in \sys{} which results in an increase in the number of web servers results in a linear increase in the overall memory utilization. 
-During our tests, we observed a 5x increase in overall memory usage of \sys's web servers when increasing the number of roles by an order of 50x. 
+At the same time, increasing the number of roles in \dbltr{} which results in an increase in the number of web servers results in a linear increase in the overall memory utilization. 
+During our tests, we observed a 5x increase in overall memory usage of \dbltr{}'s web servers when increasing the number of roles by an order of 50x. 
 
-\paragraph{Disk space utilization} \sys{} stores a separate and unique debloated copy of the web applications for each role. 
-As a result, the disk utilization overhead of \sys{} is proportional to the number of roles. 
-While shrinking the disk utilization of \sys{} is not a main goal, by definition, the debloating process removes unused lines of code. 
+\paragraph{Disk space utilization} \dbltr{} stores a separate and unique debloated copy of the web applications for each role. 
+As a result, the disk utilization overhead of \dbltr{} is proportional to the number of roles. 
+While shrinking the disk utilization of \dbltr{} is not a main goal, by definition, the debloating process removes unused lines of code. 
 Overall, debloated web applications occupy 5-10\% less disk space. 
 While this reduction may be insignificant for smaller web applications, for larger ones such as Magento, debloated web applications on average occupy 100~MB less disk space. 
 
 
 \begin{table}[]
     \centering
-    \caption{Average CPU and Memory utilization of \sys. \textit{DBLTR N}-Web Servers row shows the range of CPU and Memory utilization for \textit{DBLTR 1} to \textit{DBLTR 50}.}
+    \caption{Average CPU and Memory utilization of \dbltr{}. \textit{DBLTR N}-Web Servers row shows the range of CPU and Memory utilization for \textit{DBLTR 1} to \textit{DBLTR 50}.}
     \label{tab:performance}
     \adjustbox{max width=\columnwidth}{
     \begin{tabular}{|l|l|l|l|}

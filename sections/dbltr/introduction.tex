@@ -35,29 +35,29 @@ First, not all popular web applications provide fine-grained access control (e.g
 
 Furthermore, access-control flaws where users have access to features that they should not have access to, are commonly found even in popular platforms~\cite{dalton2009nemesis,doupe2011fear}. 
 Among other examples, attackers have been able to directly invoke privileged vulnerable modules, which allowed them to fully bypass the authentication and authorization of the main application~\cite{wpfilemanager}. 
-Finally, while it is not the main objective of \sys{}, restricting privileged users to well-defined sets of operations can thwart potential insider attacks.
+Finally, while it is not the main objective of \dbltr{}, restricting privileged users to well-defined sets of operations can thwart potential insider attacks.
 
 To address the limitations of prior web-application debloating systems
-we propose \sys{}, an automatic role-based debloating pipeline that identifies clusters of similar usage patterns among users which can be considered equivalent to an access-control role. 
-After identifying the optimal number of clusters (\emph{N}), \sys{} creates \emph{N} debloated copies of the web application tailored to the needs of each subset of users. \sys{} orchestrates the access to these applications through the use of a transparent reverse proxy that captures the successful authentication requests and subsequent authentication cookies to route known users to their custom debloated web applications. 
+we propose \dbltr{}, an automatic role-based debloating pipeline that identifies clusters of similar usage patterns among users which can be considered equivalent to an access-control role. 
+After identifying the optimal number of clusters (\emph{N}), \dbltr{} creates \emph{N} debloated copies of the web application tailored to the needs of each subset of users. \dbltr{} orchestrates the access to these applications through the use of a transparent reverse proxy that captures the successful authentication requests and subsequent authentication cookies to route known users to their custom debloated web applications. 
 This process is done without the need to modify target web applications beyond the debloating process, and happens transparently from the perspective of users.
 
 % Public vs. authenticated separation
 % Explicit limiting of
 
-\sys{} yields multiple concrete advantages compared to prior schemes of debloating web applications. First, it creates a separation between public and authenticated users which protects web applications even in the face of access-control errors. 
+\dbltr{} yields multiple concrete advantages compared to prior schemes of debloating web applications. First, it creates a separation between public and authenticated users which protects web applications even in the face of access-control errors. 
 Second, it contains the damage that is possible by a given authenticated user (e.g., due to compromised credentials or client-side attacks) by limiting the attack to the parts of the web application that the user requires for their tasks. 
 Lastly, the clustering of users into sets that access differently-debloated web applications, provides a fine-grained access control mechanism, which operates on top of any existing access-control mechanisms and can capture the real needs of users on a feature-by-feature basis. 
 For instance, an authenticated WordPress user that only publishes blog posts and replies to comments will receive access to a tailored WordPress application where critical features (e.g., theme modification and plugin installation) are neutralized for that user, yet remain available to other privileged users in the same deployment who rely on them. 
 
-To better understand how the various components of \sys{} work in unison to differentially-debloat and secure web applications, we have prepared the following demonstration. We show a scenario involving a CSRF exploit on phpMyAdmin (CVE-2019-12616) and two users who both visit the same exploit-launching page prepared by an attacker. The video of our demonstration is available online at: \url{https://vimeo.com/652161913} (the video is hosted on a third-party platform to preserve the anonymity of both authors and reviewers).
+To better understand how the various components of \dbltr{} work in unison to differentially-debloat and secure web applications, we have prepared the following demonstration. We show a scenario involving a CSRF exploit on phpMyAdmin (CVE-2019-12616) and two users who both visit the same exploit-launching page prepared by an attacker. The video of our demonstration is available online at: \url{https://vimeo.com/652161913} (the video is hosted on a third-party platform to preserve the anonymity of both authors and reviewers).
 
 \noindent Overall, we make the following original contributions:
 
 
 \begin{itemize}
     \item To back our intuition that different users utilize web applications in different ways, we perform a user study including 60 participants to understand how experienced developers and administrators interact with popular web applications.
-    \item We propose \sys{}, an automated web-application debloating and content-delivery system which is capable of reducing the size of applications by up to 70\% and removing as much as 80\% of severe security vulnerabilities beyond the state-of-the-art in web application debloating.
+    \item We propose \dbltr{}, an automated web-application debloating and content-delivery system which is capable of reducing the size of applications by up to 70\% and removing as much as 80\% of severe security vulnerabilities beyond the state-of-the-art in web application debloating.
     \item We analyze the security gains and quantify the attack surface reduction of our debloating scheme based on various source code (e.g., line reduction) and security metrics (e.g., CVE reduction, Critical API removal, etc.)
 \end{itemize}
 

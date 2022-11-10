@@ -1,24 +1,14 @@
-Web applications have become an inseparable part of work and life. 
-The prevalence of online services and the remote work has paved the way for attackers to break into companies and access sensitive financial, personal, and confidential information. 
-At the same time, defenders proposed techniques to prevent the attacks or limit their damage. 
+Web applications have become an inseparable part of our digital life, and therefore, protecting online users and their information is a critical task. 
 Over the past two decades, defensive measures such as secure software development practices, network protection devices and intrusion detection systems have matured. 
-Among others, attack surface reduction is one of the important defensive concepts. 
-This concept consists of limiting the entry points to the applications which can be abused by attackers. 
+Among others, attack surface reduction is an important defensive concept, which consists of limiting the entry points to the applications which can be abused by attackers. 
 Software debloating is one of the concrete approaches for this idea, and its goal is identification and removal of unnecessary code to prevent its abuse and exploitation in future attacks. 
 
-In this dissertation, I present my work on identifying and characterizing bloat in web applications, as well as techniques to produce debloated applications while preserving their functionality for their users. 
-First, I discuss my work on quantifying the security benefits of debloating web applications. 
-In this work, we show that debloating can produce web applications that are 46\% smaller than their original versions. 
-We define various metrics to quantify the effects of debloating as meaningful security metrics including CVE reduction and removal of sensitive functions. 
-Moreover, by mapping CVEs to the source code of the applications, we demonstrated the power of debloating in removing tens of historic vulnerabilities. 
-We propose two approaches for debloating, namely file and function level debloating. 
+In this dissertation, I present my work on identifying and characterizing code-bloat in web applications, as well as techniques to remove this code-bloat while preserving the functionality of web applications based on the users' needs.
+We start by quantifying the security benefits of debloating web applications. We show that debloating can produce web applications that are 46\% smaller than their original versions, while removing tens of historic vulnerabilities. 
 
-Second, I discuss the design and implementation of role-based debloating. 
-This technique is based on the observation that not all users of a web application use the same features. 
-We conducted a user study to collect first-hand information of how experienced administrators and developers interact with popular web applications. 
-Next, we design and train an unsupervised clustering model to group users with similar usage profile under a similar dynamically defined ``Role''. 
-Lastly, we build a content-delivery system based on reverse-proxies to route users transparently to their custom debloated web application and report the effectiveness of this system in debloating web applications. 
+Next, we discuss the design and implementation of role-based debloating.
+Through a user study with experienced administrators and developers, we observed that different users require access to vastly different features.
+To identify users with similar behavior, we design and train an unsupervised clustering model to group users together and assign ``Roles'' to them. 
+We then build a content-delivery system based on reverse-proxies to route users transparently to their custom debloated web application and report the effectiveness of this system in debloating web applications. 
 
-We identified one of the main challenges of debloating web applications to be the collection of representative real world data on web application usage from the users. My proposal for the future work of the remainder of my PhD is set to address this challenge. 
-I discuss my current progress, existing challenges and the future work on the design and implementation of a system which utilizes concolic execution to statically debloat web applications based on the readily available web server logs. 
-
+Lastly, we identify one of the main challenges of debloating web applications to be the collection of representative real world data on web application usage. By building a PHP emulator capable of concolic execution, we perform an offline reachability analysis based on the web server logs to model the users behavior for the given entry points. We then use this information to debloat web applications and demonstrate the performance of concolic execution for debloating to be comparable to the prior dynamic debloating schemes without suffering from their limitations.

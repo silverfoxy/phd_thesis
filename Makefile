@@ -1,12 +1,12 @@
 all:
-	pdflatex thesis.tex
+	pdflatex -shell-escape thesis.tex
 	bibtex thesis
-	pdflatex thesis.tex
-	pdflatex thesis.tex
+	pdflatex -shell-escape thesis.tex
+	pdflatex -shell-escape thesis.tex
 
 
 quick:
-	pdflatex thesis.tex
+	pdflatex -shell-escape thesis.tex
 
 clean:
 	rm -f *.blg *.bbl *.log *.aux

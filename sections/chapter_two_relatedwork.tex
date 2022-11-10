@@ -3,16 +3,15 @@
 
 In this chapter we review the literature of research on the topic of software debloating. 
 The idea of software debloating was initially discussed by Zeller et al.~\cite{zeller2002simplifying} as a means to isolate failure-inducing code. 
-This idea was later applied to the context of software security to reduce the attack surface of applications. 
+This idea was later applied to the context of software security to reduce the attack surface of applications and software systems ranging from kernel~\cite{abubakar2021shard}, container environments~\cite{rastogi2017Cimplifier,259711}, binaries~\cite{hasan2022decap, redini2019b, heo2018effective,ghavamnia2020temporal, mishra2020saffire, koo2019configuration, quach2018debloating}, web browsers~\cite{snyder2017most, qian2020slimium}, and web applications~\cite{azad2019less, bulekov2021saphire, mininode, jahanshahi2020you}. 
 At a high level, there are three mainstream approaches to debloating: 
 
 \begin{enumerate}
     \item Using static analysis to identify and debloat unreachable code (i.e., dead code)~\cite{redini2019b, snyder2017most, quach2018debloating, mininode, 255308}.
-    \item Debloating reachable code which is unused given a set of tests (e.g., automated test cases, or dynamic code coverage traces)~\cite{lessismore, heo2018effective,qian2020slimium, koo2019configuration}.
+    \item Debloating reachable code which is unused given a set of tests (e.g., automated test cases, runtime dynamic code coverage traces, and static and dynamic reachability analysis based on web application entry points)~\cite{lessismore, heo2018effective,qian2020slimium, koo2019configuration}.
     \item API specialization, which consists of disabling sensitive APIs or hardening them with respect to the execution context of applications~\cite{mishra2020saffire, saphire, jahanshahi2020you, mishra2021sgxpecial}. 
 \end{enumerate}
 
-Orthogonally, we can categorize debloating methods based on their target platform. 
 
 \section{Debloating for the web}
 

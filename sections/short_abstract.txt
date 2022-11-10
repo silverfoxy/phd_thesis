@@ -1,0 +1,19 @@
+ 
+Stony Brook University
+The Graduate School
+ 
+Doctoral Defense Announcement
+Abstract
+Protecting Web Applications via Software Debloating
+By
+Babak Amin Azad
+Abstract: Web applications have become an inseparable part of our digital life, and therefore, protecting online users and their information is a critical task. Among others, attack surface reduction is an important defensive concept, which consists of limiting the entry points to the applications which can be abused by attackers. Software debloating is one of the concrete approaches for this idea, and its goal is identification and removal of unnecessary code to prevent its abuse and exploitation in future attacks. 
+In this dissertation, I present my work on identifying and characterizing code-bloat in web applications, as well as techniques to remove this code-bloat while preserving the functionality of web applications based on the users' needs. We start by quantifying the security benefits of debloating web applications. We show that debloating can produce web applications that are 46% smaller than their original versions, while removing tens of historic vulnerabilities. 
+Next, we discuss the design and implementation of role-based debloating. Through a user study with experienced administrators and developers, we observed that different users require access to vastly different features. To that end, we cluster users together under the same role based on their behavior during a training phase. We build a content-delivery system to transparently route users to their custom debloated web applications and report the security gains of role-based debloating. 
+Lastly, we identify one of the main challenges of debloating web applications to be the collection of representative real world data on web application usage. By building a PHP emulator capable of concolic execution, we perform an offline reachability analysis based on the web server logs to model the users behavior for the given entry points. We then use this information to debloat web applications and demonstrate the performance of concolic execution for debloating to be comparable to the prior dynamic debloating schemes without suffering from their limitations.
+ 
+Date:  December 6, 2022		         Program: Computer Science
+Time: 1:00 PM			             Dissertation Advisor: Nick Nikiforakis 
+Place: New Computer Science Bldg - Room 120
+(*If an outside member of the community would like to attend the defense, please contact the email address of the program contact person. 
+Contact Babak Amin Azad baminazad@cs.stonybrook.edu)
