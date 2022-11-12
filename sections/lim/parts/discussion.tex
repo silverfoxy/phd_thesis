@@ -76,13 +76,13 @@ leave the design of such systems for future work.
 In this paper, we use Cyclomatic Complexity (CC), Logical Lines of Code
 (LLOC), reduction in historical CVEs, and POP gadget reduction as four metrics to measure the
 effects of debloating on different web applications. However, not every line of code
-contributes equally to a program's attack surface. For example, 15\% of removed
+contributes equally to a program's attack-surface. For example, 15\% of removed
 files from Magento 2.0.5 are test files for external packages and
 the core of the application. Such code may not be directly exploitable or
 used in a POP chain unless there is a misconfiguration (e.g., autoloading
 including these files, or the directories being publicly accessible). As such,
 the resulted reduction in source code metrics (CC and LLOC) may also reflect the code
-that does not contribute to the attack surface.
+that does not contribute to the attack-surface.
 Contrastingly, the reduction of exploitable CVEs draws a more realistic picture
 of real world attacks. The drawback of this metric is its unavailability for
 proprietary software and the manual effort required to map CVEs to source

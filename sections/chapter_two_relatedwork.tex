@@ -3,7 +3,7 @@
 
 In this chapter we review the literature of research on the topic of software debloating. 
 The idea of software debloating was initially discussed by Zeller et al.~\cite{zeller2002simplifying} as a means to isolate failure-inducing code. 
-This idea was later applied to the context of software security to reduce the attack surface of applications and software systems ranging from kernel~\cite{abubakar2021shard}, container environments~\cite{rastogi2017Cimplifier,259711}, binaries~\cite{hasan2022decap, redini2019b, heo2018effective,ghavamnia2020temporal, mishra2020saffire, koo2019configuration, quach2018debloating}, web browsers~\cite{snyder2017most, qian2020slimium}, and web applications~\cite{azad2019less, bulekov2021saphire, mininode, jahanshahi2020you}. 
+This idea was later applied to the context of software security to reduce the attack-surface of applications and software systems ranging from kernel~\cite{abubakar2021shard}, container environments~\cite{rastogi2017Cimplifier,259711}, binaries~\cite{hasan2022decap, redini2019b, heo2018effective,ghavamnia2020temporal, mishra2020saffire, koo2019configuration, quach2018debloating}, web browsers~\cite{snyder2017most, qian2020slimium}, and web applications~\cite{azad2019less, bulekov2021saphire, mininode, jahanshahi2020you}. 
 At a high level, there are three mainstream approaches to debloating: 
 
 \begin{enumerate}
@@ -24,7 +24,7 @@ JavaScript APIs in the wild and proposed the use of a client-side extension
 which controls which APIs any given website would get access to, depending
 on that website's level of trust. 
 Schwarz et al. similarly utilized a browser
-extension to limit the attack surface of Chrome and show that they are able
+extension to limit the attack-surface of Chrome and show that they are able
 to protect users against micro-architectural and side-channel
 attacks~\cite{Schwarz2018}. 
 Finally, Qian et al. debloated the Chromium browser with respect to the feature usage of specific websites~\cite{qian2020slimium}. 
@@ -40,7 +40,7 @@ For the server-side debloating, Boomsma et al. performed dynamic profiling of a 
 The authors measured the time it takes for their dynamic profile system to get
 complete coverage and the percentage of files that they could remove. Since the
 application was a custom one, the authors were not able to report specifics
-in terms of the reduction of the programs attack surface, as that relates
+in terms of the reduction of the programs attack-surface, as that relates
 to CVEs. 
 
 Koishybayev et al. focused on the bloat from third-party Node.js libraries. 
