@@ -15,7 +15,7 @@ user's browser.
 This increase in capabilities requires more and more complex server-side
 and client-side code to be able to deliver the features that users have
 come to expect. However, as the code and code complexity of an application
-expands, so does its attack surface. Web applications are vulnerable to
+expands, so does its attack-surface. Web applications are vulnerable to
 a wide range of client-side and server-side attacks including Cross-Site
 Scripting~\cite{xss,kirda2006noxes,vogt2007cross}, Cross-Site
 Request Forgery~\cite{csrf,jovanovic2006preventing,barth2008csrf},
@@ -34,7 +34,7 @@ known as \textit{attack-surface reduction} and \textit{software debloating},
 is based on the assumption that not all users require the same features from
 the same piece of software. By removing the features of different deployments
 of the same software according to what the users of each deployment require,
-one can reduce the attack surface of the program by maintaining only the
+one can reduce the attack-surface of the program by maintaining only the
 features that users utilize and deem necessary. The principle of software
 debloating has been successfully tried on operating systems (both to build
 unikernel OSs~\cite{madhavapeddy2013unikernels} and to remove
@@ -43,7 +43,7 @@ Kurmus:2011:ASR:1972551.1972557}) and more recently on shared
 libraries~\cite{mishra2018shredder,quach2018debloating} and compiled binary
 applications~\cite{heo2018effective}.
 
-In this paper, we present the first evaluation of the applicability of software
+In this chapter, we present the first evaluation of the applicability of software
 debloating for web applications. We focus on four popular open-source PHP
 applications (phpMyAdmin, MediaWiki, Magento, and WordPress) and we map the CVEs of 69
 reported vulnerabilities to the source code of each web application. We utilize
@@ -79,4 +79,4 @@ of PHP gadgets that could be used in Property Oriented Programming attacks
 
 \end{itemize}
 
-\noindent To motivate further research into debloating web applications and to ensure the reproducibility of our findings, we are releasing \emph{all} data and software artifacts.
+% \noindent To motivate further research into debloating web applications and to ensure the reproducibility of our findings, we are releasing \emph{all} data and software artifacts.

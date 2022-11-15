@@ -1,0 +1,29 @@
+\section{Discussion}
+In this section, we discuss some design decisions when building \animatedead{}. 
+
+\paragraph{Path condition analysis:} 
+Concolic execution engines often incorporate SMT solvers such as Z3~\cite{moura2008z3} to evaluate the feasibility of symbolic branches based on path constraints and replace symbolic variables with concrete samples. 
+In this work, to reduce the complexity of our operations and reduce the overhead of SMT solvers, we opted to implement our context-specific concolic translator. 
+As discussed in Section~\ref{sec:concolic_translation}, \animatedead{} tracks path constraints for strings, set operations (i.e., array membership checks and value set analysis), and variable types. 
+Using this information, the emulator skips non-feasible branches and replaces symbolic variables with concrete values only when required (i.e., instructions that introduce new code to the AST). 
+
+\paragraph{Runtime threshold and termination condition:} 
+The decision to terminate a concolic execution campaign can determine the completeness of its results. 
+Premature termination can lead to missed code-coverage and in turn, false positives in debloating. 
+The two mainstream approaches to this problem are time-based thresholds (e.g., terminate the analysis after \emph{N} hours of no new discovery) or missing mass estimators~\cite{goodestimator}. 
+The premise of an estimator is to determine, given the prior inputs and their unique code-coverage, what is the probability of the next input to explore new code-coverage. 
+
+In this work, we opted to use a threshold of 24 hours based on our experiments. 
+In practice, only a subset of all entry points in larger web applications require runtime of more than 1 hour. 
+\animatedead{} provides a reporting panel that plots the new code-coverage information for each running campaign. 
+We suggest that analysts oversee the convergence of new code-coverage discovery and terminate the analysis of each entry point after concolic execution stops identifying new code-coverage for an extended period of time. 
+
+\paragraph{Single Page Applications (SPA):} 
+These web applications incorporate JavaScript libraries and asynchronous requests to interact with the web server and navigate through the web application seamlessly. 
+\animatedead{} operates based on web server logs, as a result, the client side intricacies of SPAs do not affect its analysis. 
+
+% \paragraph{Concolic execution of other languages:} 
+% We built \animatedead{} based on the PHP language, which is the most popular web development language used by more than 77.4\% of all websites~\cite{w3techphp}. 
+% Majority of the development effort of this project is targeted towards the PHP language. 
+% As a result, for \animatedead{} to support other languages, one needs to develop new concolic execution engines. 
+% That said, given the similarity of web programming languages (e.g., dynamic constructs, use of callbacks, etc.), we envision that they can benefit from the design concepts of \animatedead{}. 

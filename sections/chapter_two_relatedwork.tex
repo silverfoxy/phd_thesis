@@ -1,55 +1,57 @@
 \chapter{Related Work}
 \label{chap:relatedwork}
 
-In this chapter we review the literature of research on the topic of software debloating. 
+In this chapter we review the literature of research on the topic of software debloating, as well as graph-based representations of the source code of applications such as call graphs and control flow graphs used in static analysis. 
+Lastly, we discuss the literature on symbolic and concolic analysis. 
+
 The idea of software debloating was initially discussed by Zeller et al.~\cite{zeller2002simplifying} as a means to isolate failure-inducing code. 
-This idea was later applied to the context of software security to reduce the attack surface of applications. 
+This idea was later applied to the context of software security to reduce the attack-surface of applications and software systems ranging from kernel~\cite{abubakar2021shard}, container environments~\cite{rastogi2017Cimplifier,259711}, binaries~\cite{hasan2022decap, redini2019b, heo2018effective,ghavamnia2020temporal, mishra2020saffire, koo2019configuration, quach2018debloating}, web browsers~\cite{snyder2017most, qian2020slimium}, and web applications~\cite{azad2019less, bulekov2021saphire, mininode, jahanshahi2020you}. 
 At a high level, there are three mainstream approaches to debloating: 
 
 \begin{enumerate}
     \item Using static analysis to identify and debloat unreachable code (i.e., dead code)~\cite{redini2019b, snyder2017most, quach2018debloating, mininode, 255308}.
-    \item Debloating reachable code which is unused given a set of tests (e.g., automated test cases, or dynamic code coverage traces)~\cite{lessismore, heo2018effective,qian2020slimium, koo2019configuration}.
+    \item Debloating reachable code which is not exercised under a usage scenario (e.g., automated test cases, runtime dynamic code-coverage traces, and static and dynamic reachability analysis based on web application entry points)~\cite{lessismore, heo2018effective,qian2020slimium, koo2019configuration}.
     \item API specialization, which consists of disabling sensitive APIs or hardening them with respect to the execution context of applications~\cite{mishra2020saffire, saphire, jahanshahi2020you, mishra2021sgxpecial}. 
 \end{enumerate}
 
-Orthogonally, we can categorize debloating methods based on their target platform. 
+Orthogonally, we can categorize debloating schemes by their underlying platform. 
+We start by reviewing the prior work on debloating for the web including the web servers, web browsers, and web applications. 
+Next, we discuss debloating approaches for other platforms, and finally, we go over the literature for module reachability analysis and symbolic execution. 
+
 
 \section{Debloating for the web}
 
-Web applications consist of client side and server side modules. 
+\paragraph{Debloating web browsers:} Web applications consist of client side and server side modules. 
 The client side modules, mainly including HTML, JavaScript and CSS, directly interact with clients' browsers. 
 Snyder et al. investigated the idea of API specialization for the JavaScript APIs in web browsers~\cite{snyder2017vibrate}. 
-The authors performed a risk analysis of providing access to various browser features and APIs to the JavaScript code.
+The authors performed a risk analysis for providing access to various browser features and APIs to the JavaScript code.
 They evaluated the use of different
 JavaScript APIs in the wild and proposed the use of a client-side extension
-which controls which APIs any given website would get access to, depending
+to control which APIs any given website would get access to, depending
 on that website's level of trust. 
 Schwarz et al. similarly utilized a browser
-extension to limit the attack surface of Chrome and show that they are able
-to protect users against micro-architectural and side-channel
-attacks~\cite{Schwarz2018}. 
+extension to limit the attack-surface of Chrome browser and showed that their extension can protect users against micro-architectural and side-channel attacks~\cite{Schwarz2018}. 
 Finally, Qian et al. debloated the Chromium browser with respect to the feature usage of specific websites~\cite{qian2020slimium}. 
 These studies are orthogonal to our work in this thesis since
-they both focus on the client-side of the web platform, whereas we focus on
-the server-side web applications.
+they focus on the client-side aspect of the web platform, whereas we focus on the server-side web applications. 
 
-Web servers, as the integral part of serving web applications, are prime candidates for debloating. 
+\paragraph{Debloating web servers:} Web servers, as the integral part of serving web applications, are prime candidates for debloating. 
 Koo et al. explored the debloating of web servers through the analysis of unused features based on a given web server configuration file~\cite{koo2019configuration}. 
 Ghavamnia et al. identified that applications such as web servers by design have separate phases (e.g., setup vs serve), and introduced the idea of temporal system call specialization to limit the available APIs based on the current status of the target application. 
 
-For the server-side debloating, Boomsma et al. performed dynamic profiling of a custom web application (a PHP application from an industry partner)~\cite{boomsma2012Dead}. 
+\paragraph{Debloating web applications:} For the server-side debloating, Boomsma et al. performed dynamic profiling of a custom web application (a PHP application from an industry partner)~\cite{boomsma2012Dead}. 
 The authors measured the time it takes for their dynamic profile system to get
 complete coverage and the percentage of files that they could remove. Since the
 application was a custom one, the authors were not able to report specifics
-in terms of the reduction of the programs attack surface, as that relates
+in terms of the reduction of the programs attack-surface, as that relates
 to CVEs. 
 
 Koishybayev et al. focused on the bloat from third-party Node.js libraries. 
 The authors designed Mininode, which uses static analysis to identify unreachable code in third-party modules and the chain of dependencies in Node.js applications~\cite{mininode}. 
-The threat model of Mininode assumes the presence of a arbitrary code execution vulnerability and prevents the attackers from escalating their code execution privileges by accessing sensitive APIs within the main application dependencies. 
+The threat model of Mininode assumes the presence of an arbitrary code execution vulnerability and prevents the attackers from escalating their code execution privileges by accessing sensitive APIs within the main application dependencies. 
 Nevertheless, their threat model does not cover the majority of web vulnerabilities including SQLi~\cite{sqlInjection}, XSS~\cite{xss}, CSRF~\cite{csrf}, etc. which by definition are only exploitable from the reachable code. 
 
-Another group of researchers focused on API specialization to protect web applications against SQL injection attacks~\cite{jahanshahi2020you}.
+\paragraph{API specialization for web applications:} Another group of researchers focused on API specialization to protect web applications against SQL injection attacks~\cite{jahanshahi2020you}.
 Orthogonally, Redini et al. proposed BreakApp, which protects Node.js applications by limiting the available APIs for Node.js libraries~\cite{vasilakis2018breakapp} and Jahanshahi et al. designed Saphire, which is their API specialization approach that functions by identifying and limiting the system calls available to each PHP script, thereby limiting the ability of attackers in causing harm~\cite{saphire}. 
 Their threat model is similar to Minonode and protects web applications from further exploitation in the presence of a vulnerability that leads to arbitrary code execution. 
 API specialization is orthogonal to the debloating schemes discussed in this thesis and can be applied in parallel to our work to provide further protection for web applications. 
@@ -84,43 +86,46 @@ Ghavamnia et al. looked at this problem from another perspective.
 They proposed Confine, their tool generates system call profiles for containers~\cite{259711}.
 Lastly, Abubakar et al. debloated the Linux kernel~\cite{abubakar2021shard} and Mishra et al. proposed an API specialization scheme for Intel SGX APIs~\cite{mishra2021sgxpecial}.
 
-\section{Control flow graph generation}
-CFGs (Control Flow Graphs) are useful representations of the control flow of the applications, and are commonly used for static analysis. 
-CFGs are also proven to be useful for the purposes of debloating. 
-Redini et al. in their tool Bintrimmer showed that given an accurate CFG of a binary, they can identify disconnected nodes and remove them via debloating~\cite{redini2019b}. 
-For web applications specifically, combining CFGs with the information about the entry points of applications is enough to perform debloating. 
+\section{Module reachability analysis}
 
-The main challenge of CFG generation specially for applications written in dynamic languages such as PHP is the absence of critical information for static analysis. 
-More concretely, PHP allows developers to dynamically decide on which modules to load, and call functions with dynamic names. 
-Luckily, a full CFG is not a hard requirement for static analysis purpose built for vulnerability discovery. 
+Control flow graphs (CFG) represent the transitions between the basic blocks of applications, and are commonly used for static analysis. 
+Call Graphs (CG) represent the calling relationship between the functions in an application. 
+CGs and CFGs can be used for the purpose of debloating by performing a reachability analysis to identify unreachable code as disconnected nodes in the graphs. 
+For instance, Redini et al. in their tool Bintrimmer showed that given the CFG of a binary, they can identify disconnected nodes (i.e., dead code) and remove them via debloating~\cite{redini2019b}. 
+For web applications specifically, combining CGs with the information about the entry points of applications can be used to identify unreachable, but live code from the exercised entry points. 
 
-As a result, previous work has addressed the uncertainty of static CFG generation through dynamic analysis. 
+The main challenge of call graph generation specially for applications written in dynamic languages such as PHP is the absence of critical information for static analysis that is required to resolve file inclusions and determine the target of dynamic function calls. 
+More concretely, PHP allows developers to dynamically decide on which modules to load, and which function to call based on the runtime value of program variables. 
+
+Historically, imperfect call graphs have be used for static analysis in the context of vulnerability discovery. 
+Moreover, previous work has addressed the uncertainty of static call graph generation through dynamic analysis. 
 For instance, Alhuzaili et al. and Jensen et al. incorporated web crawlers as a pre-analysis step to exercise various parts of the web applications, and as a result collect dynamic traces of the file inclusions and function calls~\cite{alhuzali2018navex, jensen2012thaps}. 
-This way, they can aid their static analysis to build a more accurate CFG. 
-Nevertheless, crawlers by design cannot explore all the possible paths within an application. 
+This way, they can aid their static analysis to build a more accurate call graph. 
+Nevertheless, crawlers cannot practically explore all the possible paths within an application. 
 Specially for complex applications with multi-stage form submissions, file uploads and form field verifications, web crawlers fall short. 
 
 Orthogonally, Backes et al. proposed the idea of Code Property Graphs (CPGs) in which they use to detect PHP vulnerabilities. 
-CPGs are generated based on CFGs and CGs (Call Graphs). 
+CPGs are generated based on CFGs and CGs. 
 In their work, the authors reported that they could only resolve 78.9\% of dynamic function calls. 
-While the authors were able to use the CPGs to report new vulnerabilities, using a CFG with 20\% uncertainty makes debloating infeasible. 
+While the authors were able to use the CPGs to report new vulnerabilities, using a CFG with 20\% uncertainty makes debloating infeasible as it would result in a significant number false positives. 
 
 An alternative solution devised by researchers to resolve dynamic function calls and file inclusions is to rely on the existing structure of these calls which are commonly made up of multiple string concatenations. 
 For instance, Bulekov et al. modeled the file inclusions as regular expressions and mapped them to the underlying file system to identify potential candidate files~\cite{saphire}. 
 Similarly, Dahse et al. in their tool RIPS, which incorporates static taint analysis to identify injection style vulnerabilities~\cite{dahse2010rips}, relied on a limited scope variable analysis to resolve the strings used in file inclusions. 
 Pixy, one of the first papers to incorporate taint analysis to detect XSS vulnerabilities functions the same way~\cite{jovanovic2006pixy}. 
-Overall, we observe that the previous research relies on incomplete CFGs, yet it allows their static analysis tools to identify new vulnerabilities in web applications.
+Overall, we observe that the previous research relies on incomplete call graphs, yet it allows their static analysis tools to identify new vulnerabilities in web applications.
 
-For debloating purposes, an unresolved call site or file inclusion in CFGs leads to error-prone debloating. 
-A call site that can potentially call any other function within the application means that debloating cannot safely reason about and remove any functions from the web application, and is therefore rendered useless. 
+For debloating purposes, an unresolved call site or file inclusion in call graphs leads to error-prone debloating. 
+An unresolved call site that can potentially map to any function within the application means that debloating cannot safely reason about and remove any function from the web application, and is therefore rendered useless. 
 
 \section{Symbolic execution}
 
 The idea of symbolic execution for program testing was originally introduced by King et al.~\cite{king1976symbolic} in 1975. 
-The premise of symbolic execution is to explore the various execution paths of an application without concretely running it. 
+The premise of symbolic execution is to explore the various execution paths of an application without concretely executing it. 
 Symbolic execution can be applied on the binaries (i.e., IR-Less) as well as higher level representations of a program (i.e., IR-Based) such as the LLVM IR~\cite{llvmir}. 
 KLEE~\cite{cadar2008klee}, S2E~\cite{chipounov2009selective}, and angr~\cite{cheng2016binary} are IR-based while QSYM~\cite{yun2018qsym}, and SAGE~\cite{godefroid2012sage} are IR-less symbolic analysis engines. 
-Generally, IR-based engines are easier to implement as they only need to support the fewer IR instructions, and are architecture agnostic. 
+
+IR-based engines are easier to implement as they only need to support the fewer IR instructions, and are architecture agnostic. 
 Conversely, IR-less implementations are harder to implement and need to support thousands of instructions and are closely tied to the underlying architecture that they support. 
 At the same time, IR-less symbolic execution engines provide a better performance~\cite{poeplau2019systematic}.
 Symbolic execution engines commonly consist of a symbolic store to include the current variables and their value set and its constraints. 
@@ -140,8 +145,18 @@ Concolic execution engines commonly rely on SMT solvers to generate concrete inp
 By replacing symbolic values with concrete ones, we reduce the overhead and increase the performance of the analysis. 
 
 In the realm of web applications, Navex used concolic execution as a means for automatic exploit generation~\cite{alhuzali2018navex}. 
-In a worker closer to ours, Naderi et al. built PHP emulators and used them in combination with counterfactual execution to uncover obfuscated PHP malware~\cite{naderi2019cubismo,naderi2019malmax}. 
+One helpful technique used in symbolic web application analysis tools is to isolate the code for their target module before performing the symbolic analysis. 
+For instance, Huang et al. built a file upload vulnerability discovery tool named UChecker~\cite{Huang2019}. 
+In their tool, they perform an initial phase of static analysis to identify potentially vulnerable sinks. 
+Then, through backward slicing, they isolate the code responsible for file upload functionality from user controlled sources to sensitive sinks. 
+Similarly, Jensen et al. aid their static analysis by resolving dynamic file inclusions via dynamic analysis by incorporating web crawlers~\cite{jensen2012thaps}. 
+They then perform static analysis to identify XSS vulnerabilities and finally validate their findings using symbolic execution. 
+In both papers, the authors use symbolic execution to verify the reachability of the vulnerable sinks. 
+
+In a worker closer to ours, Naderi et al. built a PHP emulator and used it in combination with counterfactual execution to uncover obfuscated PHP malware~\cite{naderi2019cubismo,naderi2019malmax}. 
 Counterfactual execution is a method of program exploration under which all the loops are unrolled and branches are explored regardless of the satisfiability of their conditions. 
+While PHP malware uses specific APIs to remain hidden and perform its malicious actions, complex PHP applications interact with a large number of PHP APIs. 
+To be able to perform an end-to-end analysis of these applications, we extended MalMax by adding support for symbolic execution, and implementing the features used in popular PHP applications, which we discuss in more detail in Chapter~\ref{chap:ad}. 
 
 At a high level, symbolic execution challenges can be categorized as follows:
 
@@ -151,8 +166,9 @@ At a high level, symbolic execution challenges can be categorized as follows:
     \item \textbf{Constraint solving:} Is a costly task and can lead to timeouts, slowdowns or even unfeasible constraints.
 \end{itemize}
 
-To address the main challenge for symbolic execution which is the state explosion, previous work has incorporated methods such as pruning unrealizable paths~\cite{schwartz2015conflict}, function and loop summarization~\cite{boonstoppel2008rwset, godefroid2007compositional, godefroid2011automatic, xie2016proteus}, and state merging~\cite{godefroid2007compositional, hansen2009state}. 
-We incorporate a subset of these mechanisms in our work, which we discuss later in Chapter~\ref{chap:ad} and Chapter~\ref{chap:conclusion} under Section~\ref{sec:futurework}. 
-In summary, we devise code coverage based heuristics to prioritize paths that lead to new code coverage to address the stat explosion. 
-We conduct an iterative debugging procedure to address the correct and precise implementation of commonly used PHP features. 
-Finally, we argue that our debloating scheme based on concolic execution benefits from a loose constraint solving without requiring full SMT solvers.
+To combat the state space explosion problem, researchers have introduced various path prioritization algorithms. 
+The simplest form of path exploration is breadth-first-search and depth-first-search, used by DART~\cite{godefroid2005dart}. 
+Next to that, other heuristics such as ``reducing the number of redundant path explorations'', ``maximizing code-coverage'', and ``guiding the execution towards security sensitive APIs'' are implemented by researchers in tools such as KLEE~\cite{cadar2008klee}, EXE~\cite{cadar2008exe}, Mayhem~\cite{cha2012unleashing}, S2E~\cite{cha2012unleashing}, and AEG~\cite{avgerinos2014automatic}. 
+We incorporate a subset of these mechanisms in our work, which we discuss later in Chapter~\ref{chap:ad}. 
+To overcome the second challenge, we designed a feature-complete PHP emulator to closely resemble the outcome of program executions with symbolic variables. 
+Finally, we argue that debloating schemes based on concolic execution can benefit from a loose constraint solving without requiring full SMT solvers, we discuss this topic in more detail in Chapter~\ref{chap:ad}. 

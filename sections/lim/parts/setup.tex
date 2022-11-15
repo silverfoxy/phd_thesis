@@ -46,9 +46,9 @@ process, do not succeed (Step 6, Section~\ref{section:metasploit}).
 To ease integration and facilitate the analysis of new web applications, we
 adopted a modular architecture that relies on three Docker containers. The
 \textit{Application} container hosts our web applications.  The profiler
-enabled on its web server is responsible for collecting code coverage
+enabled on its web server is responsible for collecting code-coverage
 information. The \textit{Database} container runs a MySQL server that
-stores the code coverage information along with the databases of the tested
+stores the code-coverage information along with the databases of the tested
 applications. Lastly, the \textit{Debloating} container which includes our
 debloating logic, analyzes the coverage information and generates debloated
 versions of applications. It also provides a reporting panel that indicates
@@ -191,7 +191,7 @@ Modern web applications provide an incredibly wide range of features and
 options to their users. Even though, from a functional perspective, more
 features are desirable, from a security perspective, the code that implements
 new features may contain new vulnerabilities thereby further expanding
-a program's attack surface. In order for a system to be
+a program's attack-surface. In order for a system to be
 able to remove code related to unnecessary features, one must first identify
 which features are necessary for a target set of users.
 
@@ -251,7 +251,8 @@ the original URLs~\cite{koehler2004longitudinal}.
 %does not run code paths that lead to invalid inputs and does not cover the code
 %for error handling.
 
-Below, we provide a non-exhaustive list of actions that were part of the followed tutorials of each web application. Full details are available in the actual tutorials and in the Selenium scripts which we will release together with this paper.
+Below, we provide a non-exhaustive list of actions that were part of the followed tutorials of each web application. 
+% Full details are available in the actual tutorials and in the Selenium scripts which we will release together with this paper.
 \vspace{0.5ex}
 
 \noindent \textbf{Actions covered by phpMyAdmin tutorials:} As a web administration tool, all phpMyAdmin functionality is protected by an authentication mechanism.
@@ -291,7 +292,7 @@ target application. This unpredictable behavior can uncover bugs in an
 application as it can trigger paths and actions that were not anticipated by
 developers. In our case, we use such a technique to trigger additional code,
 not covered by tutorials. We observe that this approach adds breadth to the
-code coverage by reaching easy to access features. In addition, by feeding
+code-coverage by reaching easy to access features. In addition, by feeding
 random keystrokes into forms, monkey testing can bring the application in an
 error state thus exercising error-handling pieces of code.
 
@@ -338,19 +339,19 @@ we use BurpSuite Spider v2.0.14beta~\cite{burpsuite} to crawl our web
 applications. As a result, we augment the application coverage with code paths that were
 not triggered, either through the followed tutorials or through monkey testing.
 
-%Our results show that monkey testing and spiders produce different code coverage and trigger different functionalities within tested applications. Hence, these two methods help us increase the diversity of our usage profiles.
+%Our results show that monkey testing and spiders produce different code-coverage and trigger different functionalities within tested applications. Hence, these two methods help us increase the diversity of our usage profiles.
 %Hence, this is necessary to include both of these tests.
 
 \subsubsection{Running vulnerability scanners}
 Vulnerability scanners are tools that try to detect security flaws in web applications.
-%In our case, the scanner increases our code coverage by reaching unwanted states in the application.
+%In our case, the scanner increases our code-coverage by reaching unwanted states in the application.
 We use BurpSuite Scanner v2.0.14beta~\cite{burpsuite} based on the URLs extracted by the spider to look for vulnerabilities in headers, URLs and forms.
 Notably, the scanner tries different injection mechanisms like SQL injection, XSS, PHP file injection, and path traversal, to trigger errors and reach unwanted states in the application.
 The vulnerability scanner goes beyond what the crawler and the monkey cover by modifying headers and URL parameters.
 By inspecting the resulting coverage, we observe that each of these four methods result in exercising server-side code that would not have been exercised through the other methods. We quantify this relationship in Section~\ref{section:results}.
 
 
-\subsection{Recording server-side code coverage}
+\subsection{Recording server-side code-coverage}
 \label{subsec:coverage}
 
 Regardless of the method that is used to interact with a web application,
@@ -364,7 +365,7 @@ PHP profilers are available as PHP extensions that modify the PHP engine to
 collect code-coverage information. There exist a number of different profilers,
 such as, \texttt{XDebug}~\cite{XDebug}, \texttt{phpdbg}~\cite{phpdbg}, and
 \texttt{xhprof}~\cite{xhprof} all of which require a similar setup to record
-code coverage. For our framework, we decided to use \texttt{XDebug} as it
+code-coverage. For our framework, we decided to use \texttt{XDebug} as it
 is the most mature profiler and is actively maintained.
 
 \subsubsection{Adding coverage support in a web application}
@@ -378,7 +379,7 @@ application. Specifically, both \texttt{xdebug\_start\_code\_coverage()} and
 \texttt{xdebug\_get\_code\_coverage()} functions are called to, respectively,
 start and receive coverage information. If the ``get'' function is never
 called, the coverage information is lost. In the following paragraphs, we
-describe challenges related to obtaining the code coverage from \texttt{XDebug}
+describe challenges related to obtaining the code-coverage from \texttt{XDebug}
 and how we overcame them.
 
 \vspace{1ex}
@@ -397,7 +398,7 @@ incomplete and that some lines were not properly recorded. Given that any
 PHP file can call the \textit{exit()} or \textit{die()} function at any
 time to terminate the current script, our \texttt{XDebug} calls which were
 located at the end of each file, were not always executed thus leading to
-under-reported code coverage.
+under-reported code-coverage.
 
 
 %Since our ``xdebug\_get\_code\_coverage()'' calls were located at the very
@@ -421,7 +422,7 @@ Interestingly, we also discovered that calls to \textit{exit()} inside a
 shutdown function prevent the execution of other shutdown functions
 including the call to collect our own code-coverage information. To correct
 this issue, we statically analyzed the evaluated applications and automatically
-added calls to collect code coverage before these exit calls (e.g., Line 7
+added calls to collect code-coverage before these exit calls (e.g., Line 7
 in Listing~\ref{listing:rewriting_webapps}).
 
 \vspace{1ex}
@@ -463,7 +464,7 @@ when it finishes executing.
 %If it was not, we start recording all executed lines and save the coverage information when it finishes executing.
 
 \begin{figure}[t]
-  \begin{lstlisting}[frame=single, caption={Code rewritten by the debloating framework to ensure correct code coverage of corner cases.},captionpos=b, label={listing:rewriting_webapps}]
+  \begin{lstlisting}[frame=single, caption={Code rewritten by the debloating framework to ensure correct code-coverage of corner cases.},captionpos=b, label={listing:rewriting_webapps}]
   <?php
   register_shutdown_function("PMA_Response::resp");
   class PMA_Response {
@@ -478,7 +479,7 @@ when it finishes executing.
   class TCPDF {
     public function __destruct() {
       // If called after shutdown_functions
-      // start recording code coverage
+      // start recording code-coverage
       ...
       // If called after shutdown_functions
       // stop coverage
@@ -492,7 +493,7 @@ when it finishes executing.
 \noindent\textbf{Summary.}
 %We use prepend and register shutdown functions
 %we prepend before exit lines call to get coverage
-As witnessed through the above use cases, collecting the correct code coverage information
+As witnessed through the above use cases, collecting the correct code-coverage information
 for a web application is significantly more complicated than one would
 initially expect. Through the preprocessing of code, and the use of destructors
 and shutdown functions, we solve the issues that were not even mentioned
@@ -512,9 +513,9 @@ code-coverage calls.
 %
 %At the same time, PHP scripts can call \textit{exit()} at any time during the execution.
 %Architectures that use auto\_append to collect coverage information will miss the coverage for scripts that call \textit{exit()}.
-%More interestingly, if this call to \textit{exit()} happens inside a shutdown\_function(), it will prevent the execution of other shutdown\_functions including the call to collect code coverage information.
+%More interestingly, if this call to \textit{exit()} happens inside a shutdown\_function(), it will prevent the execution of other shutdown\_functions including the call to collect code-coverage information.
 %
-%\paragraph{Code coverage for PHP destructors} is another challenge that we have to overcome, PHP uses garbage collection and reference counting to remove objects from the memory. We can not reason about the exact time when destructors get executed. PHP object destruction order will call zend\_call\_destructors which then calls destructor functions of the remaining objects after shutdown\_functions are called.
+%\paragraph{code-coverage for PHP destructors} is another challenge that we have to overcome, PHP uses garbage collection and reference counting to remove objects from the memory. We can not reason about the exact time when destructors get executed. PHP object destruction order will call zend\_call\_destructors which then calls destructor functions of the remaining objects after shutdown\_functions are called.
 %
 %
 %
@@ -522,11 +523,11 @@ code-coverage calls.
 %\label{label:prep_software}
 %Our framework statically analyzes web applications and rewrites their code to conform to our testing requirements mentioned in section~\ref{subsec:coverage}. Our three step solution to address issues mentioned in Section~\ref{subsec:coverage} uses a combination of preprocessing and programming hacks as depicted in Listing~\ref{listing:rewriting_webapps}.
 %
-%To make sure our call to collect the code coverage is always executed, we statically analyze the applications and automatically prepend calls to \textit{exit()} with a call to collect code coverage (Line 7). This way we make sure we have full coverage information before exiting and also do not change the original execution flow of applications.
+%To make sure our call to collect the code-coverage is always executed, we statically analyze the applications and automatically prepend calls to \textit{exit()} with a call to collect code-coverage (Line 7). This way we make sure we have full coverage information before exiting and also do not change the original execution flow of applications.
 %
-%The second step is necessary to guarantee that our shutdown\_function which collects code coverage information runs last. To achieve this, we register a second shutdown\_function within the first shutdown\_function and this trick makes sure the second registered function runs after all previously registered shutdown\_functions.
+%The second step is necessary to guarantee that our shutdown\_function which collects code-coverage information runs last. To achieve this, we register a second shutdown\_function within the first shutdown\_function and this trick makes sure the second registered function runs after all previously registered shutdown\_functions.
 %
-%Third step is to record code coverage for all class destructors. We distinguish between two cases, destructors may execute before we stop recording code coverage (i.e, before shutdown\_functions are called). In this case we do not need to do anything extra. But when destructors execute after after shutdown\_functions, we modify them to start recording code coverage information and save this data after they finish executing. We track this state by querying XDebug engine to see if coverage recording is currently in progress and distinguish between the two cases. To handle this situation, our framework rewrites class destructors to call XDebug functions to record their coverage (Line 15 and 18 in Listing~\ref{listing:rewriting_webapps}).
+%Third step is to record code-coverage for all class destructors. We distinguish between two cases, destructors may execute before we stop recording code-coverage (i.e, before shutdown\_functions are called). In this case we do not need to do anything extra. But when destructors execute after after shutdown\_functions, we modify them to start recording code-coverage information and save this data after they finish executing. We track this state by querying XDebug engine to see if coverage recording is currently in progress and distinguish between the two cases. To handle this situation, our framework rewrites class destructors to call XDebug functions to record their coverage (Line 15 and 18 in Listing~\ref{listing:rewriting_webapps}).
 %
-%%One requirement is to make sure our function that collects code coverage runs last, to do that we use shutdown\_functions. To prevent calls to \textit{die} or \textit{exit} before our shutdown\_function preventing its execution, our %framework preprocesses target web applications and rewrites such calls to make sure our shutdown\_function executes. Second requirement is to record code coverage for destructors that run after shutdown\_functions, to that end the %framework rewrites destructors with proper calls to XDebug code coverage functions.
+%%One requirement is to make sure our function that collects code-coverage runs last, to do that we use shutdown\_functions. To prevent calls to \textit{die} or \textit{exit} before our shutdown\_function preventing its execution, our %framework preprocesses target web applications and rewrites such calls to make sure our shutdown\_function executes. Second requirement is to record code-coverage for destructors that run after shutdown\_functions, to that end the %framework rewrites destructors with proper calls to XDebug code-coverage functions.
 %

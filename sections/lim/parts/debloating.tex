@@ -16,83 +16,25 @@ not triggered by any client-side request can presumably be removed since
 it is not necessary for any of the functionality that is desired by users
 (as quantified by the utilized usage profiles).
 In this work, we evaluate the following debloating strategies:
-\vspace{-2ex}
-\paragraph{$\bullet$ File-level debloating:} Given that the source code of web
-applications spans tens or hundreds of different files, we can completely
-remove a file, when none of the lines of code in that file were executed
-during the stimulation of the web application.
-\vspace{-2ex}
-\paragraph{$\bullet$ Function-level debloating:} In function-level debloating, not
-only can we remove entire files, but we can also selectively remove some of
-the functions contained in other files. This is a more fine-grained approach
-which allows us to remove more code, than the more conservative, file-level
-debloating strategy.
 
-%\begin{itemize}
-%  \setlength\itemsep{0.5em}
-%\item \textbf{File-level debloating:} Given that the source code of web
-%applications spans tens or hundreds of different files, we can completely
-%remove a file, when none of the lines of code in that file were executed
-%during the stimulation of the web application.
-%
-%\item \textbf{Function-level debloating:} In function-level debloating, not
-%only can we remove entire files but we can also selectively remove some of
-%the functions contained in other files. This is a more fine-grained approach
-%which allows us to remove more code, than the more conservative, file-level
-%debloating strategy.
-%\end{itemize}
+\begin{itemize}
+    \item \textbf{File-level debloating:} Given that the source code of web applications spans tens or hundreds of different files, we can completely remove a file, when none of the lines of code in that file were executed during the stimulation of the web application.
+    \item \textbf{Function-level debloating:} In function-level debloating, not only can we remove entire files, but we can also selectively remove some of the functions contained in other files. This is a more fine-grained approach which allows us to remove more code, than the more conservative, file-level debloating strategy.
+\end{itemize}
 
 More fine-grained approaches are possible, such as, the removal of specific code statements from retained functions which were not exercised during stimulation.
 However, such changes essentially modify the logic of a function (e.g., removing
 conditional code blocks) thereby increasing the probability of breaking the
 resulting program when a minute change of a client-side request would lead the
 execution into these blocks of code.
-%{\color{blue} Moreover, recording the coverage of error handlers is a challenge that sub-function debloating mechanisms have to address. Error states that are not triggered during profiling will lead to the removal of such conditions and the final application will lack proper error handling upon receiving previously unseen requests.
-%During the development of web applications, usually a function (e.g., a controller action in MVC architecture or its equivalent) contains the complete logic to handle the request. This standard architecture adopted by most web development frameworks relies on central error handling classes.
-%This includes the code to handle proper execution of the function in addition to the code to handle errors. Even though this logic can be separated into different functions and classes,
-%the decision to keep or remove the function does not break this chain.
-%As such, we consider this level of debloating as out of scope, and leave its evaluation for future work.}
-
 
 \subsection{Detecting the execution of removed code}
-
-
 We replace all removed functions and files with placeholders which, if executed,
 have the following tasks:
-\vspace{-2ex}
-\paragraph{$\bullet$ Exit the application:} If a placeholder happens to be triggered,
-the PHP application will start its shutdown procedures. This way, the
-application does not enter an unexpected state that was not planned by the
-debloating process.
-\vspace{-2ex}
-\paragraph{$\bullet$ Record information about the missing function:} In order
-to better understand which missing placeholders were triggered and how,
-our framework logs several pieces of information, such as, the URL that
-triggered the execution of the removed code, the name of the class and
-function of the removed code, and the
-corresponding line numbers.
-
-%\begin{itemize}
-%  \setlength\itemsep{0.5em}
-%\item \textbf{Exit the application:} If a placeholder happens to be triggered,
-%the PHP application will start its shutdown procedures. This way, the
-%application does not enter an unexpected state that was not planned by the
-%debloating process.
-%
-%\item \textbf{Record information about the missing function:} In order
-%to better understand which missing placeholders were triggered and how,
-%our framework logs several pieces of information, such as, the URL that
-%triggered the execution of the removed code, the name of the class and
-%function of the removed code, and the
-%corresponding line numbers.
-
-%{\color{red}TODO:\item \textbf{Proactively preventing required code from being removed:} Certain actions within web applications are not triggered by users and %sometimes specific actions need to run at certain intervals. Regardless of
-%the entity triggering the action, our system is able to record its coverage. But if the interval to run the action is longer than the interval that record the code %coverage is recorded, the underlying code for that feature will be removed.
-
-%**I'm not sure into how much detail I want to go here, shall I open the can of worms and talk about update scripts? We haven't spend that much time discovering and %whitelisting these stuff.
-%The main goal here is to introduce whitelisting for error handlers, config files and the files that we know we do not use often but they are still required.**
-%}
-%\end{itemize}
+\begin{itemize}
+    \item \textbf{Exit the application:} If a placeholder happens to be triggered, the PHP application will start its shutdown procedures. This way, the application does not enter an unexpected state that was not planned by the debloating process.
+    \item \textbf{Record information about the missing function:} In order to better understand which missing placeholders were triggered and how, our framework logs several pieces of information, such as, the URL that triggered the execution of the removed code, the name of the class and function of the removed code, and the corresponding line numbers.
+\end{itemize}
 
 To ensure that the debloating process has preserved the functionality of
 the debloated web application, we rerun all the Selenium-mapped tutorials and monkey scripts
@@ -104,40 +46,3 @@ This feedback mechanism proved invaluable during the development of
 our framework since it helped us identify problems with our coverage
 logic which in turn revealed the challenges that we described in
 Section~\ref{subsubsec:challenges}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\paragraph{Assertions} are used throughout our debloating logic, when we debloat a unit of code, we replace it with a placeholder that contains an assertion code. If debloated files or functions are triggered, this code will notify us via web server logs that one of the tests triggered a removed unit of code along with useful information such as referer header, the page which triggered the execution of removed code and class name, function name and line number of the removed piece of code. This information is then used to verify the correctness of our debloating when rerunning tests in verification step.
-%
-%To prevent unwanted side effects when executing web applications after debloating, these assertions and placeholders stop the code execution to prevent execution of code paths which include removed functions and files.
-
-
-%%%%%%%%%%%% TO BE PUT IN THE RESULTS SECTION
-%\subsection{Definition of vulnerability coverage}
-%An exploitable vulnerability in a web application can be the result of multiple vulnerable lines, functions or files that together they create a chain that leads to an exploit. On one end an application developer might fail to apply sanitization function on untrusted input which affects only one line of code but the same bad practice can be spread over multiple files, on the other end a chain of vulnerabilities has to be present and be chained together to form an exploit for a registered CVE.
-%
-%For each vulnerability, when our usage profiles line coverage data overlaps with vulnerable lines, we call the vulnerability to be triggered by our usage profiles regardless of full or partial overlap. In that sense we take the conservative approach.
-%
-%An executable line within a PHP application is considered triggered if usage profiles execute that line. Similarly a function is considered to be covered if usage profiles execute the first executable line within that function. This definition is based on the logic of PHP compiler and Zend engine where we do not have a notion of functions directly and have to define functions as the line number of first executable statement within them. One the same note, we define a PHP file to be covered by usage profiles if at least one executable line within that file is triggered. Based on these definitions we propose debloating methods that can remove units of code not triggered by usage profiles.
-
-
-%\subsection{Debloating strategies}
-%Based on usage profile information, we define a baseline debloating method which only removes PHP files if non of the executable lines within those files are triggered. We also analyze the potential benefits from debloating strategies which can remove specific vulnerable lines within the web applications if the usage profiles do not cover those lines. All other debloating methods should perform between these bounds in terms of mitigated CVEs. Second debloating strategy we introduce debloats functions. Our experiments show that this strategy works just as good as more fine grained debloating strategies in terms of removed CVEs. Note that while previous usage profiles might show that users do not trigger specific units of code through normal usage, attackers can still trigger the code. Hence, the debloated code should handle this situation properly, this challenge makes fine grained debloating that modified individual executable lines more challenging. Table~\ref{table:debloating_bounds} shows the performance of debloating strategies on the analyzed web applications in terms of removed CVEs.
-%
-%\begin{table}[]
-%\begin{tabular}{|l|l|l|l|}
-%\hline
-%Web Application & \begin{tabular}[c]{@{}l@{}}Total\\ CVEs\end{tabular} & \begin{tabular}[c]{@{}l@{}}Lowerbound/\\ Upperbound\end{tabular} & \begin{tabular}[c]{@{}l@{}}Function\\ Debloating\end{tabular} \\ \hline
-%phpMyAdmin      & 20                                                   & 7/15                                                             & 13                                                            \\ \hline
-%MediaWiki       & 21                                                   & 6/13?                                                            & 15                                                            \\ \hline
-%Magento         & 8                                                    & x/x                                                              & x                                                             \\ \hline
-%\end{tabular}
-%\caption{Debloating performance bounds}
-%\label{table:debloating_bounds}
-%\end{table}
-%
-%
-%\subsection{File level debloating}
-%The baseline debloating strategy we discuss debloats PHP files that are not covered by usage profiles. On average this approach yields removal of UPDATE**\%25** of known CVEs and reduces code size by **Y** amount. This approach is the least aggressive approach with limited effectiveness.
-%\subsection{Function level debloating}
-%In this approach, our framework removes functions that are not covered by our usage profiles and replaces them with assertions. Our analysis proves this approach to have a performance close to the upper bound of debloating strategies (i.e, a debloating strategy that debloats individual lines) in terms of number of removed CVEs. While the side effects of removing functions are minimal compared to individual lines, the result turns out to be promising. As shown in Table~\ref{table:debloating_bounds}, function level debloating on average mitigates **UPDATE NUMBER** \%75 of known CVEs on target web applications.

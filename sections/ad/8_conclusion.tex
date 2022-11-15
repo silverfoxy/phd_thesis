@@ -1,0 +1,12 @@
+\section{Summary}
+In this paper, we introduced \animatedead{}, a PHP emulator capable of analyzing web applications with abstract inputs. 
+We presented the design details of its concolic execution engine and reviewed our approach to building a distributed analysis framework. 
+
+Recognizing the practical limitation of dynamic debloating systems, namely their need for extensive training data and their high runtime overhead, 
+we incorporated \animatedead{} together with the readily available web server logs to perform a reachability analysis from each entry point in the web applications in the form of code-coverage information. 
+Using this information, we performed an offline analysis in the form of concolic execution and a module reachability analysis to remove unreachable modules. 
+We debloated four popular PHP applications and demonstrated the security improvements of our method to be comparable to dynamic debloating schemes. 
+\animatedead{} is capable of producing debloated web applications that are 47\% smaller and include 55\% fewer critical API calls. 
+
+Finally, we show that the concolic analysis of entry points by \animatedead{} leads to debloated web applications that generalize over \emph{all} inputs to the same entry points where dynamic debloating schemes would have a breakage.  
+Overall, our results demonstrate that concolic execution is a practical method for debloating web applications that addresses core limitations of prior work.

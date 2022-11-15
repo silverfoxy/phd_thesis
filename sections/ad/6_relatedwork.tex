@@ -1,0 +1,38 @@
+\section{Related Work}
+
+\paragraph{Symbolic and concolic testing} are powerful tools that fill the gap between static and dynamic analysis. 
+Researchers have designed numerous binary testing and vulnerability discovery tools based on symbolic testing~\cite{cadar2008exe, cadar2008klee, chipounov2009selective, godefroid2012sage, cha2012unleashing, wang2017angr}. 
+Running symbolic testing at the scale of large applications is challenging. 
+This is mainly due to the rapid increase in the total number of paths to be explored, also known as state space explosion, as well as the overhead from the SMT solvers. 
+
+One helpful technique used in symbolic web application analysis tools is to isolate the code for their target module before performing the symbolic analysis. 
+For instance, Huang et al. built a file upload vulnerability discovery tool named UChecker~\cite{Huang2019}. 
+In their tool, they perform an initial phase of static analysis to identify potentially vulnerable sinks. 
+Then, through backward slicing, they isolate the code responsible for file upload functionality from user controlled sources to sensitive sinks. 
+Similarly, Jensen et al. aid their static analysis by resolving dynamic file inclusions via dynamic analysis by incorporating web crawlers~\cite{jensen2012thaps}. 
+They then perform static analysis to identify XSS vulnerabilities and finally validate their findings using symbolic execution. 
+In both papers, the authors use symbolic execution to verify the reachability of the vulnerable sinks. 
+
+% Godefroid et al. developed SAGE, a symbolic execution engine that targets security vulnerabilities in x86 binaries~\cite{godefroid2012sage}. 
+% DART is another tool that uses the idea of symbolic execution to generate failure inducing test cases with concrete inputs to detect crashes and assertion violations in C programs~\cite{godefroid2005dart}. 
+
+To combat the state space explosion problem, researchers have introduced various path prioritization algorithms. 
+The simplest form of path exploration is breadth-first-search and depth-first-search, used by DART~\cite{godefroid2005dart}. 
+Next to that, other heuristics such as ``reducing the number of redundant path explorations'', ``maximizing code-coverage'', and ``guiding the execution towards security sensitive APIs'' are implemented by researchers in tools such as KLEE~\cite{cadar2008klee}, EXE~\cite{cadar2008exe}, Mayhem~\cite{cha2012unleashing}, S2E~\cite{cha2012unleashing}, and AEG~\cite{avgerinos2014automatic}. 
+
+In \animatedead{}, we designed our path prioritization heuristic to optimize for maximum code-coverage, inline with our goal to use the code-coverage for software debloating. 
+We extended the PHP emulator from MalMax developed by Naderi et al.~\cite{naderi2019malmax,naderi2019cubismo}. 
+In their work, the authors build a PHP emulator capable of counterfactual execution to uncover the original intents of obfuscated PHP malware. 
+While PHP malware uses specific APIs to remain hidden and perform its malicious actions, complex PHP applications interact with a large number of PHP APIs. 
+To be able to perform an end-to-end analysis of these applications, we extended MalMax by adding support for symbolic execution, and implementing the features used in popular PHP applications. 
+
+\paragraph{Software debloating} 
+Researchers have approached the idea of debloating from various aspects ranging from the kernel~\cite{abubakar2021shard}, container environments~\cite{rastogi2017cimplifier, 259711} to binaries~\cite{hasan2022decap, redini2019b, heo2018effective, ghavamnia2020temporal, mishra2020saffire, koo2019configuration, quach2018debloating}, web browsers~\cite{snyder2017most, qian2020slimium}, and web applications~\cite{azad2019less, bulekov2021saphire, mininode, jahanshahi2020you}.
+
+In this paper, we use the ``Less is More'' framework of Amin Azad et al.~\cite{azad2019less} to generate a baseline code-coverage to assess the results of \animatedead{} and generate our entry points based on the Selenium tests developed as part of LIM. 
+While the goal of \animatedead{} debloating is not to outperform LIM, we demonstrate that despite the generalizations made by concolic execution, our debloating statistics and security improvements are on par with the dynamic debloating of LIM. 
+
+Unlike LIM, \animatedead{} does not rely on an extensive training phase and can perform its analysis offline with virtually \emph{zero} overhead on production execution environments. 
+
+Web applications debloated by \animatedead{} can benefit from the protections offered by other orthogonal attack-surface reduction and API specialization schemes such as Saphire~\cite{bulekov2021saphire} and SQLBLock~\cite{jahanshahi2020you} to protect against SQL injection vulnerabilities in the remaining SQL API calls required by users and to confine the web application based on a generated profile of system-calls to limit the potential damage from code execution exploits.
+

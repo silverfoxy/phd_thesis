@@ -3,7 +3,7 @@
 
 To assess the impact of debloating web applications, we analyze our results
 from a number of different perspectives. First, we show the contributions of different application-profiling methods and then compute different metrics
-to understand the effectiveness of debloating in terms of reducing the attack surface of our tested applications. Next, we focus on CVEs to determine whether
+to understand the effectiveness of debloating in terms of reducing the attack-surface of our tested applications. Next, we focus on CVEs to determine whether
 debloating can actually remove critical vulnerabilities. Then, we take
 a closer look at the bloat introduced by external packages along with the
 security implications that come with using this specific development practice.
@@ -56,7 +56,7 @@ insights into what has actually been removed during the debloating process.
 
 \subsubsection{Logical lines of code}
 \label{subsubsec:lloc}
-The size of a program positively correlates with the number of programming errors (i.e., bugs). According to McConnel~\cite{mcconnell2004code}, the industry average, at least in 2004, was to have between 1 and 25 bugs for every one thousand lines of code. Given the importance of the size of an application to its overall security, we start by estimating the reduction of the attack surface by looking at the
+The size of a program positively correlates with the number of programming errors (i.e., bugs). According to McConnel~\cite{mcconnell2004code}, the industry average, at least in 2004, was to have between 1 and 25 bugs for every one thousand lines of code. Given the importance of the size of an application to its overall security, we start by estimating the reduction of the attack-surface by looking at the
 Logical Lines Of Code (LLOC, sometimes also called Effective Lines Of
 Code). LLOC is intended to measure lines of code without comments, empty
 lines and syntactic structure required by the programming language. LLOC
@@ -91,7 +91,7 @@ v.4.0 and a maximum of 64.5\% for Magento v.2.0.5. For Magento,
 this reduction represents a removal of 393K lines of code.
 This number is a clear sign that large web applications encompass many
 different features that may not be used by all users and therefore result
-in bloated applications with an unnecessarily large attack surface. At the same time, it is worthwhile repeating that all debloating results presented in this section are conditional to how web applications are used. Therefore, these large levels of debloating cannot be guaranteed for all possible deployments of web applications. We discuss this issue in Section~\ref{sec:limitations}.
+in bloated applications with an unnecessarily large attack-surface. At the same time, it is worthwhile repeating that all debloating results presented in this section are conditional to how web applications are used. Therefore, these large levels of debloating cannot be guaranteed for all possible deployments of web applications. We discuss this issue in Section~\ref{sec:limitations}.
 
 \paragraph{Function-level debloating.}
 On average, function-level debloating is able to remove 46.8\% of lines of code.
@@ -109,7 +109,7 @@ this kind of coarse-level debloating. Contrastingly, Magento and MediaWiki
 are developed in a much more modular fashion (many small files each responsible
 for a small number of well-defined tasks) and therefore lend themselves better to file-level
 debloating. The more fine-grained, function-level debloating bypasses this
-issue and can therefore reduce the attack surface of a web application,
+issue and can therefore reduce the attack-surface of a web application,
 even for more monolithic web applications.
 
 
@@ -158,7 +158,7 @@ can effectively remove them.
 \begin{table}[t]
   \caption{Number of CVEs removed after application debloating}
   \centering
-  \scalebox{0.72}{
+  \adjustbox{max width=\linewidth}{
   \begin{tabular}{|c|l|l|l|l|l|}
   \hline
   \multicolumn{1}{|l|}{\textbf{Application}} & \textbf{Strategy}   & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Total}\\ \textbf{Removed CVEs}\end{tabular}} & \multicolumn{2}{l|}{\begin{tabular}[c]{@{}l@{}}\textbf{Removed}\\ \textbf{Exploitable CVEs}\end{tabular}} \\ \hline
@@ -265,22 +265,44 @@ the process of debloating.
 \subsection{External packages}
 \label{subsec:external}
 
+% \begin{table*}[t]
+%   \caption{Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.}
+%   \centering
+%   \adjustbox{max width=\linewidth}{
+%   \begin{tabular}{c|c|c|c|c|c|c|}
+%   \cline{2-7}
+%    & \multicolumn{3}{c|}{\textbf{Before debloating}} & \multicolumn{3}{c|}{\textbf{After function-level debloating}} \\ \hline
+%   \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Application}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely removed}\end{tabular}} \\
+%   \multicolumn{1}{|c|}{} &  &  &  &  &  & \\ \hline
+%   \multicolumn{1}{|c|}{phpMyAdmin 4.7.0} & 35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%)  \\ \hline
+%   \multicolumn{1}{|c|}{MediaWiki 1.28.0}   & 133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%)  \\ \hline
+%   \multicolumn{1}{|c|}{Magento 2.0.5}      & 396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%)  \\ \hline
+%   \end{tabular}
+%   }
+% \label{table:numberofpackages}
+% \end{table*}
+
 \begin{table*}[t]
-  \caption{Statistics on the external packages included in web applications and the effects of debloating in terms of reducing their LLOC.}
+  \caption{Percentage of removed LLOC from external packages.}
   \centering
-  \scalebox{0.52}{
-  \begin{tabular}{c|c|c|c|c|c|c|c|c|c|}
-  \cline{2-10}
-   & \multicolumn{3}{c|}{\textbf{Before debloating}} & \multicolumn{6}{c|}{\textbf{After function-level debloating}} \\ \hline
-  \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Application}}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely}\\\textit{removed}\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages where a given \%}\\\textit{lines were removed}\end{tabular}} \\ \cline{8-10}
-  \multicolumn{1}{|c|}{} &  &  &  &  &  &  & \textgreater{}\textit{70\%} & \begin{tabular}[c]{@{}c@{}}\textless{}\textit{70\% and}\\ \textgreater{}\textit{30\%}\end{tabular} & \textless{}\textit{30\%}\\ \hline
-  \multicolumn{1}{|c|}{phpMyAdmin 4.7.0} & 35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%) & 2 & 1  & 4  \\ \hline
-  \multicolumn{1}{|c|}{MediaWiki 1.28.0} & 133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%) & 2 & 2  & 12 \\ \hline
-  \multicolumn{1}{|c|}{Magento 2.0.5}    & 396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%) & 6 & 5  & 2  \\ \hline
+  \adjustbox{max width=\linewidth}{
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+  \cline{1-9}
+  \multicolumn{3}{|c|}{\textbf{Before debloating}} & \multicolumn{6}{c|}{\textbf{After function-level debloating}} \\ \hline
+  \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\# \textit{lines in main}\\\textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\textit{\# packages}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in main}\\ \textit{application}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# lines in}\\\textit{packages}\end{tabular}} & \multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages}\\\textit{completely}\\\textit{removed}\end{tabular}} & \multicolumn{3}{c|}{\begin{tabular}[c]{@{}c@{}}\textit{\# packages where a given \%}\\\textit{lines were removed}\end{tabular}} \\ \cline{7-9}
+  \multicolumn{1}{|c|}{}  &  &  &  &  &  & \textgreater{}\textit{70\%} & \begin{tabular}[c]{@{}c@{}}\textless{}\textit{70\% and}\\ \textgreater{}\textit{30\%}\end{tabular} & \textless{}\textit{30\%}\\ \hline
+  \multicolumn{9}{|c|}{\textbf{phpMyAdmin 4.7.0}} \\ \hline 
+  35,739  & 82,604  & 45 & 26,377 (-26.2\%)  & 9,653 (-88.3\%)  & 38 (84.4\%) & 2 & 1  & 4  \\ \hline
+  \multicolumn{9}{|c|}{\textbf{MediaWiki 1.28.0}} \\ \hline 
+  133,019 & 50,898  & 40 & 54,827 (-58.8\%)  & 6,285 (-87.7\%)  & 24 (60.0\%) & 2 & 2  & 12 \\ \hline
+  \multicolumn{9}{|c|}{\textbf{Magento 2.0.5}} \\ \hline 
+  396,448 & 212,906 & 71 & 181,696 (-54.2\%) & 34,038 (-84.0\%) & 58 (81.7\%) & 6 & 5  & 2  \\ \hline
   \end{tabular}
   }
-  \label{table:numberofpackages}
-  \end{table*}
+\label{table:numberofpackages}
+\end{table*}
+
+
 
 \subsubsection{Quantifying the bloat from external packages}
 
@@ -301,7 +323,7 @@ provide against our usage profiles.
 
 First, one can observe that external packages introduce a large amount of
 unused code. For all three debloated applications, more than 84\% of their code
-was removed from them. This means that the attack surface is unnecessarily
+was removed from them. This means that the attack-surface is unnecessarily
 large through the dependency on external packages. The number of removed
 lines from external packages for Magento is particularly noteworthy with
 more than 178,000 lines of code removed. Moreover, the number of packages
@@ -317,7 +339,7 @@ being three times the size of the introduced external packages.
 Despite the advantages of using package managers (e.g., the ability to track
 dependencies and update vulnerable libraries without the need to update
 the main application), our findings show that these advantages come at a
-considerable cost in terms of unnecessarily expanding the attack surface of
+considerable cost in terms of unnecessarily expanding the attack-surface of
 a web application with code that is seldomly executed. As such, developers
 must take special care to include the bare minimum of external packages,
 knowing the unwanted side-effects that each external package brings.
@@ -425,7 +447,7 @@ testing, performance analysis, and profiling. We discovered that applications
 downloaded from official websites often include these development packages. As
 such, when these packages are used to deploy web applications in production
 mode, they will contain unnecessary development libraries. This does not
-only increase the attack surface by having unnecessary code bloating the
+only increase the attack-surface by having unnecessary code bloating the
 application, but can also lead to exploitation for misconfigured applications.
 
 CVE-2017-9841 presents one example of such a
@@ -461,7 +483,7 @@ Table~\ref{tab:removed_files_categories} shows the categories of the three large
   \caption{Features and external packages with the most removed files after file debloating (removed features are marked in italic). Entries marked with $\ast$ are packages that are indirectly pulled by other ``require-dev'' packages (not used by core application) for the purpose of test coverage reporting and coding standard enforcement.}
   \label{tab:removed_files_categories}
   \centering
-\scalebox{0.75}{
+\adjustbox{max width=\linewidth}{
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Applications} & \textbf{Features/Packages with most files removed} \\ \hline
@@ -493,128 +515,14 @@ Finally, the process of debloating, removed unused extensions of Mediawiki (e.g.
 \vspace{0.5ex}
 \noindent\textbf{WordPress} takes a slightly different approach where the core functionality is concentrated in a relatively small number of large PHP files. The removed features of WordPress include installation files, unused modules (FTP, multi-site, user registration), disabled themes and update files (note that we could not exercise update files during our tests because this would change the version of the evaluated web application and create inconsistencies in our analysis of removed CVEs). In terms of testing, the installation files that we obtained from the WordPress website do not contain any unit tests.
 
-%Interestingly, WordPress contains less code bloat. That is because most of the functionality within this application is exercised by tutorials and other tests, and this is not the result of more comprehensive tutorials. As WordPress has a monolithic nature that does not rely on external dependencies (the main source of bloat), the application does not include unnecessary features that only a subset of users would use. WordPress offloads these specific requirements to plugins. For instance, importing data into WordPress which is available in other studied software requires a separate plugin. As a result, most of the existing modules in vanilla WordPress would be exercised throughout the dynamic analysis tests with the exception of few that are mentioned above. This also affects the mapped CVEs for core WordPress in that the CVEs mostly target core functionality (e.g., Authentication, CSRF tokens and post and comment related actions).
-
 \vspace{0.5ex}
 \noindent\textbf{Magento} consists of both external packages and internal modules. We observed that various internal modules were removed, including an XML API for mobile, wishlists, ratings, and specific payment modules (such as, Paypal). Since many packages and internal modules include the terms ``sales,'' ``orders,'' and ``tax,'' these individual files across multiple modules were clustered into the same category by k-means. Finally, Magento 1.9.0 does not include unit tests while the test files included in Magento 2.0.5 and its external packages measure up to 15\% of its code base. For Magento 2.0.5, Zendframework1 which is an external dependency has most of its files removed by debloating.
 
-%\begin{table}[]
-%  \caption{Top file categories removed by file debloating}
-%  \label{tab:removed_files_categories}
-%  \centering
-%\scalebox{0.8}{
-%\begin{tabular}{|l|}
-%\hline
-%\multicolumn{1}{|c|}{\textbf{Applications}}                        \\ \hline
-%\multicolumn{1}{|l|}{\textbf{phpMyAdmin 4.7.0:}}                                                           \\ %\hline
-%1) Guzzle 2) Symphony 3) squizlabs/php\_codesniffer                                              \\ \hline
-%\multicolumn{1}{|l|}{\textbf{MediaWiki 1.28.0:}}                                                           \\ %\hline
-%1) Messages \& Languages 2) oyejorge/less.php 3) ruflin/elastica                                 \\ \hline
-%\multicolumn{1}{|l|}{\textbf{WordPress 4.7.1:}}                                                            \\ %\hline
-%1) twentyfourteen theme 2) twentytwelve theme (3/4 are also themes) \\ 5) multi-site administration \\ \hline
-%\multicolumn{1}{|l|}{\textbf{Magento 2.0.5:}}                                                              \\ %\hline
-%1) Zendframework1 2) Sales, Orders \& Creditmemo \\ 3) Internal framework filters \& views          \\ \hline
-%\end{tabular}
-%}
-%\end{table}
-
-
-
-% Summary of removed features
-%--- 4.0.0 ---
-%
-%Tracking, triggers, gis data, unused engines (berkeleydb, binlog, memory, myisam, ndbcluster)
-%Unused encryption functions.
-%Unused authentication mechanisms
-%Uploading plugins
-%Unused plugin transformations (Image inline or link, text to formats such as date)
-%Export schema formats such as: Dia, Eps, Pdf, SVG and Visio.
-%Zip extension.
-%setup files.
-%
-%--- 4.6 ---
-%
-%Recaptcha plugin, Unused sql parser modules, test files.
-%
-%--- 4.7 ---
-%
-%External packages: doctrine/instantiator, gitonomy/gitlib, google/recaptcha, guzzle/guzzle, phpdocumentor, phpmyadmin/sql-parser, phpspec/prophecy, phpunit/php-code-coverage, timer, php-token-stream, %satooshi/php-coveralls, sebastian/comparator, sebastian/diff, sebastian/global-state, squizlabs/php\_codesniffer, symfony/cache, symfony/config, symfony/console, symfony/debug, symfony/event-dispatcher, %symfony/expression-language, symfony/filesystem, symfony/polyfill-mbstring, symfony/process, tecnickcom/tcpdf and webmozart.
-%
-%Mediawiki:
-%
-%--- 1.19.1 ---
-%
-%Unused APIs including: Formats such as JSON, PHP, XML, YAML, txt and raw. Action APIs: Authentication, Queries, Fileupload.
-%Caching such as memcached, object file and resource file cache.
-%Database drivers such as: MSSQL, Postgres, Oracle, Sqlite and db2.
-%File repo
-%Installation files.
-%Media formats such as DjVu, GIF, PNG, SVG and XMP.
-%Parser tools such as diff and hasher.
-%Profiler and Tracer tools.
-%Search modules for unused database drivers.
-%Upload modules such as upload from URL, stash or upload in chunks.
-%Unused language files and skins.
-%Maintenance files such as benchmarks and clean up files.
-%
-%--- 1.21.1 ---
-%
-%Extensions such as citation, confirm edit, gadgets, image map, input box, interwiki, pdf handler, poem, rename user, syntax highlighting and title blacklists.
-%
-%--- 1.28.0 ---
-%
-%debug loggers, ``Exceptions!'', export to formats such as 7zip, bzip, dbzip2 and gzip.
-%redis db modules, xml module, mail, rcfeed (machine readable recent changes)
-%External packages: semver, cssjanus, php-jwt, james-heinrich/getid3, justinrainbow/json-schema, liuggio/statsd-php-client, monolog, kafka-php, oojs-ui, less.php, pear, pimple, ruflin/elastica, symfony/%process, vendor/wikimedia and zordius/lightncandy.
-%
-%Magento
-%
-%...
-%
-%WordPress:
-%
-%--- 3.9 ---
-%
-%FTP files, installation files, multisite modules, unused themes, sign up and new account activation, mail and trackback, cron and update file.
-%
-%--- 4.0 ---
-%
-%Export links from one blog to another. (opml)
-%
-%--- 4.7 ---
-%
-%pclzip library, fix corrupted database.
-
-%\begin{table*}[]
-%  \caption{Top file categories removed by file debloating}
-%  \label{tab:removed_files_categories}
-%  \centering
-%\scalebox{0.69}{
-%\begin{tabular}{|l|l|}
-%\hline
-%\textbf{Application}      & \textbf{Top file categories removed by debloating}                                                                                              \\ \hline
-%phpMyAdmin 4.7.0 & 1) Guzzle 2) Symphony 3) squizlabs/php\_codesniffer 4) PHPUnit 5) phpsec/prophecy                                                                        \\ \hline
-%MediaWiki 1.28.0 & 1) Messages \& Languages 2) oyejorge/less.php 3) ruflin/elastica 4) Installer \& Maintenance 5)james-heinrich/getid3                                     \\ \hline
-%WordPress 4.7.1  & 1) twentyfourteen theme 2) twentytwelve theme 3) twentythirteen theme 4) twentytwelve theme 5) multi-site administration                                 \\ \hline
-%Magento 2.0.5    & 1) Zendframework1 2) Sales, Orders \& Creditmemo 3) Internal framework filters \& views 4) Products, Sales, Shipping \& Tax 5) Widgets, Wishlists \& CMS \\ \hline
-%\end{tabular}
-%}
-%\end{table*}
-%}
-
-\subsection{Testing debloated web applications against real exploits}
-\label{section:metasploit}
-To ensure the correct mapping of CVEs to source code and the ability of debloating to stop real attacks, we collected 4 exploits available in the Metasploit framework and augmented them with 4 POCs that we developed based on public bug-tracker records and vulnerability details. After verifying that we can successfully exploit the original versions of the evaluated web applications, we tested the same exploits on the debloated versions. Half of the previously successful exploits failed because the vulnerable code was removed during the process of debloating. Table~\ref{table:metasploit_vulns} lists the tested exploits against original and debloated applications.
-
-As before, this demonstrates that while debloating is not a panacea against all possible issues, it can substantially improve the security of web applications. Finally, we present a demonstration of CVE-2016-4010 on Magento 2.0.5 in the following video: \url{https://vimeo.com/328225679}.
-
-
-
-\begin{table}[]
+\begin{table}[t]
   \centering
   \caption{Verifying exploitability of vulnerabilities by testing exploits against original \& debloated web applications}
   \label{table:metasploit_vulns}
-  \scalebox{0.81}{
+  \adjustbox{max width=0.8\linewidth}{
 \begin{tabular}{|l|l|c|c|}
 \hline
 \multirow{2}{*}{\textbf{CVE}} & \multirow{2}{*}{\textbf{Target Software}} & \multicolumn{2}{c|}{\textbf{Exploit Successful?}} \\ \cline{3-4}
@@ -631,15 +539,38 @@ CVE-2018-5301   & Magento 2.0.5          & \faCheck & \faTimes                  
 }
 \end{table}
 
+\subsection{Testing debloated web applications against real exploits}
+\label{section:metasploit}
+To ensure the correct mapping of CVEs to source code and the ability of debloating to stop real attacks, we collected 4 exploits available in the Metasploit framework and augmented them with 4 POCs that we developed based on public bug-tracker records and vulnerability details. After verifying that we can successfully exploit the original versions of the evaluated web applications, we tested the same exploits on the debloated versions. Half of the previously successful exploits failed because the vulnerable code was removed during the process of debloating. Table~\ref{table:metasploit_vulns} lists the tested exploits against original and debloated applications.
+
+As before, this demonstrates that while debloating is not a panacea against all possible issues, it can substantially improve the security of web applications. Finally, we present a demonstration of CVE-2016-4010 on Magento 2.0.5 in the following video: \url{https://vimeo.com/328225679}.
+
 \section{Performance analysis}
 \label{subsection:performance}
 It is known that code-coverage tools impose a non-negligible overhead on web applications~\cite{xdebug-performance1}. In this section, we report on the results of conducting all the Selenium tests with and without \texttt{XDebug} (our chosen PHP profiler) while measuring execution time, and recording server-side CPU usage and memory consumption. Table~\ref{table:performance} presents the overall results and Figure~\ref{fig:cpu} focuses on CPU consumption.
 
-\begin{table}[]
+First, looking at the execution time, we can see that code-coverage has a
+varying impact on the tested web applications.
+On one hand, phpMyAdmin is lightly affected with a 14\% increase.
+On the other hand, the time it takes to run all tests for MediaWiki has
+tripled.
+For CPU consumption, the overhead is noticeable and all applications at
+least double their use of resources when code-coverage is active.
+phpMyAdmin is exhibiting the biggest performance hit with a reported
+average almost 9 times higher than the one from the base application.
+Figure~\ref{fig:cpu} shows that all median values are higher for applications
+with \texttt{XDebug} and most applications, at some point, require a second
+core with values above 100\%. Finally, in terms of memory consumption,
+the server-side code profiler incurs a relatively modest increase for most
+applications. The worst overhead is observed when evaluating WordPress with
+an increase of 4.3\% of the total device memory (16GB), i.e., an additional
+700MB of RAM.
+
+\begin{table}[t]
   \centering
-  \caption{Measurements of the execution time, the CPU and memory consumption for the tested web applications with XDebug and Code Coverage (CC) and without XDebug. The reported values for the CPU and memory correspond to the average for each application.}
+  \caption{Measurements of the execution time, the CPU and memory consumption for the tested web applications with XDebug and code-coverage (CC) and without XDebug. The reported values for the CPU and memory correspond to the average for each application.}
   \label{table:performance}
-\scalebox{0.7}{
+\adjustbox{max width=\linewidth}{
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \multicolumn{2}{|c|}{\textbf{Application}}              & \textbf{Execution (s)} & \textbf{CPU (\%)}       & \textbf{Memory (\%)}   \\ \hline
@@ -655,23 +586,6 @@ WordPress   & \textit{Without XDebug} & 68            & 8.2            & 8.2    
 }
 \end{table}
 
-First, looking at the execution time, we can see that code coverage has a
-varying impact on the tested web applications.
-On one hand, phpMyAdmin is lightly affected with a 14\% increase.
-On the other hand, the time it takes to run all tests for MediaWiki has
-tripled.
-For CPU consumption, the overhead is noticeable and all applications at
-least double their use of resources when code coverage is active.
-phpMyAdmin is exhibiting the biggest performance hit with a reported
-average almost 9 times higher than the one from the base application.
-Figure~\ref{fig:cpu} shows that all median values are higher for applications
-with \texttt{XDebug} and most applications, at some point, require a second
-core with values above 100\%. Finally, in terms of memory consumption,
-the server-side code profiler incurs a relatively modest increase for most
-applications. The worst overhead is observed when evaluating WordPress with
-an increase of 4.3\% of the total device memory (16GB), i.e., an additional
-700MB of RAM.
-
 Even though our results show that the overall overhead is substantial, it is
 important to note that this overhead is not the overhead of the debloated
 web applications. Debloated web applications do not require code-coverage
@@ -681,7 +595,7 @@ code-coverage information is obtained, this overhead may or may not be an
 issue. For example, if the coverage is calculated in an offline fashion
 where traces of application usage are replayed against a testing system,
 this overhead will have no impact on the real production systems. To allow
-for the online computation of code coverage (using real-time user traffic),
+for the online computation of code-coverage (using real-time user traffic),
 we need more optimized code profilers. For example, \texttt{XDebug} currently
 overloads 43 opcodes to obtain line-level code-coverage information that
 is more fine-grained than required by our debloating techniques and incurs
