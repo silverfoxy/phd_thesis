@@ -43,7 +43,7 @@ exploits and verify that exploits which
 abuse any of the vulnerabilities that were removed as part of the debloating
 process, do not succeed (Step 6, Section~\ref{section:metasploit}).
 
-To ease integration and facilitate the analysis of new web applications, we
+To ease the integration and facilitate the analysis of new web applications, we
 adopted a modular architecture that relies on three Docker containers. The
 \textit{Application} container hosts our web applications.  The profiler
 enabled on its web server is responsible for collecting code-coverage
@@ -109,7 +109,7 @@ vulnerability in the source code of each application.
 \scalebox{0.87}{
 \begin{tabular}{|l|l|c|}
 \hline
-\textbf{Web Application} & \textbf{Version}                            & \begin{tabular}[c]{@{}l@{}}\textbf{Known CVEs}\\\hspace{1em}($\geq$2013)\end{tabular} \\ \hline
+\textbf{Web Application} & \textbf{Version}                            & \begin{tabular}[c]{@{}l@{}}\textbf{Known CVEs}\\\hspace{1em}(2013-2019)\end{tabular} \\ \hline
 Magento                  & 1.9.0, 2.0.5                                 & 10                                                                     \\ \hline
 MediaWiki                & 1.19.1, 1.21.1, 1.24.0, 1.28.0 & 111                                                                    \\ \hline
 phpMyAdmin               & 4.0.0, 4.4.0, 4.6.0, 4.7.0     & 130                                                                    \\ \hline
@@ -335,7 +335,7 @@ Web spiders (also known as crawlers) are a type of bot that follows the
 links of a web application and optionally submits forms with predefined
 content. Each newly crawled page is added to a database of the application that
 the crawler uses to prevent repeated visits to the same pages. For our study,
-we use BurpSuite Spider v2.0.14beta~\cite{burpsuite} to crawl our web
+we use BurpSuite Spider v2.0.14~\cite{burpsuite} to crawl our web
 applications. As a result, we augment the application coverage with code paths that were
 not triggered, either through the followed tutorials or through monkey testing.
 
@@ -345,7 +345,7 @@ not triggered, either through the followed tutorials or through monkey testing.
 \subsubsection{Running vulnerability scanners}
 Vulnerability scanners are tools that try to detect security flaws in web applications.
 %In our case, the scanner increases our code-coverage by reaching unwanted states in the application.
-We use BurpSuite Scanner v2.0.14beta~\cite{burpsuite} based on the URLs extracted by the spider to look for vulnerabilities in headers, URLs and forms.
+We use BurpSuite Scanner v2.0.14~\cite{burpsuite} based on the URLs extracted by the spider to look for vulnerabilities in headers, URLs and forms.
 Notably, the scanner tries different injection mechanisms like SQL injection, XSS, PHP file injection, and path traversal, to trigger errors and reach unwanted states in the application.
 The vulnerability scanner goes beyond what the crawler and the monkey cover by modifying headers and URL parameters.
 By inspecting the resulting coverage, we observe that each of these four methods result in exercising server-side code that would not have been exercised through the other methods. We quantify this relationship in Section~\ref{section:results}.

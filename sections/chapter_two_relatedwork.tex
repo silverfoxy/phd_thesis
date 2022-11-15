@@ -1,7 +1,7 @@
 \chapter{Related Work}
 \label{chap:relatedwork}
 
-In this chapter we review the literature of research on the topic of software debloating, as well as graph-based representations of the source code of applications such as call graphs and control flow graphs used in static analysis. 
+In this chapter we review the literature of research on the topic of software debloating, as well as graph-based representations of the source code commonly used for static analysis, such as call graphs and control flow graphs. 
 Lastly, we discuss the literature on symbolic and concolic analysis. 
 
 The idea of software debloating was initially discussed by Zeller et al.~\cite{zeller2002simplifying} as a means to isolate failure-inducing code. 
@@ -22,18 +22,18 @@ Next, we discuss debloating approaches for other platforms, and finally, we go o
 \section{Debloating for the web}
 
 \paragraph{Debloating web browsers:} Web applications consist of client side and server side modules. 
-The client side modules, mainly including HTML, JavaScript and CSS, directly interact with clients' browsers. 
+The client side modules, mainly including HTML, Java-Script and CSS, directly interact with clients' browsers. 
 Snyder et al. investigated the idea of API specialization for the JavaScript APIs in web browsers~\cite{snyder2017vibrate}. 
 The authors performed a risk analysis for providing access to various browser features and APIs to the JavaScript code.
 They evaluated the use of different
-JavaScript APIs in the wild and proposed the use of a client-side extension
+JavaScript APIs in the wild and designed a browser extension
 to control which APIs any given website would get access to, depending
 on that website's level of trust. 
 Schwarz et al. similarly utilized a browser
 extension to limit the attack-surface of Chrome browser and showed that their extension can protect users against micro-architectural and side-channel attacks~\cite{Schwarz2018}. 
 Finally, Qian et al. debloated the Chromium browser with respect to the feature usage of specific websites~\cite{qian2020slimium}. 
-These studies are orthogonal to our work in this thesis since
-they focus on the client-side aspect of the web platform, whereas we focus on the server-side web applications. 
+These studies are orthogonal to our work since
+they focus on the client-side aspect of the web, whereas we focus on the server-side web applications. 
 
 \paragraph{Debloating web servers:} Web servers, as the integral part of serving web applications, are prime candidates for debloating. 
 Koo et al. explored the debloating of web servers through the analysis of unused features based on a given web server configuration file~\cite{koo2019configuration}. 
@@ -41,8 +41,7 @@ Ghavamnia et al. identified that applications such as web servers by design have
 
 \paragraph{Debloating web applications:} For the server-side debloating, Boomsma et al. performed dynamic profiling of a custom web application (a PHP application from an industry partner)~\cite{boomsma2012Dead}. 
 The authors measured the time it takes for their dynamic profile system to get
-complete coverage and the percentage of files that they could remove. Since the
-application was a custom one, the authors were not able to report specifics
+complete coverage and the percentage of files that they could remove. Since they analyzed a proprietary web application, they were not able to report specifics
 in terms of the reduction of the programs attack-surface, as that relates
 to CVEs. 
 
@@ -54,7 +53,7 @@ Nevertheless, their threat model does not cover the majority of web vulnerabilit
 \paragraph{API specialization for web applications:} Another group of researchers focused on API specialization to protect web applications against SQL injection attacks~\cite{jahanshahi2020you}.
 Orthogonally, Redini et al. proposed BreakApp, which protects Node.js applications by limiting the available APIs for Node.js libraries~\cite{vasilakis2018breakapp} and Jahanshahi et al. designed Saphire, which is their API specialization approach that functions by identifying and limiting the system calls available to each PHP script, thereby limiting the ability of attackers in causing harm~\cite{saphire}. 
 Their threat model is similar to Minonode and protects web applications from further exploitation in the presence of a vulnerability that leads to arbitrary code execution. 
-API specialization is orthogonal to the debloating schemes discussed in this thesis and can be applied in parallel to our work to provide further protection for web applications. 
+API specialization is orthogonal to the debloating schemes discussed in this dissertation and can be applied in parallel to our work to provide further protection for web applications. 
 
 
 \section{Debloating in other platforms}
@@ -76,7 +75,7 @@ It propagates the constants that are defined in program arguments and configurat
 However, their system is not particularly well suited for web applications where we remove complete features.
 
 Redini et al. utilized abstract interpretation to identify basic blocks within the code that are unused~\cite{redini2019b}. 
-They start by building the control flow graph of their target application and removing the non-connected nodes (i.e., basic blocks). 
+They start by building the control flow graph of their target application and removing the disconnected nodes (i.e., basic blocks). 
 Mishra et al. explored ways to identify and build profiles of allow-lists for system calls and the parameters passed to them~\cite{mishra2018shredder,mishra2020saffire}. 
 Their threat model includes attackers who abuse code execution exploits and limits their ability to abuse the existing code from the applications and disrupts the gadget chains. 
 
@@ -97,17 +96,17 @@ For web applications specifically, combining CGs with the information about the 
 The main challenge of call graph generation specially for applications written in dynamic languages such as PHP is the absence of critical information for static analysis that is required to resolve file inclusions and determine the target of dynamic function calls. 
 More concretely, PHP allows developers to dynamically decide on which modules to load, and which function to call based on the runtime value of program variables. 
 
-Historically, imperfect call graphs have be used for static analysis in the context of vulnerability discovery. 
+Historically, imperfect call graphs have been used for static analysis in the context of vulnerability discovery. 
 Moreover, previous work has addressed the uncertainty of static call graph generation through dynamic analysis. 
-For instance, Alhuzaili et al. and Jensen et al. incorporated web crawlers as a pre-analysis step to exercise various parts of the web applications, and as a result collect dynamic traces of the file inclusions and function calls~\cite{alhuzali2018navex, jensen2012thaps}. 
+For instance, Alhuzaili et al. and Jensen et al. incorporated web crawlers as a pre-analysis step to exercise various parts of the web applications, and as a result they were able to collect dynamic traces of the file inclusions and function calls~\cite{alhuzali2018navex, jensen2012thaps}. 
 This way, they can aid their static analysis to build a more accurate call graph. 
 Nevertheless, crawlers cannot practically explore all the possible paths within an application. 
 Specially for complex applications with multi-stage form submissions, file uploads and form field verifications, web crawlers fall short. 
 
-Orthogonally, Backes et al. proposed the idea of Code Property Graphs (CPGs) in which they use to detect PHP vulnerabilities. 
+Orthogonally, Backes et al. proposed the idea of Code Property Graphs (CPGs), which they use to detect PHP vulnerabilities. 
 CPGs are generated based on CFGs and CGs. 
 In their work, the authors reported that they could only resolve 78.9\% of dynamic function calls. 
-While the authors were able to use the CPGs to report new vulnerabilities, using a CFG with 20\% uncertainty makes debloating infeasible as it would result in a significant number false positives. 
+While they were able to use the CPGs to report new vulnerabilities, using a call graph with at least 20\% of its edges missing, makes debloating infeasible as it would result in a significant number false positives (i.e., removal of required files and functions). 
 
 An alternative solution devised by researchers to resolve dynamic function calls and file inclusions is to rely on the existing structure of these calls which are commonly made up of multiple string concatenations. 
 For instance, Bulekov et al. modeled the file inclusions as regular expressions and mapped them to the underlying file system to identify potential candidate files~\cite{saphire}. 
@@ -116,13 +115,13 @@ Pixy, one of the first papers to incorporate taint analysis to detect XSS vulner
 Overall, we observe that the previous research relies on incomplete call graphs, yet it allows their static analysis tools to identify new vulnerabilities in web applications.
 
 For debloating purposes, an unresolved call site or file inclusion in call graphs leads to error-prone debloating. 
-An unresolved call site that can potentially map to any function within the application means that debloating cannot safely reason about and remove any function from the web application, and is therefore rendered useless. 
+An unresolved call site that can potentially map to any function within the application means that debloating cannot safely reason about and remove any function from the web application. 
 
 \section{Symbolic execution}
 
 The idea of symbolic execution for program testing was originally introduced by King et al.~\cite{king1976symbolic} in 1975. 
-The premise of symbolic execution is to explore the various execution paths of an application without concretely executing it. 
-Symbolic execution can be applied on the binaries (i.e., IR-Less) as well as higher level representations of a program (i.e., IR-Based) such as the LLVM IR~\cite{llvmir}. 
+The premise of symbolic execution is to explore various execution paths of an application without concretely executing it. 
+Symbolic execution can be applied to the binaries (i.e., IR-Less) as well as higher level representations of a program (i.e., IR-Based) such as the LLVM IR~\cite{llvmir}. 
 KLEE~\cite{cadar2008klee}, S2E~\cite{chipounov2009selective}, and angr~\cite{cheng2016binary} are IR-based while QSYM~\cite{yun2018qsym}, and SAGE~\cite{godefroid2012sage} are IR-less symbolic analysis engines. 
 
 IR-based engines are easier to implement as they only need to support the fewer IR instructions, and are architecture agnostic. 
@@ -135,12 +134,12 @@ By iterating through the instructions of a program, the symbolic execution engin
 For instance, if the engine is analyzing a code inside a branch statement, it assumes that the condition of the branch is already satisfied. 
 
 Symbolic execution can be used to automatically generate concrete test cases, as proposed by DART~\cite{sen2009dart, sen2005cute}. 
-Alternatively, symbolic execution is proven to be useful for vulnerability analysis (e.g., whether a certain path to sensitive program sinks is satisfiable)~\cite{5504701, wang2009intscope, cha2012unleashing, cadar2008klee}. 
+Alternatively, symbolic execution is proven to be useful for vulnerability analysis (e.g., whether a certain path condition to sensitive program sinks is satisfiable)~\cite{5504701, wang2009intscope, cha2012unleashing, cadar2008klee}. 
 Fuzzing tools also benefit from symbolic execution~\cite{godefroid2012sage}.
 More interestingly, constraint solvers and variations of symbolic execution has been used for automatic exploit generation (i.e., generating an input that satisfies the path constraints to reach and exploit a known vulnerability)~\cite{alhuzali2018navex, avgerinos2014automatic}.
 
 Concolic execution refers to the interoperation symbolic analysis and concrete execution. 
-In this method, programs are executed with concrete values and parameters from unknown sources (e.g., user input, and the environment) are replaced by symbolic values. 
+In this method, programs are executed with concrete values, and parameters from unknown sources (e.g., user input, and the environment) are replaced by symbolic values. 
 Concolic execution engines commonly rely on SMT solvers to generate concrete inputs that satisfy the existing path constraints. 
 By replacing symbolic values with concrete ones, we reduce the overhead and increase the performance of the analysis. 
 
@@ -159,7 +158,6 @@ While PHP malware uses specific APIs to remain hidden and perform its malicious 
 To be able to perform an end-to-end analysis of these applications, we extended MalMax by adding support for symbolic execution, and implementing the features used in popular PHP applications, which we discuss in more detail in Chapter~\ref{chap:ad}. 
 
 At a high level, symbolic execution challenges can be categorized as follows:
-
 \begin{itemize}
     \item \textbf{State explosion:} Refers to the exponential increase in the number of branches to be explored. This can quickly lead to memory exhaustion, or lack of enough coverage before timeout.
     \item \textbf{Imprecise analysis:} Due to incomplete modeling of the underlying execution environment, the analysis can produce too many false positives or false negatives, or even invalid results. 

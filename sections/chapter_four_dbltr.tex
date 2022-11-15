@@ -12,7 +12,7 @@ To address these challenges, we start by building a real-world ground truth data
 We then train a classifier that incorporates the source code features to identify users with similar usage patterns and group them together under a dynamically-defined role. 
 
 We design and implement \dbltr{} which consists of a reverse-proxy that is capable of hooking into the authentication attempts and transparently routing users towards role-specific custom debloated web applications. 
-Finally, we evaluate the security benefits of this approach and demonstrate its ability to protect web applications against 30-80\% more of the known CVEs and shrink their attack-surface further than the Less is More (Chapter~\ref{chap:lim}). 
+Finally, we evaluate the security benefits of this approach and demonstrate its ability to protect web applications against 30-80\% more of the known CVEs and shrink their attack-surface further than the global debloating schemes such as ``Less is More'' (Chapter~\ref{chap:lim}). 
 
 % Introduction
 \input{sections/dbltr/introduction.tex}

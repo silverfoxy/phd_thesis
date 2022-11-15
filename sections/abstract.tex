@@ -1,5 +1,5 @@
 Web applications have become an inseparable part of our digital life, and therefore, protecting online users and their information is a critical task. 
-Over the past two decades, defensive measures such as secure software development practices, network protection devices and intrusion detection systems have matured. 
+Over the past two decades, defensive measures such as secure software development practices, network protection devices, and intrusion detection systems have matured. 
 Among others, attack-surface reduction is an important defensive concept, which consists of limiting the entry points to the applications which can be abused by attackers. 
 Software debloating is one of the concrete approaches for this idea, and its goal is identification and removal of unnecessary code to prevent its abuse and exploitation in future attacks. 
 
@@ -9,6 +9,6 @@ We start by quantifying the security benefits of debloating web applications. We
 Next, we discuss the design and implementation of role-based debloating.
 Through a user study with experienced administrators and developers, we observed that different users require access to vastly different features.
 To identify users with similar behavior, we design and train an unsupervised clustering model to group users together and assign ``Roles'' to them. 
-We then build a content-delivery system based on reverse-proxies to route users transparently to their custom debloated web application and report the effectiveness of this system in debloating web applications. 
+We then build a content-delivery system based on reverse-proxies to transparently route users to their custom debloated web application and report the effectiveness of this system in debloating web applications. 
 
-Lastly, we characterize one of the main challenges of debloating web applications to be the collection of representative real world data on web application usage. By building a PHP emulator capable of concolic execution, we perform an offline reachability analysis based on the web server logs to model the users behavior for the given entry points. We then use this information to debloat web applications and demonstrate the performance of concolic execution for debloating to be comparable to the prior dynamic debloating schemes without suffering from their limitations.
+Lastly, we characterize one of the main challenges of debloating web applications to be the collection of representative real world data on web application usage. By building a PHP emulator capable of concolic execution, we perform an offline reachability analysis based on the web server logs to model the users' behavior for the given entry points. We then use this information to debloat web applications and demonstrate the performance of concolic execution for debloating to be comparable to the prior dynamic debloating schemes without suffering from their limitations.

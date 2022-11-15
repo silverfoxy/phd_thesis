@@ -1,20 +1,6 @@
 \section{Evaluation and Results}
 \label{sec:results}
 
-\begin{table}[]
-    \caption{Number of automated daily requests towards web applications compared to the number of unique entry points.}
-    \centering
-    \begin{tabular}{|l|l|l|}
-    \hline
-    \textbf{Web Application} & \textbf{Requests/Day} & \textbf{Unique Endpoints} \\ \hline
-    WordPress                & 558,576               & 152 (99.97\% $\blacktriangledown$)             \\ \hline
-    phpMyAdmin               & 491,400               & 107 (99.98\% $\blacktriangledown$)             \\ \hline
-    HotCRP                   & 175,848                 & 32 (99.98\% $\blacktriangledown$)              \\ \hline
-    FluxBB                   & 63,624                & 17 (99.97\% $\blacktriangledown$)              \\ \hline
-    \end{tabular}
-    \label{tab:logreduction}
-\end{table}
-
 In this section, we employ \animatedead{} to debloat web applications. 
 We start by collecting the list of entry points exercised while using popular web applications. 
 We then configure \animatedead{} to explore feasible paths from those entry points. 
@@ -42,13 +28,6 @@ This step is necessary as \emph{all} web applications in our dataset verify the 
 We configured concolic execution campaigns with the threshold of 24 hours, though in practice, the majority of entry points converge to their maximum code-coverage in less than one hour. 
 Analysts can observe the progress made by \animatedead{} through the reporting panel and decide to terminate the analysis when \animatedead{} stops identifying new code-coverage or the queue becomes empty (i.e., all paths for an entry point are explored). 
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=\textwidth]{figures/ad/execution_convergence_2rows.pdf}
-    \caption{Unique files discovered over time using DFS and Branch coverage guided path prioritization. Branch coverage approach results in a higher number of discovered files while DFS gets stuck in the same parts of the code.}
-    \label{fig:execution_convergence}
-\end{figure*}
-
 \subsubsection*{Data Collection} 
 To compare the debloating performance of \animatedead{} with prior work and to generate baseline code-coverage information for each entry point, we rely on the automated tests provided by the ``Less is More''~\cite{azad2019less}. 
 
@@ -61,6 +40,20 @@ Any file or function covered in the dynamic code-coverage that is missed by \ani
 \subsubsection*{Data Cleaning and Summarization} 
 It is common for popular entry points (e.g., \texttt{index.php}) of web applications to receive a large number of requests. 
 To prevent our tool from performing the same analysis multiple times unnecessarily, we only retain unique entry points and parameters from the web server logs. 
+
+\begin{table}[]
+    \caption{Number of automated daily requests towards web applications compared to the number of unique entry points.}
+    \centering
+    \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Web Application} & \textbf{Requests/Day} & \textbf{Unique Endpoints} \\ \hline
+    WordPress                & 558,576               & 152 (99.97\% $\blacktriangledown$)             \\ \hline
+    phpMyAdmin               & 491,400               & 107 (99.98\% $\blacktriangledown$)             \\ \hline
+    HotCRP                   & 175,848                 & 32 (99.98\% $\blacktriangledown$)              \\ \hline
+    FluxBB                   & 63,624                & 17 (99.97\% $\blacktriangledown$)              \\ \hline
+    \end{tabular}
+    \label{tab:logreduction}
+\end{table}
 
 In the initial stages of the analysis, \animatedead{} removes duplicate log entries. 
 Since we analyze the application with an abstract database, different values for the same parameters will have a similar effect (e.g., \texttt{?page\_id=1} or {\texttt{2}). 
@@ -80,6 +73,13 @@ After merging the code-coverage of the explored paths from all entry points, we 
 Concolic execution generates an exponentially growing number of paths to be explored in target applications. 
 This number grows based on the number of symbolic conditions in the target applications, for which \animatedead{} would need to explore the execution of all feasible branches. 
 Concretely, \emph{N} consecutive symbolic branches would produce 2\textsuperscript{N} distinct paths. 
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{figures/ad/execution_convergence_2rows.pdf}
+    \caption{Unique files discovered over time using DFS and Branch coverage guided path prioritization. Branch coverage approach results in a higher number of discovered files while DFS gets stuck in the same parts of the code.}
+    \label{fig:execution_convergence}
+\end{figure*}
 
 The prevalence of symbolic conditions and the total analysis time of each entry point directly affect the size of the queue which contains the future paths to be explored. 
 Figure~\ref{fig:execution_convergence} depicts the unique files covered over time for a subset of entry points in each web application in our dataset during 24 hours of runtime. 
