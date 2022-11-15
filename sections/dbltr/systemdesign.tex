@@ -62,12 +62,12 @@ We argue that the optimal number of roles lies in between these two extremes, su
 % Moreover, as we quantify in Section~\ref{sec:augmented_coverage}, it is beneficial to group users with similar behavior together and minimize the total number of roles since peers can augment each other's code-coverage. 
 % This aggregation reduces the likelihood of users running into removed features even in the case of an incomplete training phase (i.e., features that they did not exercise during the training of the system which were subsequently removed but later decided to use them).
 
-After comparing the debloating statistics of different clustering algorithms, we observed that Spectral clustering outperformed the other algorithms. Therefore, we use Spectral clustering in \dbltr{} and report its debloating statistics in the remainder of this paper. 
+After comparing the debloating statistics of different clustering algorithms, we observed that Spectral clustering outperformed the other algorithms. Therefore, we use Spectral clustering in \dbltr{} and report its debloating statistics in the remainder of this chapter. 
 Table~\ref{tab:clustering_lloc_comparison} lists the LLOC reduction statistics for all the evaluated clustering algorithms.
 
 \begin{figure}[]
     \centering
-    \includegraphics[width=\linewidth]{figures/dbltr/optimalroles_bw.pdf}
+    \includegraphics[width=0.8\linewidth]{figures/dbltr/optimalroles_bw.pdf}
     \caption{Reduction in number of functions after debloating for different number of roles compared to ``Global'' debloating (i.e., one role).}
     \label{fig:optimalroles}
 \end{figure}

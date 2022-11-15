@@ -1,4 +1,4 @@
-\chapter{Customized debloating for users with similar usage behavior}
+\chapter{Role-based debloating for web applications}
 \label{chap:dbltr}
 
 \section*{Preamble}
@@ -8,20 +8,11 @@ Historically, RBAC (Role Based Access Control) mechanisms have provided the abil
 Unsurprisingly, implementations of RBAC are not free of flaws~\cite{doupe2011fear, dalton2009nemesis, wpfilemanager}. 
 Moreover, the over-authorization of users further increases the impact of insider attacks and compromised accounts~\cite{twitterviphack, oktahack}.
 
-To address these challenges, we start by building a real-world ground truth dataset of web application usage patterns in the form of code coverage information through a user study including 60 experienced administrators and developers. 
+To address these challenges, we start by building a real-world ground truth dataset of web application usage patterns in the form of code-coverage information through a user study including 60 experienced administrators and developers. 
 We then train a classifier that incorporates the source code features to identify users with similar usage patterns and group them together under a dynamically-defined role. 
 
 We design and implement \dbltr{} which consists of a reverse-proxy that is capable of hooking into the authentication attempts and transparently routing users towards role-specific custom debloated web applications. 
-Finally, we evaluate the security benefits of this approach and demonstrate its ability to protect web applications against known CVEs and shrink their attack-surface further than the Less is More~\cite{azad2019less}. 
-The remainder of this chapter is replicated from the paper titled ``Role Models: Role-based debloating for Web Applications'' which is currently under submission. 
-
-\section*{Role Models: Role-based Debloating for Web Applications}
-
-\subsection*{Abstract}
-The process of debloating, i.e., removing unnecessary code and features in software, has become an attractive proposition to managing the ever-expanding attack-surface of ever-growing modern applications. Researchers have shown that debloating produces significant security improvements in a variety of application domains including operating systems, libraries, compiled software, and, more recently, web applications. Even though the client/server nature of web applications allows the same backend to serve thousands of users with diverse needs, web applications have been approached monolithically by existing debloating approaches. That is, a feature can be debloated only if none of the users of a web application requires it. Similarly, everyone gets access to the same ``global'' features, whether they need them or not.
-
-Recognizing that different users need access to different features, in this paper we propose role-based debloating for web applications. In this approach, we focus on clustering users with similar usage behavior together and providing them with a custom debloated application that is tailored to their needs. Through a user study with 60 experienced web developers and administrators, we first establish that different users indeed use web applications differently. This data is then used by \dbltr{}, an automated pipeline for providing tailored debloating based on a user's true requirements. Next to debloating web applications, \dbltr{} includes a transparent content-delivery mechanism that routes authenticated users to their debloated copies. 
-We empirically demonstrate that \dbltr{} can be 30-80\% more effective than the state-of-the-art in debloating in removing critical vulnerabilities. 
+Finally, we evaluate the security benefits of this approach and demonstrate its ability to protect web applications against 30-80\% more of the known CVEs and shrink their attack-surface further than the Less is More (Chapter~\ref{chap:lim}). 
 
 % Introduction
 \input{sections/dbltr/introduction.tex}

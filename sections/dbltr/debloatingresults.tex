@@ -27,7 +27,7 @@ Next, we compare the debloating results of \dbltr{} and quantify its improvement
 % \subsection{Clustering Statistics}
 % During our data collection step, we collected the code-coverage data from web application usage from 20 experts for each web application.
 % We then clustered their code-coverage information into 1-20 clusters. 
-% On one end, the code coverage information from all users are aggregated in a single cluster. 
+% On one end, the code-coverage information from all users are aggregated in a single cluster. 
 % On the other end, all users have their own uniquely debloated web applications that contain only the code that they have interacted with before. 
 % While \dbltr{} is capable of providing uniquely debloated web applications for each user, it is beneficial to keep the number of clusters low in order to reduce the complexity of separately maintaining $N$ applications. 
 
@@ -291,7 +291,7 @@ We test the following setups:
 
 \begin{figure}[]
     \centering
-    \includegraphics[width=\linewidth]{figures/dbltr/performance.pdf}
+    \includegraphics[width=0.8\linewidth]{figures/dbltr/performance.pdf}
     \caption{Distribution of request response time in milliseconds for Apache, Baseline, and \dbltr{} with a varying number of roles (i.e., backed Apache servers).}
     \label{fig:performance}
   \end{figure}

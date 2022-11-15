@@ -67,28 +67,28 @@ recognize option: \CurrentOption}}
 \newcommand{\program}[1]{%
      \newcommand{\@program}{#1}}
 \newcommand{\director}[2]{%
-     \newcommand{\@directorname}{#1}%
-     \newcommand{\@directorposition}{#2}}
+     \newcommand{\@directorname}{\textbf{#1}}%
+     \newcommand{\@directorposition}{\textbf{#2}}}
 \newcommand{\chairman}[2]{%
-     \newcommand{\@chairmanname}{#1}%
-     \newcommand{\@chairmanposition}{#2}}
+     \newcommand{\@chairmanname}{\textbf{#1}}%
+     \newcommand{\@chairmanposition}{\textbf{#2}}}
 \newcommand{\fstmember}[2]{%
-     \newcommand{\@fstmembername}{#1}%
-     \newcommand{\@fstmemberposition}{#2}}
+     \newcommand{\@fstmembername}{\textbf{#1}}%
+     \newcommand{\@fstmemberposition}{\textbf{#2}}}
 \newcommand{\sndmember}[2]{%
-     \newcommand{\@sndmembername}{#1}%
-     \newcommand{\@sndmemberposition}{#2}}
+     \newcommand{\@sndmembername}{\textbf{#1}}%
+     \newcommand{\@sndmemberposition}{\textbf{#2}}}
 \newcommand{\trdmember}[2]{%
-     \newcommand{\@trdmembername}{#1}%
-     \newcommand{\@trdmemberposition}{#2}}
+     \newcommand{\@trdmembername}{\textbf{#1}}%
+     \newcommand{\@trdmemberposition}{\textbf{#2}}}
 \newcommand{\outmember}[3]{%
-     \newcommand{\@outmembername}{#1}%
-     \newcommand{\@outmemberposition}{#2}%
-     \newcommand{\@outmemberschool}{#3}}
+     \newcommand{\@outmembername}{\textbf{#1}}%
+     \newcommand{\@outmemberposition}{\textbf{#2}}%
+     \newcommand{\@outmemberschool}{\textbf{#3}}}
 \newcommand{\sndoutmember}[3]{%
-     \newcommand{\@sndoutmembername}{#1}%
-     \newcommand{\@sndoutmemberposition}{#2}%
-     \newcommand{\@sndoutmemberschool}{#3}}
+     \newcommand{\@sndoutmembername}{\textbf{#1}}%
+     \newcommand{\@sndoutmemberposition}{\textbf{#2}}%
+     \newcommand{\@sndoutmemberschool}{\textbf{#3}}}
 \newcommand{\dean}[1]{%
      \newcommand{\@dean}{#1}}
 
@@ -148,12 +148,12 @@ recognize option: \CurrentOption}}
      \setlength{\baselineskip}{0pt}%
 
      \rule[-0.35in]{3in}{\if@sig 0.01in \else 0.00in \fi}\\
-     [0.03in]\@directorname{} -- \@work{} Advisor\\
+     [0.03in]\@directorname{} \textbf{-- \@work{} Advisor}\\
      \vspace{0.07in}
      \@directorposition\\%
  
      \rule[-0.35in]{3in}{\if@sig 0.01in \else 0.00in \fi}\\
-     [0.03in]\@chairmanname{} -- Chairperson of Defense\\
+     [0.03in]\@chairmanname{} \textbf{-- Chairperson of Defense}\\
      \vspace{0.07in}
      \@chairmanposition\\%
  

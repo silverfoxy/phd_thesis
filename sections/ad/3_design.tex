@@ -8,8 +8,7 @@ Finally, we use the code-coverage produced by concolic execution of target web a
 
 \begin{figure}[t]
 	\centering
-	\vspace*{-0.9em}
-	\includegraphics[width=0.75\columnwidth]{figures/ad/code_sample_concolic.pdf}
+	\includegraphics[width=0.5\linewidth]{figures/ad/code_sample_concolic.pdf}
 	\caption{Dynamic code-coverage of a successful login attempt vs. symbolic execution of the same entry point. In this sample, user-provided parameters (e.g., \texttt{\$\_POST[\textquotesingle{}user\textquotesingle{}]}) and database operations (e.g., \texttt{get\_user\_by()}) are symbolic. Arrows mark the exploration of new feasible branches as determined by the symbolic engine.}
 	\label{fig:concolic_coverage}
 \end{figure}
@@ -221,7 +220,7 @@ In the current setup, we opted to optimize paths to maximize code-coverage that 
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.4\columnwidth]{figures/ad/AD_Path_Prio_CFG.pdf}
+    \includegraphics[width=0.3\linewidth]{figures/ad/AD_Path_Prio_CFG.pdf}
     \caption{Control flow graph example for path prioritization}
     \label{fig:cfg_pathprioritization}
 \end{figure}

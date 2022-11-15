@@ -4,45 +4,48 @@
 
 So far, in the previous chapters we explored the security gains of debloating web applications. 
 We then proposed debloating mechanisms based on dynamic usage traces of users of the web applications to identify unused code sections and remove them through the process of debloating. 
-One of the main drawbacks of relying on dynamic traces is the overhead of the instrumentation to collect such code coverage traces. 
-Moreover, dynamic code coverage as a representation of feature usage for applications lacks generalizability. 
+One of the main drawbacks of relying on dynamic traces is the overhead of the instrumentation to collect such code-coverage traces. 
+Moreover, dynamic code-coverage as a representation of feature usage for applications lacks generalizability. 
 As a result, the correct functionality of debloated web applications would heavily rely on extensive training phase to collect usage traces of web application users. 
 Moreover, slight variations in the behavior of users can result in broken functionality (i.e., functionality that has been removed via debloating). 
-This, in part, can be attributed to the properties of line level code coverage information which is skewed with an over representation of common and successful code paths (e.g., successful login), and under-representation of unsuccessful and less commonly used yet important features (e.g., forgot password, and error handlers) as evident by the debloated web applications by the Less is More~\cite{azad2019less}.
+This, in part, can be attributed to the properties of line level code-coverage information which is skewed with an over representation of common and successful code paths (e.g., successful login), and under-representation of unsuccessful and less commonly used yet important features (e.g., forgot password, and error handlers) as evident by the debloated web applications by the Less is More~\cite{azad2019less}.
 
 In this chapter we introduce our approach to address the aforementioned challenges in debloating web applications. 
-To this end, we propose the usage of the readily available web server access logs to identify the web application entry points invoked by the users. 
+To this end, we propose the usage of the web server access logs to identify the web application entry points invoked by the users. 
 By focusing on application entry points and abstracting the request parameters and the execution environment (e.g., state of the database), we allow for the exploration of the under-represented paths such as failed login attempts or database errors. 
-Moreover, relying on web server logs allows us to collect historic usage traces over longer periods of time without an additional overhead.
-
-After extracting the web application entry points from the web server logs, we perform a reachability analysis by exploring the possible execution paths in the web application through its source code via concolic execution. 
-Concolic execution or concolic testing is a hybrid software verification technique that combines symbolic and concrete execution, by marking symbolic variables as concolic wherever possible~\cite{sen2007concolic}. 
-This enables us to analyze the application in a generic environment where the value of certain request-specific parameters such as session variables, cookies, and HTTP POST parameters are unknown (i.e., symbolic) at the time of analysis. 
-Similarly, we abstract away the database which allows our analysis to identify the reachable code paths and modules that can be invoked based on the HTTP requests from the web server logs regardless of the application database state. 
-At the same time, we incorporate the concrete values for existing information from the web server logs such as HTTP GET parameters and headers such as HTTP REFERER to eliminate concretely unsatisfiable path conditions (e.g., paths that execute if a certain GET parameter is provided). 
-
-One of the requirements of concolic execution is the instrumentation of the PHP engine to model the result of instructions with symbolic inputs, and exploration of multiple code paths based on symbolic conditions. 
-For that purpose, we build a PHP emulator capable of understanding and emulating \emph{all} PHP opcodes with concrete and symbolic inputs. 
-Moreover, we design a distributed execution environment to allow for the parallel exploration of symbolically satisfiable branches. 
-
-In the remainder of this chapter, which is replicated from the paper titled ``AnimateDead: Debloating Web Applications Using Concolic Execution'' which is currently under submission, we describe our design for our PHP concolic emulation system called ``\animatedead{}'', and use this system to debloat web applications and report on the improvement of security metrics as a means to quantifying the attack-surface reduction. 
-
-\pagebreak{}
-
-\section*{AnimateDead: Debloating Web Applications Using Concolic Execution}
-
-\subsection*{Abstract}
-Year over year, modern web applications evolve to cater to the needs of many users and support various runtime environments. 
-The ever-growing need to appeal to as many users as possible and the reliance on third-party dependencies comes at the price of code-bloat. 
-Previous research has highlighted the benefits of debloating mechanisms which produce smaller applications, customized to the real needs of their users with significant security improvements. 
-
-Recognizing the limitations of dynamic and static debloating schemes (including high runtime overhead and lack of accuracy), we propose a hybrid approach based on concolic execution. 
-We developed \animatedead{}, a PHP emulator capable of concolic execution and designed a distributed analysis framework around it. 
-
-By using the readily available web server logs as application entry points, we perform concolic reachability analysis and extract the code-coverage of target web applications in an abstract environment, which allows our results to generalize for \emph{all} user inputs and database states. 
+We perform concolic reachability analysis based on the application's entry points and extract the code-coverage of target web applications in an abstract environment, which allows our results to generalize for \emph{all} user inputs and database states. 
 We demonstrate that debloating via concolic execution improves the security of web applications by shrinking the size of their code by an average of 47\% and reducing critical API calls by 55\%, while removing 35-65\% of vulnerabilities for historic CVEs. 
-We show that via concolic execution, we can debloat web applications with comparable security improvements of dynamic debloating schemes without suffering from the runtime overhead, and the need for a training phase. 
-Moreover, \animatedead{}-debloated web applications reduce the likelihood of breakage by allowing users to perform all actions reachable from the analyzed entry points.
+Concolic execution enables us to debloat web applications with comparable security improvements of dynamic debloating schemes without suffering from the runtime overhead, and the need for a training phase. 
+Moreover, using concolic execution for debloating reduces the likelihood of breakage by allowing users to perform all actions reachable from the analyzed entry points.
+
+% After extracting the web application entry points from the web server logs, we perform a reachability analysis by exploring the possible execution paths in the web application through its source code via concolic execution. 
+% Concolic execution or concolic testing is a hybrid software verification technique that combines symbolic and concrete execution, by marking symbolic variables as concolic wherever possible~\cite{sen2007concolic}. 
+% This enables us to analyze the application in a generic environment where the value of certain request-specific parameters such as session variables, cookies, and HTTP POST parameters are unknown (i.e., symbolic) at the time of analysis. 
+% Similarly, we abstract away the database which allows our analysis to identify the reachable code paths and modules that can be invoked based on the HTTP requests from the web server logs regardless of the application database state. 
+% At the same time, we incorporate the concrete values for existing information from the web server logs such as HTTP GET parameters and headers such as HTTP REFERER to eliminate concretely unsatisfiable path conditions (e.g., paths that execute if a certain GET parameter is provided). 
+
+% One of the requirements of concolic execution is the instrumentation of the PHP engine to model the result of instructions with symbolic inputs, and exploration of multiple code paths based on symbolic conditions. 
+% For that purpose, we build a PHP emulator capable of understanding and emulating \emph{all} PHP opcodes with concrete and symbolic inputs. 
+% Moreover, we design a distributed execution environment to allow for the parallel exploration of symbolically satisfiable branches. 
+
+% In the remainder of this chapter, which is replicated from the paper titled ``AnimateDead: Debloating Web Applications Using Concolic Execution'' which is currently under submission, we describe our design for our PHP concolic emulation system called ``\animatedead{}'', and use this system to debloat web applications and report on the improvement of security metrics as a means to quantifying the attack-surface reduction. 
+
+% \pagebreak{}
+
+% \section*{AnimateDead: Debloating Web Applications Using Concolic Execution}
+
+% \subsection*{Abstract}
+% Year over year, modern web applications evolve to cater to the needs of many users and support various runtime environments. 
+% The ever-growing need to appeal to as many users as possible and the reliance on third-party dependencies comes at the price of code-bloat. 
+% Previous research has highlighted the benefits of debloating mechanisms which produce smaller applications, customized to the real needs of their users with significant security improvements. 
+
+% Recognizing the limitations of dynamic and static debloating schemes (including high runtime overhead and lack of accuracy), we propose a hybrid approach based on concolic execution. 
+% We developed \animatedead{}, a PHP emulator capable of concolic execution and designed a distributed analysis framework around it. 
+
+% By using the readily available web server logs as application entry points, we perform concolic reachability analysis and extract the code-coverage of target web applications in an abstract environment, which allows our results to generalize for \emph{all} user inputs and database states. 
+% We demonstrate that debloating via concolic execution improves the security of web applications by shrinking the size of their code by an average of 47\% and reducing critical API calls by 55\%, while removing 35-65\% of vulnerabilities for historic CVEs. 
+% We show that via concolic execution, we can debloat web applications with comparable security improvements of dynamic debloating schemes without suffering from the runtime overhead, and the need for a training phase. 
+% Moreover, \animatedead{}-debloated web applications reduce the likelihood of breakage by allowing users to perform all actions reachable from the analyzed entry points.
 
 \input{sections/ad/1_introduction}
 \input{sections/ad/2_background}
