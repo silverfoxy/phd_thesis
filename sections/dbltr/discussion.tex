@@ -10,7 +10,7 @@ As a result, assigning new users to existing \dbltr{} roles requires special tre
 
 The conservative approach is to assign new users to a non-debloated web application and record their usage behavior. \dbltr{} can straightforwardly handle this by the mere introduction of a new containerized environment containing that non-debloated web application and a mapping rule assigning the new user to that container. A more aggressive approach is to assign users to a \emph{globally-debloated} web application with the expectation that a newly added user will use features used by at least one existing user of that web application. For both strategies (i.e., conservative and aggressive assignment), administrators can collect usage traces for that new user and eventually invoke \dbltr{} to produce new roles and migrate the new user to a more tailored cluster of users.
 
-To evaluate the latter more aggressive user-assignment strategy, we start by assuming a setup for \dbltr{} where the usage traces for the majority of users have been collected and the roles are produced. This setup resembles an environment (e.g., a company) where the majority of employees were present for the usage-trace collection period and a limited number of new users (e.g., newly-hired employees) are periodically added to this steady-state system. When a new user is added to the system, we use the sum of the code-coverage of all existing users to produce a globally-debloated web application, which still contains a significantly smaller attack-surface compared to the original application. 
+To evaluate the latter more aggressive user-assignment strategy, we start by assuming a setup for \dbltr{} where the usage traces for the majority of users have been collected and the roles are produced. This setup resembles an environment (e.g., a company) where the majority of employees were present for the usage-trace collection period and a limited number of new users (e.g., newly-hired employees) are periodically added to this steady-state system. When a new user is added to the system, we use the sum of the code-coverage of all existing users to produce a globally-debloated web application, which still contains a significantly smaller attack surface compared to the original application. 
 
 
 To simulate this, we conduct the following leave-one-out experiment: we remove the code-coverage information of each user from the training dataset and create a debloated copy of the web application based on the code-coverage of remaining users (i.e., 19/20 users). 
@@ -42,7 +42,7 @@ Evidently, the existing authorization mechanisms of these applications aim to of
 \dbltr{} builds an accurate list of required features and enforces the principle of least privilege via debloating. 
 
 \noindent\textbf{One-size-fits-all debloating still produces bloated web applications:} 
-As demonstrated by this work and the literature, debloating web applications is highly effective in reducing the attack-surface of web applications by removing unused features and their underlying vulnerabilities. 
+As demonstrated by this work and the literature, debloating web applications is highly effective in reducing the attack surface of web applications by removing unused features and their underlying vulnerabilities. 
 
 The global debloating approach explored by the prior work produces one debloated web application which as demonstrated by our analysis, can contain as much as 29\% extra LLOC compared to what users actually need. 
 In this work, we integrated \dbltr{} with a dynamic debloating scheme and demonstrated that \dbltr{} can provide improvements across all debloating metrics. 
@@ -51,7 +51,7 @@ We demonstrated that in the case of global debloating, users in at least half of
 % \noindent\textbf{Clustering users with similar behavior together reduces the likelihood of broken features:} 
 % In Table~\ref{tab:augmented_coverage} we reported that 15-38\% of files covered by each user in a cluster had new functions covered by other users in the same cluster. 
 % Moreover, 29-71\% of third-party packages in a cluster and more than half of internal modules had new files added to the coverage from the perspective of each member of the clusters. 
-% Both of these results show that clustering users based on their feature usage can produce debloated applications with shrunk attack-surface, while reducing the likelihood of debloating useful features due to overfitting to the specific usage traces of individual users. 
+% Both of these results show that clustering users based on their feature usage can produce debloated applications with shrunk attack surface, while reducing the likelihood of debloating useful features due to overfitting to the specific usage traces of individual users. 
 
 \noindent\textbf{\dbltr{} provides a content delivery environment for debloated web applications:} 
 One of the main contributions of our work is our content delivery pipeline which reduces the need for modifications and customizations to target web applications, while keeping the debloating platform entirely invisible to web application users.

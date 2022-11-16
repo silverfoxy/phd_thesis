@@ -24,7 +24,7 @@ The concolic aspect of this analysis consists of transitions of the execution fr
 
 We developed \animatedead{}, a distributed analysis system which contains a PHP emulator capable of concolic execution. 
 The main contribution of our concolic execution system is its ability to perform end-to-end program analysis. 
-Our generic concolic execution engine can be employed for vulnerability assessment, code analysis, and as we discuss in this paper, for software debloating. 
+Our generic concolic execution engine can be employed for vulnerability assessment, code analysis, and as we discuss in this chapter, for software debloating. 
 
 In this chapter, we focused on using \animatedead{} to perform a module reachability analysis for target web applications given their entry points, and use this information to debloat unused modules. 
 This approach benefits from the abstractions of user-provided parameters and an abstract database and network, which results in debloated web applications that retain \emph{all} the code responsible for the exercised entry points from the logs. 

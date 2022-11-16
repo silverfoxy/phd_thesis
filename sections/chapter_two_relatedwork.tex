@@ -5,7 +5,7 @@ In this chapter we review the literature of research on the topic of software de
 Lastly, we discuss the literature on symbolic and concolic analysis. 
 
 The idea of software debloating was initially discussed by Zeller et al.~\cite{zeller2002simplifying} as a means to isolate failure-inducing code. 
-This idea was later applied to the context of software security to reduce the attack-surface of applications and software systems ranging from kernel~\cite{abubakar2021shard}, container environments~\cite{rastogi2017Cimplifier,259711}, binaries~\cite{hasan2022decap, redini2019b, heo2018effective,ghavamnia2020temporal, mishra2020saffire, koo2019configuration, quach2018debloating}, web browsers~\cite{snyder2017most, qian2020slimium}, and web applications~\cite{azad2019less, bulekov2021saphire, mininode, jahanshahi2020you}. 
+This idea was later applied to the context of software security to reduce the attack surface of applications and software systems ranging from kernel~\cite{abubakar2021shard}, container environments~\cite{rastogi2017Cimplifier,259711}, binaries~\cite{hasan2022decap, redini2019b, heo2018effective,ghavamnia2020temporal, mishra2020saffire, koo2019configuration, quach2018debloating}, web browsers~\cite{snyder2017most, qian2020slimium}, and web applications~\cite{azad2019less, bulekov2021saphire, mininode, jahanshahi2020you}. 
 At a high level, there are three mainstream approaches to debloating: 
 
 \begin{enumerate}
@@ -30,7 +30,7 @@ JavaScript APIs in the wild and designed a browser extension
 to control which APIs any given website would get access to, depending
 on that website's level of trust. 
 Schwarz et al. similarly utilized a browser
-extension to limit the attack-surface of Chrome browser and showed that their extension can protect users against micro-architectural and side-channel attacks~\cite{Schwarz2018}. 
+extension to limit the attack surface of Chrome browser and showed that their extension can protect users against micro-architectural and side-channel attacks~\cite{Schwarz2018}. 
 Finally, Qian et al. debloated the Chromium browser with respect to the feature usage of specific websites~\cite{qian2020slimium}. 
 These studies are orthogonal to our work since
 they focus on the client-side aspect of the web, whereas we focus on the server-side web applications. 
@@ -42,7 +42,7 @@ Ghavamnia et al. identified that applications such as web servers by design have
 \paragraph{Debloating web applications:} For the server-side debloating, Boomsma et al. performed dynamic profiling of a custom web application (a PHP application from an industry partner)~\cite{boomsma2012Dead}. 
 The authors measured the time it takes for their dynamic profile system to get
 complete coverage and the percentage of files that they could remove. Since they analyzed a proprietary web application, they were not able to report specifics
-in terms of the reduction of the programs attack-surface, as that relates
+in terms of the reduction of the programs attack surface, as that relates
 to CVEs. 
 
 Koishybayev et al. focused on the bloat from third-party Node.js libraries. 

@@ -16,7 +16,7 @@ Finally, we use the code-coverage produced by concolic execution of target web a
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{figures/ad/animatedead_diagram.pdf}
-    \caption{Overview of Distributed \animatedead{}. In Stage 1, \animatedead{} analyzes the web server log files to generate unique web application entry points. Orchestrator nodes and workers (Stage 2 and 4) interact over message queues (Stage 3) to identify which paths should be explored by the emulators, \animatedead{} provides a realtime reporting panel that plots the size of the queue and newly identified code-coverage over time. Finally, in Stage 5, the overall code-coverage from concolic execution is incorporated for reachability analysis and unreachable modules from the entry points are debloated. Orchestrators and worker nodes run in container environments and can be scaled up on demand.}
+    \caption{Overview of Distributed \animatedead{}. In Stage 1, \animatedead{} analyzes the web server log files to generate unique web application entry points. Orchestrator nodes and workers (Stage 2 and 4) interact over message queues (Stage 3) to identify which paths should be explored by the emulators, \animatedead{} provides a real time reporting panel that plots the size of the queue and newly identified code-coverage over time. Finally, in Stage 5, the overall code-coverage from concolic execution is incorporated for reachability analysis and unreachable modules from the entry points are debloated. Orchestrators and worker nodes run in container environments and can be scaled up on demand.}
     \label{fig:ad_diagram}
     \vspace{-1em}
 \end{figure*}

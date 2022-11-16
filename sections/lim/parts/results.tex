@@ -3,7 +3,7 @@
 
 To assess the impact of debloating web applications, we analyze our results
 from a number of different perspectives. First, we show the contributions of different application-profiling methods and then compute different metrics
-to understand the effectiveness of debloating in terms of reducing the attack-surface of our tested applications. Next, we focus on CVEs to determine whether
+to understand the effectiveness of debloating in terms of reducing the attack surface of our tested applications. Next, we focus on CVEs to determine whether
 debloating can actually remove critical vulnerabilities. Then, we take
 a closer look at the bloat introduced by external packages along with the
 security implications that come with using this specific development practice.
@@ -56,7 +56,7 @@ insights into what has actually been removed during the debloating process.
 
 \subsubsection{Logical lines of code}
 \label{subsubsec:lloc}
-The size of a program positively correlates with the number of programming errors (i.e., bugs). According to McConnel~\cite{mcconnell2004code}, the industry average, at least in 2004, was to have between 1 and 25 bugs for every one thousand lines of code. Given the importance of the size of an application to its overall security, we start by estimating the reduction of the attack-surface by looking at the
+The size of a program positively correlates with the number of programming errors (i.e., bugs). According to McConnel~\cite{mcconnell2004code}, the industry average, at least in 2004, was to have between 1 and 25 bugs for every one thousand lines of code. Given the importance of the size of an application to its overall security, we start by estimating the reduction of the attack surface by looking at the
 Logical Lines Of Code (LLOC, sometimes also called Effective Lines Of
 Code). LLOC is intended to measure lines of code without comments, empty
 lines and syntactic structure required by the programming language. LLOC
@@ -91,7 +91,7 @@ v.4.0 and a maximum of 64.5\% for Magento v.2.0.5. For Magento,
 this reduction represents a removal of 393K lines of code.
 This number is a clear sign that large web applications encompass many
 different features that may not be used by all users and therefore result
-in bloated applications with an unnecessarily large attack-surface. At the same time, it is worthwhile repeating that all debloating results presented in this section are conditional to how web applications are used. Therefore, these large levels of debloating cannot be guaranteed for all possible deployments of web applications. We discuss this issue in Section~\ref{sec:limitations}.
+in bloated applications with an unnecessarily large attack surface. At the same time, it is worthwhile repeating that all debloating results presented in this section are conditional to how web applications are used. Therefore, these large levels of debloating cannot be guaranteed for all possible deployments of web applications. We discuss this issue in Section~\ref{sec:limitations}.
 
 \paragraph{Function-level debloating.}
 On average, function-level debloating is able to remove 46.8\% of lines of code.
@@ -109,7 +109,7 @@ this kind of coarse-level debloating. Contrastingly, Magento and MediaWiki
 are developed in a much more modular fashion (many small files each responsible
 for a small number of well-defined tasks) and therefore lend themselves better to file-level
 debloating. The more fine-grained, function-level debloating bypasses this
-issue and can therefore reduce the attack-surface of a web application,
+issue and can therefore reduce the attack surface of a web application,
 even for more monolithic web applications.
 
 
@@ -323,7 +323,7 @@ provide against our usage profiles.
 
 First, one can observe that external packages introduce a large amount of
 unused code. For all three debloated applications, more than 84\% of their code
-was removed from them. This means that the attack-surface is unnecessarily
+was removed from them. This means that the attack surface is unnecessarily
 large through the dependency on external packages. The number of removed
 lines from external packages for Magento is particularly noteworthy with
 more than 178,000 lines of code removed. Moreover, the number of packages
@@ -339,7 +339,7 @@ being three times the size of the introduced external packages.
 Despite the advantages of using package managers (e.g., the ability to track
 dependencies and update vulnerable libraries without the need to update
 the main application), our findings show that these advantages come at a
-considerable cost in terms of unnecessarily expanding the attack-surface of
+considerable cost in terms of unnecessarily expanding the attack surface of
 a web application with code that is seldomly executed. As such, developers
 must take special care to include the bare minimum of external packages,
 knowing the unwanted side-effects that each external package brings.
@@ -447,7 +447,7 @@ testing, performance analysis, and profiling. We discovered that applications
 downloaded from official websites often include these development packages. As
 such, when these packages are used to deploy web applications in production
 mode, they will contain unnecessary development libraries. This does not
-only increase the attack-surface by having unnecessary code bloating the
+only increase the attack surface by having unnecessary code bloating the
 application, but can also lead to exploitation for misconfigured applications.
 
 CVE-2017-9841 presents one example of such a
