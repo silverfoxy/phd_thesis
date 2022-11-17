@@ -29,7 +29,7 @@ We configured concolic execution campaigns with the threshold of 24 hours, thoug
 Analysts can observe the progress made by \animatedead{} through the reporting panel and decide to terminate the analysis when \animatedead{} stops identifying new code-coverage or the queue becomes empty (i.e., all paths for an entry point are explored). 
 
 \subsubsection*{Data Collection} 
-To compare the debloating performance of \animatedead{} with prior work and to generate baseline code-coverage information for each entry point, we rely on the automated tests provided by the ``Less is More''~\cite{azad2019less}. 
+To compare the debloating performance of \animatedead{} with prior work and to generate baseline code-coverage information for each entry point, we rely on the automated tests developed for the ``Less is More''~\cite{azad2019less}. 
 
 We run the Selenium scripts from Less is More and the ones we built for HotCRP and FluxBB and collect the web server logs along with the dynamic code-coverage information from the Less is More framework. 
 The code-coverage information for our web applications serves as the baseline code-coverage (i.e., dynamic code-coverage) for the remainder of our evaluation. 
@@ -165,7 +165,7 @@ Using this code-coverage for reachability, allows us to produce debloated web ap
     \centering
     \includegraphics[width=0.8\linewidth]{figures/ad/cac_reduction_bw.pdf}
     \caption{Reduction of Critical API Calls.}
-    \label{fig:cac_reduction}
+    \label{fig:ad_cac_reduction}
 \end{figure}
 
 The PHP engine interacts with its execution environment through a set of internal APIs. 
@@ -177,7 +177,7 @@ We use the list of 205 critical APIs used by RIPS to perform taint analysis on P
 We report the removal of these APIs after debloating. 
 For phpMyAdmin, we observe that \animatedead{} removes 75\% of code execution API calls, compared to 90\% reduction of Less is More. 
 For other applications in our dataset, this reduction of critical API calls ranges from 10\% to 89\% for \animatedead{} and 50\% to 96\% for Less is More. 
-As demonstrated in Figure~\ref{fig:cac_reduction}, debloating based on concolic execution of entry points results in a considerable reduction in critical API calls compared to the original applications, across all categories of critical APIs. 
+As demonstrated in Figure~\ref{fig:ad_cac_reduction}, debloating based on concolic execution of entry points results in a considerable reduction in critical API calls compared to the original applications, across all categories of critical APIs. 
 
 \subsubsection*{CVE Reduction}
 Orthogonal to size reduction, we measure the performance of debloating in removing historic vulnerabilities in the source code of an application. 

@@ -162,6 +162,13 @@ Malicious users can abuse this flaw to load and execute arbitrary PHP files from
 The export feature in phpMyAdmin is commonly used to backup existing databases and therefore is highly unlikely to be removed by prior global-debloating mechanisms.
 Nevertheless, we observed that one of our roles produced by \dbltr{} included four users who did not exercise the export functionality. As a result, \dbltr{} is able to remove this feature from the source code of that specific role, protecting the web application from abuse by these four specific users (including from attackers who compromise their accounts). 
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{figures/dbltr/cac_reduction_spectral_bw.pdf}
+    \caption{Critical API Call (CAC) reduction after debloating. Baseline represents the global debloating approach where all users are assigned to the same role. \dbltr{} indicates the average reduction across roles.}
+    \label{fig:cac_reduction}
+\end{figure}
+
 \subsubsection{Critical API Calls Reduction}
 
 Another security metric that we analyze is the reduction in Critical API Calls (CACs). 
@@ -175,12 +182,23 @@ This reduction indicates that a sizable number of CACs are in unused parts of th
 For the larger applications such as Magento, the reduction in Code Execution APIs is more significant where 32\%-53\% of these APIs are removed by \dbltr{}.
 Over all categories of CACs, we observe that \dbltr{} removes tens to hundreds of such API calls beyond the Baseline, further protecting web applications from exploits that target these APIs. 
 
-\begin{figure}[t]
+\begin{table}[t]
     \centering
-    \includegraphics[width=\linewidth]{figures/dbltr/cac_reduction_spectral_bw.pdf}
-    \caption{Critical API Call (CAC) reduction after debloating. Baseline represents the global debloating approach where all users are assigned to the same role. \dbltr{} indicates the average reduction across roles.}
-    \label{fig:cac_reduction}
-\end{figure}
+    \caption{PHP Object Injection Gadgets statistics after debloating. Listing number of existing gadgets for Baseline and the percentage of roles in \dbltr{} exposed to those gadgets.}
+    \label{tab:poi_gadgets}
+    \scalebox{1}{
+        \begin{tabular}{|l|l|c|c|c|}
+            \hline
+            Web Application             & Package & Original & Baseline & \dbltr{} \\ \hline
+            \multirow{2}{*}{phpMyAdmin} & Symfony & 2        & 0        & 0     \\ \cline{2-5} 
+                                        & TCPDF   & 1        & 1        & 83\%  \\ \hline
+            WordPress                   & Generic & 1        & 0        & 0     \\ \hline
+            \multirow{3}{*}{Magento}    & Guzzle  & 3        & 2        & 100\%, 0\% \\ \cline{2-5} 
+                                        & Magento & 1        & 1        & 14\%  \\ \cline{2-5} 
+                                        & Monolog & 6        & 0        & 0     \\ \hline
+            \end{tabular}
+    }
+\end{table}
 
 \subsubsection{PHP Object Injection Gadget Reduction}
 
@@ -202,24 +220,6 @@ For the gadget chain within the Magento package itself, only (1/7) 14\% of roles
 
 Our results confirm the findings of previous work that debloating is a highly effective defense for removing publicly known object injection gadget chains. 
 Moreover, we observe that by clustering users into multiple groups, we can further breakdown the availability of gadgets and in certain cases, further complicating the exploitation of object injection vulnerabilities. Under a \dbltr{}-protected deployment, attackers not only need to identify the available gadgets in the target web application to build their exploit chain, but they also have to target \emph{specific} victims who have access to the underlying gadgets used in their exploits. 
-
-\begin{table}[t]
-    \centering
-    \caption{PHP Object Injection Gadgets statistics after debloating. Listing number of existing gadgets for Baseline and the percentage of roles in \dbltr{} exposed to those gadgets.}
-    \label{tab:poi_gadgets}
-    \scalebox{1}{
-        \begin{tabular}{|l|l|c|c|c|}
-            \hline
-            Web Application             & Package & Original & Baseline & \dbltr{} \\ \hline
-            \multirow{2}{*}{phpMyAdmin} & Symfony & 2        & 0        & 0     \\ \cline{2-5} 
-                                        & TCPDF   & 1        & 1        & 83\%  \\ \hline
-            WordPress                   & Generic & 1        & 0        & 0     \\ \hline
-            \multirow{3}{*}{Magento}    & Guzzle  & 3        & 2        & 100\%, 0\% \\ \cline{2-5} 
-                                        & Magento & 1        & 1        & 14\%  \\ \cline{2-5} 
-                                        & Monolog & 6        & 0        & 0     \\ \hline
-            \end{tabular}
-    }
-\end{table}
 
 % \subsection{Contribution of individual users to the overall code-coverage of clusters}
 % \label{sec:augmented_coverage}

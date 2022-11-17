@@ -65,6 +65,28 @@ We argue that the optimal number of roles lies in between these two extremes, su
 After comparing the debloating statistics of different clustering algorithms, we observed that Spectral clustering outperformed the other algorithms. Therefore, we use Spectral clustering in \dbltr{} and report its debloating statistics in the remainder of this chapter. 
 Table~\ref{tab:clustering_lloc_comparison} lists the LLOC reduction statistics for all the evaluated clustering algorithms.
 
+\begin{table}[t]
+    \caption{Minimum, median, and maximum size of debloated applications for optimal number of roles reported as thousands of LLOC.}
+    \label{tab:clustering_lloc_comparison}
+    \centering
+    \begin{adjustbox}{max width=0.8\columnwidth}
+    \begin{tabular}{|l|l|lll|}
+    \hline
+    \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}l@{}}Web \\ Application\end{tabular}}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}l@{}}Clustering\\ Algorithm\end{tabular}}} & \multicolumn{3}{c|}{\textbf{K-LLOC}}                                                    \\ \cline{3-5} 
+                                                                                         &                                                                                          & \multicolumn{1}{c|}{\textbf{Min}} & \multicolumn{1}{c|}{\textbf{Median}} & \textbf{Max} \\ \hline
+    \multirow{3}{*}{phpMyAdmin}                                                          & Spectral                                                                                 & \multicolumn{1}{c|}{32}           & \multicolumn{1}{c|}{39}              & \multicolumn{1}{c|}{42}           \\ \cline{2-5} 
+                                                                                         & DBSCAN                                                                                   & \multicolumn{1}{c|}{34}           & \multicolumn{1}{c|}{39}              & \multicolumn{1}{c|}{41}           \\ \cline{2-5} 
+                                                                                         & K-means                                                                                  & \multicolumn{1}{c|}{32}           & \multicolumn{1}{c|}{40}              & \multicolumn{1}{c|}{42}           \\ \hline
+    \multirow{3}{*}{WordPress}                                                           & Spectral                                                                                 & \multicolumn{1}{c|}{44}           & \multicolumn{1}{c|}{54}              & \multicolumn{1}{c|}{64}           \\ \cline{2-5} 
+                                                                                         & DBSCAN                                                                                   & \multicolumn{1}{c|}{47}           & \multicolumn{1}{c|}{59}              & \multicolumn{1}{c|}{64}           \\ \cline{2-5} 
+                                                                                         & K-means                                                                                  & \multicolumn{1}{c|}{44}           & \multicolumn{1}{c|}{52}              & \multicolumn{1}{c|}{64}           \\ \hline
+    \multirow{3}{*}{Magento}                                                             & Spectral                                                                                 & \multicolumn{1}{c|}{241}          & \multicolumn{1}{c|}{270}             & \multicolumn{1}{c|}{326}          \\ \cline{2-5} 
+                                                                                         & DBSCAN                                                                                   & \multicolumn{1}{c|}{251}          & \multicolumn{1}{c|}{275}             & \multicolumn{1}{c|}{310}          \\ \cline{2-5} 
+                                                                                         & K-means                                                                                  & \multicolumn{1}{c|}{251}          & \multicolumn{1}{c|}{283}             & \multicolumn{1}{c|}{316}          \\ \hline
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
 \begin{figure}[]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/dbltr/optimalroles_bw.pdf}
@@ -104,28 +126,6 @@ This is depicted in Figure~\ref{fig:system_architecture} as step 3.
 
 We implement the login-detection logic as a Lua module for OpenResty. 
 This module is responsible for detecting successful login requests, extracting username and session cookie information, as well as storing and retrieving the user-to-debloated-application mappings from the data store.
-
-\begin{table}[t]
-    \caption{Minimum, median, and maximum size of debloated applications for optimal number of roles reported as thousands of LLOC.}
-    \label{tab:clustering_lloc_comparison}
-    \centering
-    \begin{adjustbox}{max width=0.8\columnwidth}
-    \begin{tabular}{|l|l|lll|}
-    \hline
-    \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}l@{}}Web \\ Application\end{tabular}}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}l@{}}Clustering\\ Algorithm\end{tabular}}} & \multicolumn{3}{c|}{\textbf{K-LLOC}}                                                    \\ \cline{3-5} 
-                                                                                         &                                                                                          & \multicolumn{1}{c|}{\textbf{Min}} & \multicolumn{1}{c|}{\textbf{Median}} & \textbf{Max} \\ \hline
-    \multirow{3}{*}{phpMyAdmin}                                                          & Spectral                                                                                 & \multicolumn{1}{c|}{32}           & \multicolumn{1}{c|}{39}              & \multicolumn{1}{c|}{42}           \\ \cline{2-5} 
-                                                                                         & DBSCAN                                                                                   & \multicolumn{1}{c|}{34}           & \multicolumn{1}{c|}{39}              & \multicolumn{1}{c|}{41}           \\ \cline{2-5} 
-                                                                                         & K-means                                                                                  & \multicolumn{1}{c|}{32}           & \multicolumn{1}{c|}{40}              & \multicolumn{1}{c|}{42}           \\ \hline
-    \multirow{3}{*}{WordPress}                                                           & Spectral                                                                                 & \multicolumn{1}{c|}{44}           & \multicolumn{1}{c|}{54}              & \multicolumn{1}{c|}{64}           \\ \cline{2-5} 
-                                                                                         & DBSCAN                                                                                   & \multicolumn{1}{c|}{47}           & \multicolumn{1}{c|}{59}              & \multicolumn{1}{c|}{64}           \\ \cline{2-5} 
-                                                                                         & K-means                                                                                  & \multicolumn{1}{c|}{44}           & \multicolumn{1}{c|}{52}              & \multicolumn{1}{c|}{64}           \\ \hline
-    \multirow{3}{*}{Magento}                                                             & Spectral                                                                                 & \multicolumn{1}{c|}{241}          & \multicolumn{1}{c|}{270}             & \multicolumn{1}{c|}{326}          \\ \cline{2-5} 
-                                                                                         & DBSCAN                                                                                   & \multicolumn{1}{c|}{251}          & \multicolumn{1}{c|}{275}             & \multicolumn{1}{c|}{310}          \\ \cline{2-5} 
-                                                                                         & K-means                                                                                  & \multicolumn{1}{c|}{251}          & \multicolumn{1}{c|}{283}             & \multicolumn{1}{c|}{316}          \\ \hline
-\end{tabular}
-\end{adjustbox}
-\end{table}
 
 The login procedure for web applications consists of a request containing the credentials followed by the server response assigning the authentication cookie to the users in the case of successful login. 
 \dbltr{} inspects the request-response pairs for successful login attempts. 

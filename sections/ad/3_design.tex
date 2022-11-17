@@ -28,7 +28,7 @@ At the end of this stage (Step 1 in Figure~\ref{fig:ad_diagram}), we provide the
 
 \subsubsection*{Analyzing Web Server Log Files} 
 After collecting the web server logs for the target web application, \animatedead{} merges and de-duplicates the entries. 
-The level of information provided for each entry point (i.e., concrete inputs) has a direct effect on the time of analysis. 
+The level of information provided for each entry point (i.e., concrete inputs) has a direct effect on the duration of analysis. 
 By shrinking the state space of the analysis via providing more detailed logs, we can reduce the total number of paths and reduce the overall analysis time. 
 
 To that end, we experimented with the default fields of information in web server logs and extended logs. 

@@ -9,7 +9,7 @@ Unsurprisingly, implementations of RBAC are not free of flaws~\cite{doupe2011fea
 Moreover, the over-authorization of users further increases the impact of insider attacks and compromised accounts~\cite{twitterviphack, oktahack}.
 
 To address these challenges, we start by building a real-world ground truth dataset of web application usage patterns in the form of code-coverage information through a user study including 60 experienced administrators and developers. 
-We then train a classifier that incorporates the source code features to identify users with similar usage patterns and group them together under a dynamically-defined role. 
+We then build a clustering model that incorporates features from the source code of applications to identify users with similar usage patterns and group them together under a dynamically-defined role. 
 
 We design and implement \dbltr{} which consists of a reverse-proxy that is capable of hooking into the authentication attempts and transparently routing users towards role-specific custom debloated web applications. 
 Finally, we evaluate the security benefits of this approach and demonstrate its ability to protect web applications against 30-80\% more of the known CVEs and shrink their attack surface further than the global debloating schemes such as ``Less is More'' (Chapter~\ref{chap:lim}). 

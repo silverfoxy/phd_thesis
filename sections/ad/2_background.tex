@@ -10,11 +10,11 @@ The failure to resolve the dynamic code structures (e.g., file inclusions, dynam
 Removing such modules causes false positives. 
 In other words, the debloated web application will miss files and functions that are required by the users resulting in breakage. 
 
-On the other hand, dynamic debloating schemes such as Less is More (LIM) rely on an extensive training phase during which all the desired features need to be exercised. 
+On the other hand, dynamic debloating schemes such as Less is More and \dbltr{} rely on an extensive training phase during which all the desired features need to be exercised. 
 The slightest oversight in the exercised features will result in removal of features that are necessary. 
-The authors of LIM build synthetic test cases to model the user behavior. 
-An alternative is to perform the training phase on real users by instrumenting live web servers to collect the information about used modules. 
-The downside of this approach is the high performance overhead of existing code instrumentation tools such as XDebug, which reportedly, can increase the page load time of web applications by up to 500\%~\cite{azad2019less}. 
+In Chapter~\ref{chap:lim}, we built synthetic test cases to model the user behavior. 
+An alternative is to perform the training phase on real users by instrumenting live web servers to collect the information about used modules (Chapter~\ref{chap:dbltr}). 
+One of the downsides of relying on dynamic traces is the high performance overhead of existing code instrumentation tools such as XDebug, which reportedly, can increase the page load time of web applications by up to 500\%~\cite{azad2019less}. 
 
 \subsection{Symbolic Execution}
 \label{sec:background_symbolic}
@@ -45,11 +45,11 @@ The downside of this approach is the high performance overhead of existing code 
 
 Symbolic execution is an offline program analysis technique that explores the reachability of different code branches by propagating symbolic values. 
 For instance, for web applications, we mark user-provided values as symbolic. 
-The symbolic placeholders for the user controlled variables encompass all the possible values for these parameters. 
+The symbolic placeholders for the user-controlled variables encompass all the possible values for these parameters. 
 Throughout the analysis, we collect a set of constraints based on conditional operations and limit the set of feasible values for each symbolic variable. 
 Upon encountering a branch with symbolic condition, we fork the execution and explore all feasible branches. 
 
-Listing~\ref{lst:wordpress_login} shows a consice version of the login page of WordPress. 
+Listing~\ref{lst:wordpress_login} shows a concise version of the login page of WordPress. 
 By running the Selenium scripts from the Less is More dataset, which automate the interactions with common functions of WordPress, we would trigger the successful login via username (first column in Figure~\ref{fig:concolic_coverage}). 
 In contrast, symbolic execution explores other paths within the same code leading to the inclusion of functions that handle failed login attempts (line 3, and 14) and login with email address (line 8) as depicted in Figure~\ref{fig:concolic_coverage}. 
 
