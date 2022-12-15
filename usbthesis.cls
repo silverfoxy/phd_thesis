@@ -197,8 +197,8 @@ recognize option: \CurrentOption}}
     \begin{center}%
     \setlength{\baselineskip}{14.5pt}%
     \vspace*{0.1in}%
-%     {\large Abstract of the \@work}\\%
-     {\large Abstract}\\%
+    {\large Abstract of the \@work}\\%
+     % {\large Abstract}\\%
     [0.2in]{\textbf{\Large{\@title}}}\\%
 %    [0.2in]{\Huge{\@title}}\\%
 %    {\bf \sc \Huge {\@title\\}}%

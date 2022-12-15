@@ -251,7 +251,7 @@ One of the key challenges of verifying the correctness of a debloating scheme is
 Dynamic code-coverage traces can be used as a lower-bound of line-coverage. 
 In the absence of an oracle that determines all the reachable lines of code from each entry point given a symbolic environment we rely on automated random testing. 
 
-\subsubsection{Automated Random testing}
+\subsubsection{Automated Random Testing}
 \label{sec:automated_random_testing}
 We use ZAP Proxy~\cite{zapproxy} and its automated crawler to interact with the same entry points used for debloating. 
 By performing random testing on the same entry points used for debloating, we automatically exercise the features that are reachable from the same entry points, which should be retained by \animatedead{}. 

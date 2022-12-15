@@ -63,7 +63,7 @@ In practice, resolution of dynamic code structures requires the precise implemen
 
 In \animatedead{}, beyond modeling the 188 standard PHP opcodes~\cite{popov}, we model the built-in PHP functions that affect the state of the emulator (e.g., loading new classes and defining new constants). 
 For the majority of the self-contained PHP built-in functions that do not change the state of the emulator or manipulate the flow of execution such as \texttt{date}, \texttt{print}, \texttt{explode}, \texttt{file\_exists}, etc. we first resolve their arguments and then, invoke the original implementation in the PHP engine. 
-For functions that rely on the state of the emulator (e.g., \texttt{class\_exists}, \texttt{define} (defines a new constant), \texttt{reflection APIs} (rely on autoloader and loaded classes and can invoke new code), \texttt{eval}, etc.), we provide our own implementation in the emulator. 
+For functions that rely on the state of the emulator ( e.g., \texttt{class\_exists}, \texttt{define} (defines a new constant), \texttt{reflection APIs} (rely on autoloader and loaded classes and can invoke new code, \texttt{eval}, etc.), we provide our own implementation in the emulator. 
 After a careful review of PHP documents and the list of built-in functions used in popular PHP applications, we identified 92 functions that required a custom implementation in our emulator. 
 
 \animatedead{}'s PHP emulator is written in PHP 7.4 and is capable of emulating PHP 5.x and 7.x. 
