@@ -120,7 +120,7 @@ recognize option: \CurrentOption}}
      [0.2in] in\\%
      [0.2in] \textbf{\large \@program}\\%
      [0.5in] Stony Brook University\\%
-     [0.2in] \@month\ \@year%
+     [0.2in] \textbf{\@month\ \@year}%
      \end{center}%
      \par\null%
      \setcounter{footnote}{0}%
@@ -179,12 +179,12 @@ recognize option: \CurrentOption}}
      
      \vspace{0.75in}%
      This \MakeLowercase{\@work}\ is accepted by the Graduate School.
-     \parbox{\if@sig 3in \else 2.5in \fi}%
+     \parbox{\if@sig 3in \else 3.5in \fi}%
      {\centering%\raggedright%
      \baselineskip 14.5pt%
      \rule[-0.55in]{3in}{\if@sig 0.01in \else 0.00in \fi}\\[0.03in]
      \if@sig \else \@dean\\ \fi
-     Dean of the Graduate School\\}%
+     Interim Dean of the Graduate School\\}%
      \end{center}\clearpage}
 
 
@@ -209,7 +209,7 @@ recognize option: \CurrentOption}}
     [0.2in]in\\%
     [0.2in]\textbf{\large \@program}\\%
     [0.2in]{\large Stony Brook University} \\
-    [0.2in]{\large \@year}\\%
+    [0.2in]{\large \textbf{\@year}}\\%
     [0.2in]\if@sig {\large \@directorname} \fi %for extra abstract copy
     \end{center}%
     \par%
@@ -224,8 +224,8 @@ recognize option: \CurrentOption}}
      \if@top
     \setmarginsrb{1.5in}{1in}{1.5in}{1in}{0.125in}{0.2in}{0.125in}{0.5in}
      \fi
-     \thispagestyle{empty}%
-     \pagestyle{empty}
+     % \thispagestyle{empty}%
+     % \pagestyle{empty}
      \vspace*{\fill}%
      \begin{center}}%
      {\end{center}\vspace*{\fill}\clearpage}
@@ -238,8 +238,9 @@ recognize option: \CurrentOption}}
      \phantomsection
      \addcontentsline{toc}{chapter}{\protect\numberline{}{Acknowledgements}}
      \chapter*{Acknowledgements}%
-     \thispagestyle{empty}%
-     \pagestyle{empty}}%
+     % \thispagestyle{empty}%
+     % \pagestyle{empty}%
+     }
      {\clearpage}
 
 \renewenvironment{thebibliography}[1]
